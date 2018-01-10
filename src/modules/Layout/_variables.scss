@@ -1,0 +1,33 @@
+// -------------------------------------
+//   Dependencies
+// -------------------------------------
+// variables
+/* --empty block-- */
+
+// mixins
+/* --empty block-- */
+
+// -------------------------------------
+//   Module - Layout
+// -------------------------------------
+/**
+    * @name Layout
+    * @desc --description--
+**/
+
+$base_html_w_min: 320px;
+$base_html_h_min: 100vh;
+
+// -------------------------------------
+//   Layout - Breakpoints
+// -------------------------------------
+// used with max-width
+$mobile_w_sm: 480px;
+$mobile_w:    768px;
+
+// used with max-width
+$tablet_w_sm: 1024px;
+$tablet_w:    1280px;
+
+// used with min-width
+$desktop_w_lg: 1920px;

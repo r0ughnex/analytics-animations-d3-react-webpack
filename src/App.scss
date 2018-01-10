@@ -1,0 +1,53 @@
+// -------------------------------------
+//   Dependencies
+// -------------------------------------
+// variables
+@import "modules/Colors/variables";
+@import "modules/Layout/variables";
+
+// mixins
+@import "modules/Layout/mixins";
+
+// -------------------------------------
+//   Main - App
+// -------------------------------------
+/**
+    * @name App
+    * @desc --description--
+**/
+
+// app
+.app { @extend %root; }
+
+// -------------------------------------
+//   App - View
+// -------------------------------------
+.view { @extend %root; }
+
+// -------------------------------------
+//   App - Page
+// -------------------------------------
+.page {
+    @extend %root;
+    height: $base_html_h_min;
+
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+
+    // modifier - scroll enabled
+    &_scrollEnabled {
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    // modifier - scroll disabled
+    &_scrollDisabled {
+        overflow: hidden;
+        -webkit-overflow-scrolling: none;
+    }
+}
+
+// -------------------------------------
+//   App - Content
+// -------------------------------------
+.content { @extend %root; }
