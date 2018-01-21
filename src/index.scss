@@ -2,49 +2,34 @@
 //   Dependencies
 // -------------------------------------
 // variables
-@import "modules/Layout/variables";
+/* --empty block-- */
 
 // mixins
-@import "modules/Layout/mixins";
+/* --empty block-- */
 
 // -------------------------------------
 //   Main - Index
 // -------------------------------------
 /**
     * @name Index
-    * @desc --description--
+    * @desc styles for the main index.
 **/
 
-:global { /* global scope */
+// -------------------------------------
+//   Index - Base
+// -------------------------------------
+@import "styles/base/fonts";
+@import "styles/base/colors";
+@import "styles/base/helpers";
+@import "styles/base/zindices";
+@import "styles/base/breakpoints";
 
-// html, body, root
-html, body, #root {
-    @extend %root;
-    background-color: black;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
+@import "styles/base/transitions";
+@import "styles/base/typography";
+@import "styles/base/layout";
 
-// image
-img {
-    position: relative;
-    display: block;
-
-    width: 100%;
-    height: auto;
-    max-width: 100%;
-    box-sizing: border-box;
-
-    // to prevent alt text
-    // from displayed while
-    // the img is loaded
-    color: transparent;
-}
-
-// fallback styles for browsers
-// that do not support tempaltes
-template { display: none !important; }
-
-// required base import styles for the app
-@import "modules/Typography/Typography.scss";
-
-}  /* global scope end */
+// -------------------------------------
+//   Index - Modules
+// -------------------------------------
+@import "styles/modules/button";
+@import "styles/modules/section";

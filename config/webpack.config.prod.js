@@ -113,6 +113,7 @@ module.exports = {
             // Custom aliases added specifically for this project
             'main': path.resolve(__dirname, '../src/'),
             'views': path.resolve(__dirname, '../src/views/'),
+            'styles': path.resolve(__dirname, '../src/styles/'),
             'modules': path.resolve(__dirname, '../src/modules/'),
             'services': path.resolve(__dirname, '../src/services/'),
             'components': path.resolve(__dirname, '../src/components/'),
@@ -207,7 +208,7 @@ module.exports = {
                                         {
                                             loader: require.resolve('css-loader'),
                                             options: {
-                                                modules: true,
+                                                modules: false,
                                                 minimize: true,
                                                 importLoaders: 1,
                                                 sourceMap: shouldUseSourceMap,

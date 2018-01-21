@@ -24,13 +24,56 @@ import App from "./App";
 import "normalize.css";
 import "./index.css";
 
+console.log("main/Index.js: index loaded.");
 // -------------------------------------
 //   Main - Index
 // -------------------------------------
-ReactDOM.render(<App></App>, document.getElementById("root"));
-registerServiceWorker();
+/**
+    * @name Index
+    * @desc class for the main index.
+    * @return {Object} - the instance of the index class.
+**/
+class Index {
+    // ---------------------------------------------
+    //   Private members
+    // ---------------------------------------------
+    /* --empty block-- */
+
+    // ---------------------------------------------
+    //   Public members
+    // ---------------------------------------------
+    /* --empty block-- */
+
+    // ---------------------------------------------
+    //   Constructor block
+    // ---------------------------------------------
+    /* --empty block-- */
+
+    // ---------------------------------------------
+    //   Private methods
+    // ---------------------------------------------
+    /* --empty block-- */
+
+    // ---------------------------------------------
+    //   Public methods
+    // ---------------------------------------------
+    /* --empty block-- */
+
+    // ---------------------------------------------
+    //   Render block
+    // ---------------------------------------------
+    // @name render
+    // @desc the render function for the index.
+    static render() {
+        console.log("main/Index.js: render called.");
+
+        // manually render the main app on the parent root element
+        ReactDOM.render(<App></App>, document.getElementById("root"));
+        registerServiceWorker(); // register service worker for pwa
+    }
+}
 
 // ---------------------------------------------
 //   Export block
 // ---------------------------------------------
-/* --empty block-- */
+Index.render();

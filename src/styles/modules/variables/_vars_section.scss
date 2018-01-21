@@ -1,0 +1,39 @@
+// -------------------------------------
+//   Dependencies
+// -------------------------------------
+// variables
+@import "styles/base/variables";
+
+// mixins
+/* --empty block-- */
+
+// -------------------------------------
+//   Module - Section
+// -------------------------------------
+/**
+  	* @name Section
+  	* @desc variables for the section module.
+**/
+
+// section - padding
+$section_pad: 80px;
+
+$section_pad_tab:    60px;
+$section_pad_tab_sm: 50px;
+
+$section_pad_mob:    40px;
+$section_pad_mob_sm: 20px;
+
+// section - margin
+$section_margin: $section_pad;
+
+$section_margin_tab:    $section_pad_tab;
+$section_margin_tab_sm: $section_pad_tab_sm;
+
+$section_margin_mob:    $section_pad_mob;
+$section_margin_mob_sm: $section_pad_mob_sm;
+
+// container
+$container_w_max:    $tablet_w    + ($section_pad * 2);
+$container_w_max_md: $tablet_w_sm - ($section_pad_tab_sm * 0);
+$container_w_max_sm: $mobile_w_sm + ($section_pad_mob_sm * 2);

@@ -1,0 +1,26 @@
+// -------------------------------------
+//   Dependencies
+// -------------------------------------
+// variables
+/* --empty block-- */
+
+// mixins
+/* --empty block-- */
+
+// -------------------------------------
+//   Base - Variables
+// -------------------------------------
+/**
+    * @name Variables
+    * @desc variables for the base styles.
+**/
+
+@import "variables/vars_fonts";
+@import "variables/vars_colors";
+@import "variables/vars_helpers";
+@import "variables/vars_zindices";
+@import "variables/vars_breakpoints";
+
+@import "variables/vars_transitions";
+@import "variables/vars_typography";
+@import "variables/vars_layout";

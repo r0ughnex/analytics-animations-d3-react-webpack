@@ -1,0 +1,32 @@
+// -------------------------------------
+//   Dependencies
+// -------------------------------------
+// variables
+@import "../variables/vars_transitions";
+
+// mixins
+/* --empty block-- */
+
+// -------------------------------------
+//   Base - Transitions
+// -------------------------------------
+/**
+    * @name Tranisitions
+    * @desc mixins for the base transitions.
+**/
+
+// mixin to create default tranitions
+// e.g. @input @include transitions(color)
+// e.g. @output transition: color 0.35s ease
+@mixin transitions($props...) {
+    // create an emoty list
+    $transitions: ();
+
+    // append each property to list
+    @each $prop in $props {
+        $transitions: append($transitions, ($prop $trans_time_fast $ease), comma);
+    }
+
+    // assign list to attribute
+    transition: $transitions;
+}

@@ -1,0 +1,135 @@
+// -------------------------------------
+//   Dependencies
+// -------------------------------------
+// variables
+@import "../variables/vars_typography";
+
+// mixins
+/* --empty block-- */
+
+// -------------------------------------
+//   Base - Typography
+// -------------------------------------
+/**
+    * @name Typography
+    * @desc mixins for the base typography.
+**/
+
+// mixin to create the font-size-root placeholder
+// to overcome when used inside media queries
+// e.g. @input @include font-size-root(false);
+// e.g. @output ..content of @else block comes here..
+@mixin font-size-root($extend: true) {
+    @if $extend { @extend %font-size-root; }
+
+    @else {
+        line-height: $line_hght_rt;
+        letter-spacing: $letter_sp_rt;
+        font-family: sans-serif, Arial;
+
+        font-size: $font_size_rt;
+        font-weight: $font_wt_rt;
+        @include tablet-sm { font-size: $font_size_rt_tab_sm; }
+    }
+}
+
+// mixin to create the font-size-h1 placeholder
+// to overcome when used inside media queries
+// e.g. @input @include font-size-h1(false);
+// e.g. @output ..content of @else block comes here..
+@mixin font-size-h1($extend: true) {
+    @if $extend { @extend %font-size-h1; }
+
+    @else {
+        line-height: $line_hght_h1;
+        letter-spacing: $letter_sp_h1;
+        font-family: "Roboto", sans-serif;
+
+        font-size: $font_size_h1;
+        font-weight: $font_wt_h1;
+        @include tablet-sm { font-size: $font_size_h1_tab_sm; }
+        @include mobile    { font-size: $font_size_h1_mob;    }
+        @include mobile-sm { font-size: $font_size_h1_mob_sm; }
+    }
+}
+
+// mixin to create the font-size-h2 placeholder
+// to overcome when used inside media queries
+// e.g. @input @include font-size-h2(false);
+// e.g. @output ..content of @else block comes here..
+@mixin font-size-h2($extend: true) {
+    @if $extend { @extend %font-size-h2; }
+
+    @else {
+        line-height: $line_hght_h2;
+        letter-spacing: $letter_sp_h2;
+        font-family: "Roboto", sans-serif;
+
+        font-size: $font_size_h2;
+        font-weight: $font_wt_h2;
+        @include tablet-sm { font-size: $font_size_h2_tab_sm; }
+        @include mobile    { font-size: $font_size_h2_mob;    }
+        @include mobile-sm { font-size: $font_size_h2_mob_sm; }
+    }
+}
+
+// mixin to generate the font-size-h3 placeholder
+// to overcome when used inside media queries
+// e.g. @input @include font-size-h3(false);
+// e.g. @output ..content of @else block comes here..
+@mixin font-size-h3($extend: true) {
+    @if $extend { @extend %font-size-h3; }
+
+    @else {
+        line-height: $line_hght_h3;
+        letter-spacing: $letter_sp_h3;
+        font-family: "Roboto", sans-serif;
+
+        font-size: $font_size_h3;
+        font-weight: $font_wt_h3;
+        @include tablet-sm { font-size: $font_size_h3_tab_sm; }
+    }
+}
+
+// mixin to create the font-size-h4 placeholder
+// to overcome when used inside media queries
+// e.g. @input @include font-size-h4(false);
+// e.g. @output ..content of @else block comes here..
+@mixin font-size-h4($extend: true) {
+    @if $extend { @extend %font-size-h4; }
+
+    @else {
+        line-height: $line_hght_h4;
+        letter-spacing: $letter_sp_h4;
+        font-family: "Roboto", sans-serif;
+
+        font-size: $font_size_h4;
+        font-weight: $font_wt_h4;
+        @include tablet-sm { font-size: $font_size_h4_tab_sm; }
+    }
+}
+
+// mixin to create the font-size-p placeholder
+// to overcome when used inside media queries
+// e.g. @input @include font-size-p(false);
+// e.g. @output ..content of @else block comes here..
+@mixin font-size-p($extend: true) {
+    @if $extend { @extend %font-size-p; }
+
+    @else {
+        line-height: $line_hght_p;
+        letter-spacing: $letter_sp_p;
+        font-family: "Roboto", sans-serif;
+
+        font-size: $font_size_p;
+        font-weight: $font_wt_p;
+        @include tablet-sm { font-size: $font_size_p_tab_sm; }
+    }
+}
+
+%font-size-root { @include font-size-root (false); }
+%font-size-h1   { @include font-size-h1(false); }
+%font-size-h2   { @include font-size-h2(false); }
+%font-size-h3   { @include font-size-h3(false); }
+%font-size-h4   { @include font-size-h4(false); }
+%font-size-p    { @include font-size-p (false); }
