@@ -36,11 +36,15 @@
 // button
 .button {
     @include transitions(all);
+    backface-visibility: hidden;
     transition-duration: $trans_time;
 
+    transform: translateZ(0);
     display: inline-block;
     z-index: $zi_default;
     position: relative;
+    overflow: hidden;
+    cursor: pointer;
 
     padding: $btn_pad;
     margin: 0 auto;

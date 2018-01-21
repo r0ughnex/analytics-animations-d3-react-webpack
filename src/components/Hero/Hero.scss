@@ -1,0 +1,102 @@
+// -------------------------------------
+//   Dependencies
+// -------------------------------------
+// variables
+@import "styles/base/variables";
+@import "styles/modules/variables";
+
+// mixins
+@import "styles/base/mixins";
+@import "styles/modules/mixins";
+
+// -------------------------------------
+//   Component - Hero
+// -------------------------------------
+/**
+    * @name Hero
+    * @desc styles for the hero component.
+**/
+
+.hero {
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+
+    width: 100%;
+    min-height: 100vh;
+    background-color: $color_grey_blue;
+
+    &__left, &__right {
+        position: relative;
+        box-sizing: border-box;
+        min-height: 280px;
+
+        @include tablet-sm-up {
+            width: 50%;
+            height: 100vh;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        @include tablet-sm {
+            width: 100%;
+            height: 50vh;
+            display: block;
+            vertical-align: initial;
+        }
+    }
+
+    &__left { @include tablet-sm {
+        max-width: ($container_w_max_sm * 1.25);
+        margin: 0 auto;
+    }}
+}
+
+// -------------------------------------
+//   Hero - Content
+// -------------------------------------
+.hero__content {
+    @extend %section;
+    @extend %transform-center-v;
+
+    backface-visibility: hidden;
+    position: absolute;
+    left: 0;
+
+    @include tablet-sm-up { @include section--padding-right(0.5);  }
+    @include tablet-sm    { @include section--padding-bottom(0.5); }
+
+    &__headline,
+    &__copy, &__bwrap {
+        text-align: center;
+        @include tablet-sm-up { text-align: left; }
+    }
+
+    &__headline {
+        color: white;
+        > span:nth-of-type(1) { color: $color_secondary; }
+        > span:nth-of-type(2) { color: $color_primary;   }
+    }
+
+    &__copy  { color: $color_grey_soft; }
+}
+
+// -------------------------------------
+//   Hero - Chart
+// -------------------------------------
+.hero__chart {
+    @extend %section;
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 100%;
+
+    @include tablet-sm-up {
+        @include section--padding-left(0.5);
+        height: 75%;
+    }
+
+    @include tablet-sm {
+        @include section--padding-top(0.5);
+        height: 95%;
+    }
+}

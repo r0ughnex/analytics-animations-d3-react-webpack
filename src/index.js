@@ -1,6 +1,10 @@
 // -------------------------------------
 //   Dependencies
 // -------------------------------------
+// pre
+import "normalize.css";
+import "./index.css";
+
 // core
 import React from "react";
 import ReactDOM from "react-dom";
@@ -21,8 +25,7 @@ import App from "./App";
 /* --empty block-- */
 
 // styles
-import "normalize.css";
-import "./index.css";
+/* --empty block-- */
 
 console.log("main/Index.js: index loaded.");
 // -------------------------------------
@@ -65,6 +68,7 @@ class Index {
     // @name render
     // @desc the render function for the index.
     static render() {
+        console.log("-----------------------------");
         console.log("main/Index.js: render called.");
 
         // manually render the main app on the parent root element

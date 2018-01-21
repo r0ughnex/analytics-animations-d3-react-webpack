@@ -1,6 +1,9 @@
 // -------------------------------------
 //   Dependencies
 // -------------------------------------
+// pre
+/* --empty block-- */
+
 // core
 import React, {PureComponent} from "react";
 
@@ -17,7 +20,7 @@ import React, {PureComponent} from "react";
 /* --empty block-- */
 
 // views
-/* --empty block-- */
+import Home from "views/Home"
 
 // styles
 import "./App.css";
@@ -70,107 +73,8 @@ class App extends PureComponent {
             {/* app */}
 
                 {/* app - view */}
-                <div className="app__view">
-
-                    {/* app - page */}
-                    <div className="app__page">
-
-                        {/* app - page - content */}
-                        <div className="app__page__content">
-
-                            <div className="section section--color-dark">
-                                <div className="container">
-                                    <h1> Lorem ipsum dolor </h1>
-                                    <h2> Lorem ipsum dolor </h2>
-                                    <h3> Lorem ipsum dolor </h3>
-                                    <h4> Lorem ipsum dolor </h4>
-                                    <p>  Lorem ipsum dolor </p>
-                                    <p><a href="#" title="Lorem ipsum dolor"> Lorem ipsum dolor </a></p>
-
-                                    <div className="button-wrapper">
-                                        <a href="#" className="button button--primary" title="Lorem ipsum dolor">
-                                            Lorem ipsum dolor
-                                        </a>
-
-                                        <br className="all"/>
-                                        <a href="#" className="button button--secondary" title="Lorem ipsum dolor">
-                                            Lorem ipsum dolor
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="section section--color-blue">
-                                <div className="container">
-                                    <h1> Lorem ipsum dolor </h1>
-                                    <h2> Lorem ipsum dolor </h2>
-                                    <h3> Lorem ipsum dolor </h3>
-                                    <h4> Lorem ipsum dolor </h4>
-                                    <p>  Lorem ipsum dolor </p>
-                                    <p><a href="#" title="Lorem ipsum dolor"> Lorem ipsum dolor </a></p>
-
-                                    <div className="button-wrapper">
-                                        <a href="#" className="button button--primary" title="Lorem ipsum dolor">
-                                            Lorem ipsum dolor
-                                        </a>
-
-                                        <br className="all"/>
-                                        <a href="#" className="button button--secondary" title="Lorem ipsum dolor">
-                                            Lorem ipsum dolor
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="section section--color-light">
-                                <div className="container">
-                                    <h1> Lorem ipsum dolor </h1>
-                                    <h2> Lorem ipsum dolor </h2>
-                                    <h3> Lorem ipsum dolor </h3>
-                                    <h4> Lorem ipsum dolor </h4>
-                                    <p>  Lorem ipsum dolor </p>
-                                    <p><a href="#" title="Lorem ipsum dolor"> Lorem ipsum dolor </a></p>
-
-                                    <div className="button-wrapper">
-                                        <a href="#" className="button button--primary" title="Lorem ipsum dolor">
-                                            Lorem ipsum dolor
-                                        </a>
-
-                                        <br className="all"/>
-                                        <a href="#" className="button button--secondary" title="Lorem ipsum dolor">
-                                            Lorem ipsum dolor
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="section section--color-default">
-                                <div className="container">
-                                    <h1> Lorem ipsum dolor </h1>
-                                    <h2> Lorem ipsum dolor </h2>
-                                    <h3> Lorem ipsum dolor </h3>
-                                    <h4> Lorem ipsum dolor </h4>
-                                    <p>  Lorem ipsum dolor </p>
-                                    <p><a href="#" title="Lorem ipsum dolor"> Lorem ipsum dolor </a></p>
-
-                                    <div className="button-wrapper">
-                                        <a href="#" className="button button--primary" title="Lorem ipsum dolor">
-                                            Lorem ipsum dolor
-                                        </a>
-
-                                        <br className="all"/>
-                                        <a href="#" className="button button--secondary" title="Lorem ipsum dolor">
-                                            Lorem ipsum dolor
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>{/* app - page - content end */}
-
-                    </div>{/* app - page end */}
-
-                </div>{/* app - view end */}
+                {/* home */}
+                <Home></Home>
 
             {/* app end */}
             </div>
