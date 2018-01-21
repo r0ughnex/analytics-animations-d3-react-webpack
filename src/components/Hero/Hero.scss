@@ -17,19 +17,23 @@
     * @desc styles for the hero component.
 **/
 
+$hero_outer_h_min: 100vh;
+$hero_inner_h_min: 280px;
+
 .hero {
     display: block;
     position: relative;
     box-sizing: border-box;
 
     width: 100%;
-    min-height: 100vh;
+    height: auto;
+    min-height: $hero_outer_h_min;
     background-color: $color_grey_blue;
 
     &__left, &__right {
         position: relative;
         box-sizing: border-box;
-        min-height: 280px;
+        min-height: $hero_inner_h_min;
 
         @include tablet-sm-up {
             width: 50%;
@@ -84,19 +88,21 @@
 // -------------------------------------
 //   Hero - Chart
 // -------------------------------------
+$hero_chart_h_min: 75%;
+$hero_chart_h_min_tab: 95%;
+
 .hero__chart {
-    @extend %section;
     position: absolute;
     bottom: 0; right: 0;
     width: 100%;
 
     @include tablet-sm-up {
         @include section--padding-left(0.5);
-        height: 75%;
+        height: $hero_chart_h_min;
     }
 
     @include tablet-sm {
         @include section--padding-top(0.5);
-        height: 95%;
+        height: $hero_chart_h_min_tab;
     }
 }

@@ -17,7 +17,7 @@ import React, {Component} from "react";
 /* --empty block-- */
 
 //components
-/* --empty block-- */
+import HeroChart from "components/Hero/HeroChart";
 
 // views
 /* --empty block-- */
@@ -119,7 +119,7 @@ class Hero extends Component {
                     <div className="hero__chart">
 
                         {/* hero chart */}
-                        {/* <HeroChart></HeroChart> */}
+                        <HeroChart></HeroChart>
 
                     </div>{/* hero - chart end */}
                 </div>{/* hero - right end */}
