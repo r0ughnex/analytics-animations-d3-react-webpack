@@ -2,10 +2,12 @@
 //   Dependencies
 // -------------------------------------
 // variables
-/* --empty block-- */
+@import "styles/base/variables";
+@import "styles/modules/variables";
 
 // mixins
-/* --empty block-- */
+@import "styles/base/mixins";
+@import "styles/modules/mixins";
 
 // -------------------------------------
 //   View - Home
