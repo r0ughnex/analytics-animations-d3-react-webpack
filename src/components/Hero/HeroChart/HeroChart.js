@@ -39,18 +39,18 @@ class HeroChart extends Component {
     //   Private members
     // ---------------------------------------------
     _data = [
-        { week:  1, intv_best: 54, intv_avg: 33, intv_score: 29, swng_best:  54, swng_avg:  33, swng_score:  39 },
+        { week:  1, intv_best: 54, intv_avg: 33, intv_score: 26, swng_best:  54, swng_avg:  33, swng_score:  39 },
         { week:  2, intv_best: 63, intv_avg: 35, intv_score: 37, swng_best: 104, swng_avg:  64, swng_score:  76 },
-        { week:  3, intv_best: 79, intv_avg: 41, intv_score: 46, swng_best: 168, swng_avg: 102, swng_score: 122 },
-        { week:  4, intv_best: 85, intv_avg: 45, intv_score: 51, swng_best: 201, swng_avg: 126, swng_score: 153 },
-        { week:  5, intv_best: 89, intv_avg: 49, intv_score: 56, swng_best: 251, swng_avg: 164, swng_score: 196 },
-        { week:  6, intv_best: 95, intv_avg: 57, intv_score: 64, swng_best: 305, swng_avg: 199, swng_score: 240 },
-        { week:  7, intv_best: 99, intv_avg: 59, intv_score: 69, swng_best: 309, swng_avg: 199, swng_score: 249 },
-        { week:  8, intv_best: 89, intv_avg: 49, intv_score: 56, swng_best: 251, swng_avg: 164, swng_score: 196 },
-        { week:  9, intv_best: 85, intv_avg: 45, intv_score: 51, swng_best: 201, swng_avg: 126, swng_score: 153 },
-        { week: 10, intv_best: 79, intv_avg: 41, intv_score: 46, swng_best: 168, swng_avg: 102, swng_score: 122 },
+        { week:  3, intv_best: 79, intv_avg: 41, intv_score: 36, swng_best: 168, swng_avg: 102, swng_score: 122 },
+        { week:  4, intv_best: 55, intv_avg: 30, intv_score: 39, swng_best: 201, swng_avg: 126, swng_score: 153 },
+        { week:  5, intv_best: 79, intv_avg: 41, intv_score: 46, swng_best: 251, swng_avg: 164, swng_score: 196 },
+        { week:  6, intv_best: 65, intv_avg: 37, intv_score: 44, swng_best: 305, swng_avg: 199, swng_score: 240 },
+        { week:  7, intv_best: 89, intv_avg: 51, intv_score: 56, swng_best: 315, swng_avg: 209, swng_score: 250 },
+        { week:  8, intv_best: 79, intv_avg: 41, intv_score: 46, swng_best: 251, swng_avg: 164, swng_score: 196 },
+        { week:  9, intv_best: 55, intv_avg: 30, intv_score: 39, swng_best: 201, swng_avg: 126, swng_score: 153 },
+        { week: 10, intv_best: 79, intv_avg: 41, intv_score: 36, swng_best: 168, swng_avg: 102, swng_score: 122 },
         { week: 11, intv_best: 63, intv_avg: 35, intv_score: 37, swng_best: 104, swng_avg:  64, swng_score:  76 },
-        { week: 12, intv_best: 54, intv_avg: 33, intv_score: 29, swng_best:  54, swng_avg:  33, swng_score:  39 }
+        { week: 12, intv_best: 54, intv_avg: 33, intv_score: 26, swng_best:  54, swng_avg:  33, swng_score:  39 }
     ];
 
     _intvData = [ ];
@@ -60,8 +60,9 @@ class HeroChart extends Component {
     _height = 0;
 
     _margin = {
-        top:  0, bottom: 20,
-        left: 20, right: 0
+        bar: 20,
+        top:  0, left: 20,
+        right: 0, bottom: 20
     };
 
     _el  = null;
@@ -97,8 +98,7 @@ class HeroChart extends Component {
         const gElem   = svgElem.append("g")
                         .attr("class", "hchart__svg__g");
 
-        gElem.attr("transform", "translate(" + (this._margin.left - this._margin.right)  + ","
-                                             + (this._margin.top  - this._margin.bottom) + ")");
+        gElem.attr("transform", "translate(" + (this._margin.left - this._margin.right) + ", 0)");
 
         console.log("---------------");
         console.log("gElem:",   gElem);
@@ -106,8 +106,7 @@ class HeroChart extends Component {
 
         // x and y scales
         const x = d3.scaleBand()
-                    .rangeRound([0, this._width])
-                    .padding(0.400).align(0.150);
+                    .rangeRound([0, this._width]);
 
         const y = d3.scaleLinear()
                     .rangeRound([this._height, 0]);
@@ -157,8 +156,8 @@ class HeroChart extends Component {
     };
 
     _drawChart = (el, data, x, y, y1) => {
-        data = [...data]; // shallow copy
-        console.log("-----------------");
+        data = [...data];
+        console.log("-----------");
         console.log("data:", data);
 
         // add domains
@@ -174,29 +173,32 @@ class HeroChart extends Component {
         console.log("rate1:", rate1);
 
         // bar points
-        const gElem   = d3.select(el).select("g");
-        const barElem = gElem.selectAll(".hchart__svg__bar").data(data);
+        const gElem   = d3.select(el)
+                        .select(".hchart__svg__g");
+
+        const barElem = gElem.selectAll(".hchart__svg__bar")
+                        .data(data);
 
         console.log("-------------");
         console.log("gElem:", gElem);
         console.log("barElem:", barElem);
 
         barElem.enter()
-                .append("rect")
-                .attr("class", "hchart__svg__bar")
+            .append("rect")
+            .attr("class", "hchart__svg__bar")
 
-                .attr("x", (d) => x(d.week))
-                .attr("y", this._height)
+            .attr("x", (d) => x(d.week))
+            .attr("y", this._height)
 
-                .transition().duration(500)
-                .delay((d, i) => (i * 75))
+            .transition().duration(500)
+            .delay((d, i) => (i * 75))
 
-                .attr("y", (d) => (y1(d.score)
-                                    + (this._height - y1(d.score)
-                                    - (this._height - y1(d.score)) * rate1)))
+            .attr("y", (d) => (y1(d.score)
+                            + (this._height - y1(d.score)
+                            - (this._height - y1(d.score)) * rate1)))
 
-                .attr("width", ((this._width / data.length) - this._margin.left - this._margin.right))
-                .attr("height", (d) => ((this._height - y1(d.score)) * rate1))
+            .attr("width", ((this._width / data.length) - this._margin.bar))
+            .attr("height", (d) => ((this._height - y1(d.score)) * rate1))
     };
 
     _onDataChange = (data) => {
@@ -255,7 +257,7 @@ class HeroChart extends Component {
 
     _onWindowResize = (el) => {
         const elRect = el.getBoundingClientRect()
-        this._width  = elRect.width  - this._margin.left - this._margin.right;
+        this._width  = elRect.width  - this._margin.left - this._margin.right + this._margin.bar;
         this._height = elRect.height - this._margin.top  - this._margin.bottom;
 
         console.log("-------------------------");
