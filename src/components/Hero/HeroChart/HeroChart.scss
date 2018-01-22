@@ -29,4 +29,33 @@
 // -------------------------------------
 //   Hero Chart - SVG
 // -------------------------------------
-.hchart__svg { @extend %hchart; }
+.hchart__svg {
+    $this: &;
+
+    @extend %hchart;
+    &__bar {
+        @include transitions(fill);
+        transition-duration: $trans_time;
+        fill: $color_grey_soft;
+    }
+
+    // modifier - theme interval
+    &--theme-interval {
+        #{$this}__bar:nth-child(n + 1) { fill: #EF5350; }
+        #{$this}__bar:nth-child(n + 2) { fill: #CA5150; }
+        #{$this}__bar:nth-child(n + 3) { fill: #A54E50; }
+        #{$this}__bar:nth-child(n + 4) { fill: #814C4F; }
+        #{$this}__bar:nth-child(n + 5) { fill: #5C494F; }
+        #{$this}__bar:nth-child(n + 6) { fill: #37474F; }
+
+        #{$this}__bar:nth-child(n +  7) { fill: #34575C; }
+        #{$this}__bar:nth-child(n +  8) { fill: #316768; }
+        #{$this}__bar:nth-child(n +  9) { fill: #2F7775; }
+        #{$this}__bar:nth-child(n + 10) { fill: #2C8681; }
+        #{$this}__bar:nth-child(n + 11) { fill: #29968E; }
+        #{$this}__bar:nth-child(n + 12) { fill: #26A69A; }
+    }
+
+    // modifier - theme swing
+    &--theme-swing { /* empty block */ }
+}
