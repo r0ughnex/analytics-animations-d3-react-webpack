@@ -52,7 +52,8 @@ class HeroChart extends Component {
     _el = {
         main: null,
         svg:  null,
-        grp:  null
+        grp:  null,
+        bars: null
     }
 
     _classes = {
@@ -201,32 +202,15 @@ class HeroChart extends Component {
     };
 
     _createChart = () => {
-        const svgElem = d3.select(this._el.main)
-                        .append("svg");
-
-        this._el.svg = svgElem.node();
         this._el.svg.classList.add(this._classes.svg);
         this._el.svg.classList.add(this._classes.svg + this._modifiers[this.state.type]);
 
-        const grpElem = svgElem
-                        .append("g");
-
-        this._el.grp = grpElem.node();
         this._el.grp.classList.add(this._classes.grp);
         this._el.grp.setAttribute("transform", "translate(" + (this._margin.left - this._margin.right)  + ", "
                                                             + (this._margin.top  - this._margin.bottom) + ")");
-
         if(!this._hasInitialized) {
             this._drawChart(); this._hasInitialized = true;
         }
-    };
-
-    _destroyChart = () => {
-        this._el.main.innerHTML = "";
-        this._hasInitialized = false;
-
-        this._el.svg  = null;
-        this._el.grp  = null;
     };
 
     _drawBars = (data, x, y, y1) => {
@@ -236,22 +220,27 @@ class HeroChart extends Component {
         y1.domain([0, d3.max(data, d => d.score)]);
 
         // adjust avg height
-        const rate1 = d3.max(data, d => d.score) /
+        const rate = d3.max(data, d => d.score) /
                       d3.max(data, d => d.best);
 
         // bars (elements)
         const grpElem  = d3.select(this._el.grp);
-        let   barElems = grpElem.selectAll("." + this._classes.bar)
-                        .data(data);
+        let   barElems = null;
 
         if(!this._hasInitialized) {
-            barElems =
-            barElems.enter()
-                    .append("rect")
-                    .attr("class", this._classes.bar)
-                    .attr("x", (d) => x(d.week))
-                    .attr("y", this._height)
+            barElems = grpElem.selectAll("." + this._classes.bar)
+                              .data(data).enter().append("rect")
+                              .attr("x", (d) => x(d.week))
+                              .attr("y", this._height)
+
+            this._el.bars = barElems.nodes();
+            this._el.bars.forEach((elBar, index) => {
+                elBar.classList.add(this._classes.bar);
+            });
         }
+
+        else { barElems = d3.selectAll(this._el.bars)
+                            .data(data); }
 
         // bar animation
         barElems
@@ -261,9 +250,9 @@ class HeroChart extends Component {
             .attr("x", (d) => x(d.week))
             .attr("y", (d) => (y1(d.score)
                             + (this._height - y1(d.score)
-                            - (this._height - y1(d.score)) * rate1)))
+                            - (this._height - y1(d.score)) * rate)))
 
-            .attr("height", (d) => ((this._height - y1(d.score)) * rate1))
+            .attr("height", (d) => ((this._height - y1(d.score)) * rate))
             .attr("width", ((this._width / data.length) - (this._margin.bar /
                             (this._winWidth < this._mobWidth.small ? 2 : 1))));
 
@@ -369,7 +358,7 @@ class HeroChart extends Component {
                     .rangeRound([this._height, 0]);
 
         const y1 = d3.scaleLinear()
-                    .rangeRound([this._height, 0]);
+                     .rangeRound([this._height, 0]);
 
         // draw bars
         this._drawBars(data, x, y, y1);
@@ -389,9 +378,18 @@ class HeroChart extends Component {
     // @name componentDidMount
     // @desc the function called after the component has mounted.
     componentDidMount() {
-        this._el.main = this.refs.el;
+        this._el.main = this.refs.main;
+        this._el.svg  = this.refs.svg;
+        this._el.grp  = this.refs.grp;
+
         this._onWindowResize();
         this._createChart();
+
+        // snippet only
+        // used for testing
+        /* setTimeout(() => {
+            this._onWindowResize();
+        }, this._anim.path.duration * 2); */
     }
 
     // @name componentWillUnmount
@@ -413,11 +411,18 @@ class HeroChart extends Component {
         console.log("component/HeroChart.js: render called.");
 
         return (
-            <div className="hchart" ref="el">
+            <div className="hchart" ref="main">
             {/* hero chart */}
 
-                {/* this element contains dynamic */}
-                {/* svg elements rendered with d3 */}
+                {/* hero chart - svg, g */}
+                <svg className="hchart__svg" ref="svg">
+                    <g className="hchart__svg__g" ref="grp">
+
+                        {/* this element contains dynamic */}
+                        {/* svg elements rendered with d3 */}
+
+                    </g>{/* hero chart - g end */}
+                </svg>{/* hero chart - svg end */}
 
             {/* hero chart end */}
             </div>
