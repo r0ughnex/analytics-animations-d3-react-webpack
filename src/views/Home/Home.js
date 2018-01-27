@@ -16,7 +16,7 @@ import React, {PureComponent} from "react";
 // services
 /* --empty block-- */
 
-//components
+// components
 import Hero from "components/Hero";
 
 // views

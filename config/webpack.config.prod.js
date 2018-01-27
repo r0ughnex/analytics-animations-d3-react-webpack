@@ -112,6 +112,7 @@ module.exports = {
 
             // Custom aliases added specifically for this project
             'main': path.resolve(__dirname, '../src/'),
+            'base': path.resolve(__dirname, '../src/base'),
             'views': path.resolve(__dirname, '../src/views/'),
             'styles': path.resolve(__dirname, '../src/styles/'),
             'modules': path.resolve(__dirname, '../src/modules/'),

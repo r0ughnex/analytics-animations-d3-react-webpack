@@ -16,7 +16,7 @@ import React, {Component} from "react";
 // services
 /* --empty block-- */
 
-//components
+// components
 import HeroChart from "components/Hero/HeroChart";
 
 // views

@@ -47,10 +47,19 @@
         stroke: $color_grey_soft;
 
         // modifier - line - best
-        &--line-best { stroke: $color_primary; }
-
         // modifier - line - avg
-        &--line-avg { stroke: $color_secondary; }
+        &--line-best { stroke: $color_primary; }
+        &--line-avg  { stroke: $color_secondary; }
+    }
+
+    // svg - circle
+    &__circle {
+        fill: white;
+
+        // modifier - point - best
+        // modifier - point - avg
+        &--point-best { /* --empty block-- */ }
+        &--point-avg  { /* --empty block-- */ }
     }
 
     // modifier - theme interval

@@ -74,6 +74,10 @@ class Index {
         // manually render the main app on the parent root element
         ReactDOM.render(<App></App>, document.getElementById("root"));
         registerServiceWorker(); // register service worker for pwa
+
+        /*
+        console.log("main/Index.js: render called."); */
+        console.log("-----------------------------");
     }
 }
 
