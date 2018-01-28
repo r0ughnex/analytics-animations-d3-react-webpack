@@ -2,17 +2,15 @@
 //   Dependencies
 // -------------------------------------
 // variables
-@import "./variables";
+@import "variables";
 
 // mixins
-/* --empty block-- */
+@import "mixins";
 
 // -------------------------------------
-//   Module - Colors
+//   Base - ZIndices
 // -------------------------------------
 /**
-    * @name Colors
-    * @desc --description--
-**/
-
-/* --empty block-- */
+    * @name ZIndices
+    * @desc styles for the base zindices.
+**//* --empty block-- */

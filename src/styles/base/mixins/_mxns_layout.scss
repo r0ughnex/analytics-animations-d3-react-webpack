@@ -1,0 +1,33 @@
+// -------------------------------------
+//   Dependencies
+// -------------------------------------
+// variables
+@import "../variables/vars_layout";
+
+// mixins
+/* --empty block-- */
+
+// -------------------------------------
+//   Base - Layout
+// -------------------------------------
+/**
+    * @name Layout
+    * @desc mixins for the base layout.
+**/
+
+// root
+%root {
+    display: block;
+    position: relative;
+
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+
+    // this will ensure that the page does
+    // not appear to clip when components are
+    // removed from view ( the clip can be
+    // ignored older browsers )
+    min-width:  $base_html_w_min;
+    min-height: $base_html_h_min;
+}

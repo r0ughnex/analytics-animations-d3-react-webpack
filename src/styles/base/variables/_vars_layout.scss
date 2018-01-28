@@ -1,14 +1,19 @@
 // -------------------------------------
 //   Dependencies
 // -------------------------------------
+// variables
+/* --empty block-- */
+
+// mixins
 /* --empty block-- */
 
 // -------------------------------------
-//   Component - Index
+//   Base - Layout
 // -------------------------------------
-/* --empty block-- */
+/**
+    * @name Layout
+    * @desc variables for the base layout.
+**/
 
-// ---------------------------------------------
-//   Export block
-// ---------------------------------------------
-export {default} from "./Hero";
+$base_html_w_min: 320px;
+$base_html_h_min: 100vh;

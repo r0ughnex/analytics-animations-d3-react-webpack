@@ -2,19 +2,15 @@
 //   Dependencies
 // -------------------------------------
 // variables
-/* --empty block-- */
+@import "variables";
 
 // mixins
-/* --empty block-- */
+@import "mixins";
 
 // -------------------------------------
-//   Module - Colors
+//   Base - Colors
 // -------------------------------------
 /**
     * @name Colors
-    * @desc --description--
-**/
-
-@import "./variables";
-@import "./mixins";
-
+    * @desc styles for the base colors.
+**//* --empty block-- */

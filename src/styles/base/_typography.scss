@@ -2,47 +2,45 @@
 //   Dependencies
 // -------------------------------------
 // variables
-@import "modules/Colors/variables";
+@import "variables";
 
 // mixins
-@import url("https://fonts.googleapis.com/css?family=Roboto:300,500,700");
+@import "mixins";
 
 // -------------------------------------
-//   Module - Typography
+//   Base - Typography
 // -------------------------------------
 /**
     * @name Typography
-    * @desc --description--
+    * @desc styles for the base typography.
 **/
 
-@import "./variables";
-@import "./mixins";
+html, body, #root {
+    @extend %font-size-root;
+}
 
-html { @extend %font-size-root; }
-body { @extend %font-size-root; }
-h1   { @extend %font-size-h1; }
-h2   { @extend %font-size-h2; }
-h3   { @extend %font-size-h3; }
-h4   { @extend %font-size-h4; }
+h1  { @extend %font-size-h1; }
+h2  { @extend %font-size-h2; }
+h3  { @extend %font-size-h3; }
+h4  { @extend %font-size-h4; }
 
-ul, ol, li, p, a
-{ @extend %font-size-p; }
+ul, ol, li, p, a {
+    @extend %font-size-p;
+}
 
-// -------------------------------------
-//   Typography - Base
-// -------------------------------------
-html, body {
-    color: $color_grey_meddark;
+html, body, #root {
+    color: $color_grey_warm;
 }
 
 h1, h2, h3, h4 {
-    color: $color_grey_extdark;
+    color: $color_grey_dark;
     &:first-child { margin-top: 0; }
     &:last-child  { margin-bottom: 0; }
+    @include mobile { text-align: center; }
 }
 
 ul, ol, li, p, a {
-    color: $color_grey_meddark;
+    color: $color_grey_warm;
     &:first-child { margin-top: 0; }
     &:last-child  { margin-bottom: 0; }
 }
@@ -54,24 +52,26 @@ ul, ol {
         margin-top: 0.25em;
         padding-left: 0.25em;
         &:first-child { margin-top: 0; }
-        &:last-child  { margin-bottom: 0; }
+        &:last-child { margin-bottom: 0; }
     }
 }
 
 a {
-    // @include transitions(color);
     text-decoration: none;
+    @include transitions(color);
 
     color: $color_secondary;
     outline: 0;
 
-    &:hover, &:active, { color: $color_secondary_hover; }
-    &:hover, &:focus, &:active { outline: 0; }
+    &:hover, &:focus, &:active {
+        color: $color_secondary_dark;
+        outline: 0;
+    }
 }
 
 p.disclaimer {
     font-size: 0.75rem;
-    color: $color_grey_medium;
+    color: $color_grey_warm;
 }
 
 // -------------------------------------
@@ -138,4 +138,3 @@ li, p, a {
         }
     }
 }
-

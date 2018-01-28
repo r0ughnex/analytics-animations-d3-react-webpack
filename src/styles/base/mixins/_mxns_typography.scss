@@ -2,17 +2,17 @@
 //   Dependencies
 // -------------------------------------
 // variables
-@import "./variables";
+@import "../variables/vars_typography";
 
 // mixins
-@import "modules/Layout/mixins";
+/* --empty block-- */
 
 // -------------------------------------
-//   Module - Typography
+//   Base - Typography
 // -------------------------------------
 /**
     * @name Typography
-    * @desc --description--
+    * @desc mixins for the base typography.
 **/
 
 // mixin to create the font-size-root placeholder
@@ -25,10 +25,10 @@
     @else {
         line-height: $line_hght_rt;
         letter-spacing: $letter_sp_rt;
-        font-family: "Roboto", sans-serif;
+        font-family: sans-serif, Arial;
 
-        font-weight: $font_wt_rt;
         font-size: $font_size_rt;
+        font-weight: $font_wt_rt;
         @include tablet-sm { font-size: $font_size_rt_tab_sm; }
     }
 }
@@ -45,8 +45,8 @@
         letter-spacing: $letter_sp_h1;
         font-family: "Roboto", sans-serif;
 
-        font-weight: $font_wt_h1;
         font-size: $font_size_h1;
+        font-weight: $font_wt_h1;
         @include tablet-sm { font-size: $font_size_h1_tab_sm; }
         @include mobile    { font-size: $font_size_h1_mob;    }
         @include mobile-sm { font-size: $font_size_h1_mob_sm; }
@@ -65,8 +65,8 @@
         letter-spacing: $letter_sp_h2;
         font-family: "Roboto", sans-serif;
 
-        font-weight: $font_wt_h2;
         font-size: $font_size_h2;
+        font-weight: $font_wt_h2;
         @include tablet-sm { font-size: $font_size_h2_tab_sm; }
         @include mobile    { font-size: $font_size_h2_mob;    }
         @include mobile-sm { font-size: $font_size_h2_mob_sm; }
@@ -85,8 +85,8 @@
         letter-spacing: $letter_sp_h3;
         font-family: "Roboto", sans-serif;
 
-        font-weight: $font_wt_h3;
         font-size: $font_size_h3;
+        font-weight: $font_wt_h3;
         @include tablet-sm { font-size: $font_size_h3_tab_sm; }
     }
 }
@@ -103,8 +103,8 @@
         letter-spacing: $letter_sp_h4;
         font-family: "Roboto", sans-serif;
 
-        font-weight: $font_wt_h4;
         font-size: $font_size_h4;
+        font-weight: $font_wt_h4;
         @include tablet-sm { font-size: $font_size_h4_tab_sm; }
     }
 }
@@ -121,8 +121,8 @@
         letter-spacing: $letter_sp_p;
         font-family: "Roboto", sans-serif;
 
-        font-weight: $font_wt_p;
         font-size: $font_size_p;
+        font-weight: $font_wt_p;
         @include tablet-sm { font-size: $font_size_p_tab_sm; }
     }
 }

@@ -2,17 +2,17 @@
 //   Dependencies
 // -------------------------------------
 // variables
-@import "modules/Layout/variables";
+/* --empty block-- */
 
 // mixins
 /* --empty block-- */
 
 // -------------------------------------
-//   Module - Typography
+//   Base - Typography
 // -------------------------------------
 /**
     * @name Typography
-    * @desc --description--
+    * @desc variables for the base typography.
 **/
 
 // font sizes
@@ -38,6 +38,14 @@ $font_size_h4_tab_sm: 1.133rem; // 17px
 $font_size_p:         1rem; // 16px
 $font_size_p_tab_sm:  1rem; // 15px
 
+// font weights
+$font_wt_rt: normal;
+$font_wt_h1: 700;
+$font_wt_h2: 700;
+$font_wt_h3: 500;
+$font_wt_h4: 500;
+$font_wt_p:  400;
+
 // line heights
 $line_hght_rt: 1.5625em;
 $line_hght_h1: 1.12em;
@@ -46,19 +54,10 @@ $line_hght_h3: 1.12em;
 $line_hght_h4: 1.12em;
 $line_hght_p:  1.5625em;
 
-// font weights
-$font_wt_rt: 300;
-$font_wt_h1: 700;
-$font_wt_h2: 700;
-$font_wt_h3: 700;
-$font_wt_h4: 500;
-$font_wt_p:  300;
-
 // letter spacings
-$letter_sp_rt: normal;
+$letter_sp_rt:  normal;
 $letter_sp_h1: -0.02em;
 $letter_sp_h2: -0.02em;
 $letter_sp_h3: -0.02em;
 $letter_sp_h4: -0.02em;
-$letter_sp_p:  normal;
-
+$letter_sp_p:   normal;

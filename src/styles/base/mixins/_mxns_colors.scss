@@ -1,14 +1,16 @@
 // -------------------------------------
 //   Dependencies
 // -------------------------------------
+// variables
+@import "../variables/vars_colors";
+
+// mixins
 /* --empty block-- */
 
 // -------------------------------------
-//   Component - Index
+//   Base - Colors
 // -------------------------------------
-/* --empty block-- */
-
-// ---------------------------------------------
-//   Export block
-// ---------------------------------------------
-export {default} from "./Hero";
+/**
+    * @name Colors
+    * @desc mixins for the base colors.
+**//* --empty block-- */

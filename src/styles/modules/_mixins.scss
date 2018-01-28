@@ -1,14 +1,19 @@
 // -------------------------------------
 //   Dependencies
 // -------------------------------------
+// variables
+@import "variables";
+
+// mixins
 /* --empty block-- */
 
 // -------------------------------------
-//   Component - Index
+//   Modules - Mixins
 // -------------------------------------
-/* --empty block-- */
+/**
+    * @name Mixins
+    * @desc mixins for the module styles.
+**/
 
-// ---------------------------------------------
-//   Export block
-// ---------------------------------------------
-export {default} from "./Hero";
+@import "mixins/mxns_button";
+@import "mixins/mxns_section";

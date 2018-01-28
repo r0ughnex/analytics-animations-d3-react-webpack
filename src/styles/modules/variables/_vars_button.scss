@@ -1,0 +1,27 @@
+// -------------------------------------
+//   Dependencies
+// -------------------------------------
+// variables
+@import "styles/base/variables";
+
+// mixins
+/* --empty block-- */
+
+// -------------------------------------
+//   Module - Button
+// -------------------------------------
+/**
+    * @name Button
+    * @desc variables for the button module.
+**/
+
+$btn_w_min: 230px;
+
+$btn_mrgin: 2em;
+$btn_pad_h: 20px;
+$btn_pad_v: 12.5px;
+$btn_pad: $btn_pad_v $btn_pad_h;
+
+$btn_letter_sp: 1px;
+$btn_border_w:  2px;
+$btn_border_r:  2px;

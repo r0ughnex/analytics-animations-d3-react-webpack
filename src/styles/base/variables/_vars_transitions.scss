@@ -2,17 +2,17 @@
 //   Dependencies
 // -------------------------------------
 // variables
-@import "modules/Layout/variables";
+/* --empty block-- */
 
 // mixins
 /* --empty block-- */
 
 // -------------------------------------
-//   Module - Transitions
+//   Base - Transitions
 // -------------------------------------
 /**
-    * @name Transitions
-    * @desc --description--
+    * @name Tranisitions
+    * @desc variables for the base transitions.
 **/
 
 // default transition times
@@ -35,4 +35,3 @@ $ease_in_out: ease-in-out;
 // custom transition easings
 $ease_in_out_quad: cubic-bezier(0.455, 0.030, 0.515, 0.955);
 $ease_in_out_sine: cubic-bezier(0.445, 0.050, 0.550, 0.950);
-

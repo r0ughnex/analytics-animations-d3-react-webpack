@@ -2,25 +2,18 @@
 //   Dependencies
 // -------------------------------------
 // variables
-@import "./variables";
+@import "../variables/vars_section";
 
 // mixins
-@import "modules/Layout/mixins";
+@import "styles/base/mixins";
 
 // -------------------------------------
 //   Module - Section
 // -------------------------------------
 /**
-    * @name Section
-    * @desc --description--
+  	* @name Section
+  	* @desc mixins for the section module.
 **/
-
-// section
-%section {
-    @extend %section--padding-v;
-    @extend %section--padding-h;
-    box-sizing: border-box;
-}
 
 // -------------------------------------
 //   Section - Padding
@@ -54,7 +47,6 @@
     @include mobile    { padding-left: $section_pad_mob_sm * $mult; }
     @include mobile-sm { padding-left: $section_pad_mob_sm * $mult; }
 }
-
 
 // mixin - padding - right
 @mixin section--padding-right($mult: 1) {
@@ -128,7 +120,6 @@
     @include mobile-sm { margin-left: $section_margin_mob_sm * $mult; }
 }
 
-
 // mixin - margin - right
 @mixin section--margin-right($mult: 1) {
     margin-right: $section_margin * $mult;
@@ -167,3 +158,33 @@
 %section--margin-v { @include section--margin-v; }
 %section--margin-h { @include section--margin-h; }
 %section--margin   { @include section--margin;   }
+
+// section
+%section {
+    @extend %section--padding-v;
+    @extend %section--padding-h;
+    box-sizing: border-box;
+}
+
+// -------------------------------------
+//   Section - Container
+// -------------------------------------
+@mixin container {
+    display: block;
+    margin: 0 auto;
+    padding: 0;
+
+    box-sizing: border-box;
+    max-width: $container_w_max;
+    background-color: transparent;
+    @include mobile { max-width: $container_w_max_sm; }
+}
+
+// container
+%container { @include container; }
+
+// modifer - reset
+%container--reset {
+    max-width: 100%;
+    @include mobile { max-width: 100%; }
+}

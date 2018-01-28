@@ -1,0 +1,103 @@
+// -------------------------------------
+//   Dependencies
+// -------------------------------------
+// variables
+@import "styles/base/variables";
+@import "variables";
+
+// mixins
+@import "styles/base/mixins";
+@import "mixins";
+
+// -------------------------------------
+//   Module - Button
+// -------------------------------------
+/**
+    * @name Button
+    * @desc styles for the button module.
+**/
+
+// button wrapper
+.button-wrapper {
+    display: block;
+    position: relative;
+    text-align: center;
+
+    margin: $btn_mrgin auto;
+    &:first-child { margin-top: 0; }
+    &:last-child  { margin-bottom: 0; }
+
+    > .button + .button,
+    > .button + br + .button {
+        margin-top: ($btn_mrgin / 2);
+    }
+}
+
+// button
+.button {
+    @include transitions(all);
+    backface-visibility: hidden;
+    transition-duration: $trans_time;
+
+    transform: translateZ(0);
+    display: inline-block;
+    z-index: $zi_default;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+
+    box-sizing: border-box;
+    min-width: $btn_w_min;
+    padding: $btn_pad;
+    margin: 0 auto;
+
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: $btn_letter_sp;
+
+    border-style: solid;
+    border-width: $btn_border_w;
+    border-radius: $btn_border_r;
+
+    &:before {
+        @include transitions(all);
+        transition-duration: $trans_time;
+
+        position: absolute;
+        z-index: $zi_beneath;
+        right: 50%; left: 50%;
+        bottom: 0; top: 0;
+        opacity: 0;
+
+        content: "";
+        box-sizing: border-box;
+    }
+
+    &:hover, &:focus, &:active {
+        color: white;
+
+        &:before {
+            @include transitions(all);
+            transition-duration: $trans_time;
+
+            right: 0; left: 0;
+            opacity: 1;
+
+        }
+    }
+}
+
+// modifier - primary
+.button--primary {
+    color: $color_primary;
+    border-color: $color_primary;
+    &:before { background-color: $color_primary; }
+}
+
+// modifier - secondary
+.button--secondary {
+    color: $color_secondary;
+    border-color: $color_secondary;
+    &:before { background-color: $color_secondary; }
+}

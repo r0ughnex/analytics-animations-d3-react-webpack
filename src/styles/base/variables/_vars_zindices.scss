@@ -1,0 +1,27 @@
+// -------------------------------------
+//   Dependencies
+// -------------------------------------
+// variables
+/* --empty block-- */
+
+// mixins
+/* --empty block-- */
+
+// -------------------------------------
+//   Base - ZIndices
+// -------------------------------------
+/**
+    * @name ZIndices
+    * @desc variables for the base zindices.
+**/
+
+$zi_modal_content: 1009;
+$zi_modal_overlay: 1008;
+$zi_loader: 1001;
+$zi_header: 1000;
+
+$zi_overlay:  1;
+$zi_default:  0;
+$zi_beneath: -1;
+$zi_rbottom: -2;
+

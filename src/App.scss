@@ -2,52 +2,50 @@
 //   Dependencies
 // -------------------------------------
 // variables
-@import "modules/Colors/variables";
-@import "modules/Layout/variables";
+@import "styles/base/variables";
+@import "styles/modules/variables";
 
 // mixins
-@import "modules/Layout/mixins";
+@import "styles/base/mixins";
+@import "styles/modules/mixins";
 
 // -------------------------------------
 //   Main - App
 // -------------------------------------
 /**
     * @name App
-    * @desc --description--
+    * @desc styles for the main app.
 **/
 
-// app
 .app { @extend %root; }
 
 // -------------------------------------
 //   App - View
 // -------------------------------------
-.view { @extend %root; }
+.app__view {
+    @extend %root;
+    z-index: $zi_overlay;
+    position: absolute;
+    left: 0; top: 0;
+}
 
 // -------------------------------------
 //   App - Page
 // -------------------------------------
-.page {
+.app__page {
     @extend %root;
-    height: $base_html_h_min;
-
     overflow: auto;
+    height: $base_html_h_min;
     -webkit-overflow-scrolling: touch;
 
-    // modifier - scroll enabled
-    &_scrollEnabled {
-        overflow: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    // modifier - scroll disabled
-    &_scrollDisabled {
-        overflow: hidden;
+    // modifiers - scroll
+    &--scroll-enabled  { /* empty block */ }
+    &--scroll-disabled { overflow: hidden;
         -webkit-overflow-scrolling: none;
     }
 }
 
 // -------------------------------------
-//   App - Content
+//   App - Page - Content
 // -------------------------------------
-.content { @extend %root; }
+.app__page__content { @extend %root; }

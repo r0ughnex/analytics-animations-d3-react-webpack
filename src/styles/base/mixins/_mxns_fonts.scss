@@ -1,14 +1,16 @@
 // -------------------------------------
 //   Dependencies
 // -------------------------------------
+// variables
+@import "../variables/vars_fonts";
+
+// mixins
 /* --empty block-- */
 
 // -------------------------------------
-//   Component - Index
+//   Base - Fonts
 // -------------------------------------
-/* --empty block-- */
-
-// ---------------------------------------------
-//   Export block
-// ---------------------------------------------
-export {default} from "./Hero";
+/**
+    * @name Fonts
+    * @desc mixins for the base fonts.
+**//* --empty block-- */
