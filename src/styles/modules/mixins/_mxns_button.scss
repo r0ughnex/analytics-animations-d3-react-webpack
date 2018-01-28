@@ -2,19 +2,15 @@
 //   Dependencies
 // -------------------------------------
 // variables
-/* --empty block-- */
+@import "../variables/vars_button";
 
 // mixins
-/* --empty block-- */
+@import "styles/base/mixins";
 
 // -------------------------------------
-//   Module - Layout
+//   Module - Button
 // -------------------------------------
 /**
-    * @name Layout
-    * @desc --description--
-**/
-
-@import "./variables";
-@import "./mixins";
-
+    * @name Button
+    * @desc mixins for the button module.
+**//* --empty block-- */

@@ -1,0 +1,30 @@
+// -------------------------------------
+//   Dependencies
+// -------------------------------------
+// variables
+@import "variables";
+
+// mixins
+@import "mixins";
+
+// -------------------------------------
+//   Base - Breakpoints
+// -------------------------------------
+/**
+    * @name Breakpoints
+    * @desc styles for the base breakpoints.
+**/
+
+// These values will not show up in content,
+// but can be queried by javascript to know
+// which breakpoint is currently active.
+body:before {
+    content: "desktop"; display: none;
+    @include desktop-lg-up { content: "desktop-lg-up"; }
+
+    @include tablet    { content: "tablet";    }
+    @include tablet-sm { content: "tablet-sm"; }
+
+    @include mobile    { content: "mobile";    }
+    @include mobile-sm { content: "mobile-sm"; }
+}

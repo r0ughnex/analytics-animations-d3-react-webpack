@@ -1,0 +1,113 @@
+// -------------------------------------
+//   Dependencies
+// -------------------------------------
+// variables
+@import "styles/base/variables";
+@import "variables";
+
+// mixins
+@import "styles/base/mixins";
+@import "mixins";
+
+// -------------------------------------
+//   Module - Section
+// -------------------------------------
+/**
+  	* @name Section
+  	* @desc styles for the section module.
+**/
+
+// section
+.section {
+	// extend default section
+	@extend %section;
+
+	// default parent background color
+	background-color: white; // parent
+
+	// default nested background color
+	> .section:not([class*="--color-"]) {
+		background-color: transparent;
+	}
+
+	// modifiers - color
+	&--color-default { background-color: white; } // modifier - color default
+	&--color-light   { background-color: $color_grey_sky;  } // modifier - color light
+	&--color-blue    { background-color: $color_grey_blue; } // modifier - color blue
+	&--color-dark    { background-color: $color_grey_dark; } // modifier - color dark
+
+	// modifiers - reset
+	&--reset   { padding: 0 !important; overflow-y: hidden; } // modifier - reset both
+	&--reset-v { padding-top: 0 !important; padding-bottom: 0 !important; overflow-y: hidden; }  // modifier - reset vertical
+	&--reset-h { padding-left: 0 !important; padding-right: 0 !important; overflow-x: hidden; }  // modifier - reset horizontal
+
+	// adjescent sections
+	& + & { padding-top: 0; }
+
+	// adjescent sections ( with modifiers - color )
+	& + &--color-light, & + &--color-dark,
+	& + &--color-blue { @include section--padding-top; }
+
+	&--color-light + &, &--color-dark + &,
+	&--color-blue  + & { @include section--padding-top; }
+
+	&--color-light + &--color-light { padding-top: 0; }
+	&--color-dark  + &--color-dark  { padding-top: 0; }
+	&--color-blue  + &--color-blue  { padding-top: 0; }
+
+	// adjescent sections ( with modifiers - reset )
+	&--reset + &   { @include section--padding-top; }
+	&--reset-v + & { @include section--padding-top; }
+}
+
+// container
+.container {
+	@extend %container;
+	&--reset { @extend %container--reset; }
+}
+
+// -------------------------------------
+//    Section - Typography
+// -------------------------------------
+.section,
+.container {
+	> h1, > h2, > h3, > h4,
+	> ul li, > ol li, > p, > a {
+		/* @include tablet-sm {
+			br { display: none; }
+		} */
+	}
+
+	> h1, > h2, > h3, > h4, > p {
+		@extend %center;
+		text-align: center;
+		max-width: $container_w_max_md;
+	}
+
+	> p ul, p ol {
+		@extend %center;
+		list-style: none;
+		max-width: $container_w_max_sm;
+
+		padding-left: 0;
+		padding-right: 0;
+		li { padding-left: 0; }
+		/* + br { display: none; } */
+	}
+}
+
+.section {
+	// modifiers - color
+	&--color-blue,
+	&--color-dark,
+	&--color-blue .container,
+	&--color-dark .container {
+		> h1, > h2, > h3, > h4 {
+			color: white;
+		}
+
+		> ul li, > ol li, > p {
+			color: $color_grey_soft;
+		}
+	}
+}

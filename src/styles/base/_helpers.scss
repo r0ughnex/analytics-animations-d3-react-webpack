@@ -2,17 +2,15 @@
 //   Dependencies
 // -------------------------------------
 // variables
-@import "styles/base/variables";
-@import "styles/modules/variables";
+@import "variables";
 
 // mixins
-@import "styles/base/mixins";
-@import "styles/modules/mixins";
+@import "mixins";
 
 // -------------------------------------
-//   View - Home
+//   Base - Helpers
 // -------------------------------------
 /**
-    * @name Home
-    * @desc styles for the home view.
+    * @name Helpers
+    * @desc styles for the base helpers.
 **//* --empty block-- */

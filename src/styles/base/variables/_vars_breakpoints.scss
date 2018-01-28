@@ -8,13 +8,19 @@
 /* --empty block-- */
 
 // -------------------------------------
-//   Module - Section
+//   Base - Breakpoints
 // -------------------------------------
 /**
-    * @name Section
-    * @desc --description--
+    * @name Breakpoints
+    * @desc variables for the base breakpoints.
 **/
 
-@import "./variables";
-@import "./mixins";
+// max widths
+$mobile_w_sm: 480px;
+$mobile_w:    768px;
 
+$tablet_w_sm: 1026px;
+$tablet_w:    1280px;
+
+// min widths
+$desktop_w_lg: 1920px;

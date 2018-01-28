@@ -1,14 +1,16 @@
 // -------------------------------------
 //   Dependencies
 // -------------------------------------
+// variables
+@import "../variables/vars_zindices";
+
+// mixins
 /* --empty block-- */
 
 // -------------------------------------
-//   Component - Index
+//   Base - ZIndices
 // -------------------------------------
-/* --empty block-- */
-
-// ---------------------------------------------
-//   Export block
-// ---------------------------------------------
-export {default} from "./Hero";
+/**
+    * @name ZIndices
+    * @desc mixins for the base zindices.
+**//* --empty block-- */

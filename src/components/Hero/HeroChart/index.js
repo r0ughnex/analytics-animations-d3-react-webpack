@@ -11,4 +11,4 @@
 // ---------------------------------------------
 //   Export block
 // ---------------------------------------------
-export {default} from "./Hero";
+export {default} from "./HeroChart";
