@@ -68,8 +68,8 @@ class Index {
     // @name render
     // @desc the render function for the index.
     static render() {
-        console.log("-----------------------------");
-        console.log("main/Index.js: render called.");
+        console.log("_______________________________");
+        console.log("main/Index.js: render() called.");
 
         // manually render the main app on the parent root element
         ReactDOM.render(<App></App>, document.getElementById("root"));
@@ -77,7 +77,7 @@ class Index {
 
         /*
         console.log("main/Index.js: render called."); */
-        console.log("-----------------------------");
+        console.log("_______________________________");
     }
 }
 

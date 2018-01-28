@@ -66,7 +66,7 @@ class App extends PureComponent {
     // @name render
     // @desc the render function for the app.
     render() {
-        console.log("main/App.js: render called.");
+        console.log("main/App.js: render() called.");
 
         return (
             <div className="app">

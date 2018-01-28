@@ -67,7 +67,7 @@ class AppTest {
     // @name run
     // @desc the run function for the test.
     static run() {
-        console.log("main/App.test.js: run called.");
+        console.log("main/App.test.js: run() called.");
 
         // execute the tests on the main app
         it("renders without crashing", () => {

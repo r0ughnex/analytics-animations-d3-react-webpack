@@ -8,8 +8,10 @@
 import React, {Component} from "react";
 
 // base
-import query from "base/query";
 import * as d3 from "d3";
+import query from "base/query";
+import debounce from "debounce";
+import deepEqual from "deep-equal";
 
 // modules
 /* --empty block-- */
@@ -80,6 +82,7 @@ class HeroChart extends Component {
     _width  = 0;
     _height = 0;
 
+    _debounce = 25;
     _circRad  = 6;
     _winWidth = 0;
     _mobWidth = {
@@ -116,7 +119,9 @@ class HeroChart extends Component {
     constructor(props) {
         super(props);
 
-        const data = [
+        let type = "shit";
+
+        let data = [
             { week:  1, intv_best: 55, intv_avg: 31, intv_score: 36, swng_best:  76, swng_avg:  45, swng_score:  54 },
             { week:  2, intv_best: 58, intv_avg: 34, intv_score: 38, swng_best:  79, swng_avg:  48, swng_score:  57 },
             { week:  3, intv_best: 63, intv_avg: 35, intv_score: 37, swng_best: 104, swng_avg:  64, swng_score:  76 },
@@ -131,57 +136,122 @@ class HeroChart extends Component {
             { week: 12, intv_best: 62, intv_avg: 34, intv_score: 41, swng_best: 308, swng_avg: 202, swng_score: 243 }
         ];
 
-        const type = this._TYPES.data.INTERVAL;
+        const nextProps = {type, data};
+        const {newProps, hasChanged, changedProps} = this._onPropsChange(nextProps, this.state);
 
-        this.state.data = data;
-        this.state.type = type;
-
-        this._onDataChange(data, false);
-        this._onTypeChange(type, false);
+        if(hasChanged) { changedProps.forEach((prop, index) => {
+            this.state[prop] = newProps.type;
+        });}
     }
 
     // ---------------------------------------------
     //   Private methods
     // ---------------------------------------------
-    _onDataChange = (data, setState) => {
-        if(typeof setState !== "boolean") {
-            setState = false;
-        }
-
+    _onDataChange = (data) => {
         let intvData = [ ];
         let swngData = [ ];
+        let isValid  = true;
 
-        data.forEach((entry, index) => {
+        try { data.forEach((entry, index) => {
+            if(typeof entry.week !== "number"
+            || typeof entry.intv_avg !== "number"
+            || typeof entry.intv_best !== "number"
+            || typeof entry.intv_score !== "number") {
+                isValid = false;
+            }
+
             intvData.push({
-                week: entry.week,
-                avg: entry.intv_avg,
-                best: entry.intv_best,
+                week:  entry.week,
+                avg:   entry.intv_avg,
+                best:  entry.intv_best,
                 score: entry.intv_score
             });
 
+            if(typeof entry.swng_avg !== "number"
+            || typeof entry.swng_best !== "number"
+            || typeof entry.swng_score !== "number") {
+                isValid = false;
+            }
+
             swngData.push({
-                week: entry.week,
-                avg: entry.swng_avg,
-                best: entry.swng_best,
+                week:  entry.week,
+                avg:   entry.swng_avg,
+                best:  entry.swng_best,
                 score: entry.swng_score
             });
-        });
+        }); }
 
-        this._intvData = intvData;
-        this._swngData = swngData;
-        if(setState) { this.setState({data: data}); }
+        catch(error) {
+            console.log(error);
+            isValid = false;
+        }
+
+        if(isValid) {
+            this._intvData = intvData;
+            this._swngData = swngData;
+        }
+
+        return {
+            isValid,
+            data
+        };
     };
 
-    _onTypeChange = (type, setState) => {
-        if(typeof setState !== "boolean") {
-            setState = false;
-        }
+    _onTypeChange = (type) => {
+        let isValid  = true;
 
         switch(type) {
-            case this._TYPES.data.INTERVAL: { if(setState) { this.setState({type: type}); } break; }
-            case this._TYPES.data.SWING:    { if(setState) { this.setState({type: type}); } break; }
-            default: { this._onTypeChange(this._TYPES.data.INTERVAL); }
+            case this._TYPES.data.INTERVAL:
+            case this._TYPES.data.SWING: { break; }
+            default: { type = this._TYPES.data.INTERVAL; }
         }
+
+        return {
+            isValid,
+            type
+        };
+    };
+
+    _onPropsChange = (newProps, oldProps) => {
+        newProps = {...newProps};
+        let hasChanged   = false;
+        let changedProps = [];
+
+        if(newProps.type !== oldProps.type) {
+            const {isValid, type} = this._onTypeChange(newProps.type);
+            if(isValid) {
+                changedProps.push("type");
+                newProps.type = type;
+                hasChanged = true;
+            }
+        }
+
+        if(!deepEqual(newProps.data, oldProps.data)) {
+            const {isValid, data} = this._onDataChange(newProps.data)
+            if(isValid) {
+                changedProps.push("data");
+                newProps.data = data;
+                hasChanged = true;
+            }
+        }
+
+        console.log("-------------------------------------");
+        console.log("component/HeroChart.js: newProps have"
+                    + (!hasChanged ? " not" : "")
+                    + " changed.");
+
+        if(hasChanged) {
+            console.log("component/HeroChart.js: changed newProps are:");
+            changedProps.forEach((prop, index) => {
+                console.log(prop + ":", newProps[prop]);
+            })
+        }
+
+        return {
+            newProps,
+            hasChanged,
+            changedProps
+        };
     };
 
     _onWindowResize = () => {
@@ -194,11 +264,21 @@ class HeroChart extends Component {
         const width  = elRect.width  - this._margin.left - this._margin.right
                                      + (this._margin.bar / (this._winWidth < this._mobWidth.small ? 2 : 1));
 
-        if(Math.abs(this._width - width) >= 50
-        || Math.abs(this._height - height) >= 50) {
+        if(Math.abs(this._width - width) >= 100
+        || Math.abs(this._height - height) >= 100) {
             this._height = height; this._width = width;
             if(this._hasInitialized) { this._drawChart(); }
         }
+    };
+
+    _addWindowResizeListener = () => {
+        window.addEventListener("resize", this._onWindowResize);
+    };
+
+    // @name_removeWindowResizeListener
+    // @desc --description--
+    _removeWindowResizeListener = () => {
+        window.removeEventListener("resize", this._onWindowResize);
     };
 
     _createChart = () => {
@@ -208,10 +288,23 @@ class HeroChart extends Component {
         this._el.grp.classList.add(this._classes.grp);
         this._el.grp.setAttribute("transform", "translate(" + (this._margin.left - this._margin.right)  + ", "
                                                             + (this._margin.top  - this._margin.bottom) + ")");
-        if(!this._hasInitialized) {
-            this._drawChart(); this._hasInitialized = true;
+        if(!this._hasInitialized) { this._drawChart();
+            this._hasInitialized = true;
         }
     };
+
+    _destroyChart = () => {
+        this._el.svg.removeAttribute("class");
+        this._el.grp.removeAttribute("transform");
+        this._el.svg.classList.add(this._classes.svg);
+
+        const elGroup = this._el.grp;
+        while (elGroup.hasChildNodes()) {
+            elGroup.removeChild(elGroup.lastChild);
+        }
+
+        this._el.bars = null;
+    }
 
     _drawBars = (data, x, y, y1) => {
         // add domains
@@ -281,18 +374,20 @@ class HeroChart extends Component {
                     // stop line if the value is null
                     .defined(d => d[type]);
 
-        // lines (best, avg path)
-        const grpElem  = d3.select(this._el.grp);
-        grpElem.select("." + this._classes.path + modifier).remove();
+        let elPath = query("." + this._classes.path + modifier, this._el.grp);
+        if(elPath.length) { elPath[0].remove(); }
 
-        const pathElem = grpElem
-                        .append("path")
-                        .attr("class", this._classes.path + " "
-                        + (this._classes.path + modifier))
+        // line (best, avg path)
+        const grpElem  = d3.select(this._el.grp);
+        let   pathElem = grpElem.append("path")
                         .datum(data).attr("d", scale);
 
+        elPath = pathElem.node();
+        elPath.classList.add(this._classes.path);
+        elPath.classList.add(this._classes.path + modifier);
+
         // path animation
-        const pathLength = pathElem.node().getTotalLength();
+        const pathLength = elPath.getTotalLength();
 
         pathElem
             .attr("stroke-dasharray",  pathLength + " " + pathLength)
@@ -317,24 +412,29 @@ class HeroChart extends Component {
                 modifier = this._modifiers.pointb; break; }
         }
 
-        // circles (best, avg points)
-        const grpElem  = d3.select(this._el.grp);
-        grpElem.selectAll("." + this._classes.circle + modifier).remove();
+        let elCircles = query("." + this._classes.circle + modifier, this._el.grp);
+        elCircles.forEach((elCircle, index) => { elCircle.remove(); });
 
-        const circleElems = grpElem
-                        .selectAll("." + this._classes.circle + modifier)
-                        .data(data.filter(d => d[type]));
+        // circles (best, avg points)
+        const grpElem   = d3.select(this._el.grp);
+        let   circElems = null;
+
+        circElems = grpElem.selectAll("." + this._classes.circle + modifier)
+                           .data(data.filter(d => d[type]))
+                           .enter().append("circle")
+
+                           .attr("cx", d => x(d.week) + x.bandwidth() / 2)
+                           .attr("cy", d => y(d[type]))
+                           .attr("r", 0)
+
+        elCircles = circElems.nodes()
+        elCircles.forEach((elCircle, index) => {
+            elCircle.classList.add(this._classes.circle);
+            elCircle.classList.add(this._classes.circle + modifier);
+        });
 
         // circle animation
-        circleElems.enter()
-            .append("circle")
-            .attr("class", this._classes.circle + " "
-                        + (this._classes.circle + modifier))
-
-            .attr("cx", d => x(d.week) + x.bandwidth() / 2)
-            .attr("cy", d => y(d[type]))
-            .attr("r", 0)
-
+        circElems
             .transition().duration(this._anim.circle.duration)
             .delay((d, i) => (i * this._anim.circle.delay))
             .attr("r", this._circRad);
@@ -385,22 +485,52 @@ class HeroChart extends Component {
         this._onWindowResize();
         this._createChart();
 
-        // snippet only
-        // used for testing
-        /* setTimeout(() => {
-            this._onWindowResize();
-        }, this._anim.path.duration * 2); */
+        this._onWindowResize = debounce(
+                this._onWindowResize,
+                this._debounce
+        );
+
+        this._addWindowResizeListener();
     }
 
-    // @name componentWillUnmount
-    // @desc the function called before the component is unmounted.
-    componentWillUnmount() { /* --empty block-- */ }
+    // @name componentWillReceiveProps
+    // @desc the function called when component is ready to receive new props.
+    // @param {Object} nextProps - the changed properties to be compared with this.props.
+    componentWillReceiveProps(nextProps) {
+        console.log("-----------------------------------------------------------");
+        console.log("component/HeroChart.js: componentWillReceiveProps() called.");
+
+        const {newProps, hasChanged, changedProps} = this._onPropsChange(nextProps, this.state);
+
+        if(hasChanged) { changedProps.forEach((prop, index) => {
+            const obj = { }; obj[prop] = newProps[prop];
+
+            this.setState(obj, () => {
+                if(index === (changedProps.length - 1)
+                && this._hasInitialized) { this._drawChart(); }
+            });
+        });}
+    }
 
     // @name shouldComponentUpdate
     // @desc the function called to check if the component needs to be updated.
     // @param {Object} nextProps - the changed properties to be compared with this.props.
     // @param {Object} nextState - the changed component state to be compared with this.state.
-    // shouldComponentUpdate(nextProps, nextState) { /* --empty block-- */ }
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log("-------------------------------------------------------");
+        console.log("component/HeroChart.js: shouldComponentUpdate() called.");
+
+        // in this particular component d3
+        // controls the rendering the svg
+        // graph elements on any update
+        return false;
+    }
+
+    // @name componentWillUnmount
+    // @desc the function called before the component is unmounted.
+    componentWillUnmount() {
+        this._removeWindowResizeListener();
+    }
 
     // ---------------------------------------------
     //   Render block
@@ -408,7 +538,7 @@ class HeroChart extends Component {
     // @name render
     // @desc the render function for the app.
     render() {
-        console.log("component/HeroChart.js: render called.");
+        console.log("component/HeroChart.js: render() called.");
 
         return (
             <div className="hchart" ref="main">

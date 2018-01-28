@@ -69,6 +69,11 @@ class Hero extends Component {
     // @desc the function called before the component is unmounted.
     componentWillUnmount() { /* --empty block-- */ }
 
+    // @name componentWillReceiveProps
+    // @desc the function called when component is ready to receive new props.
+    // @param {Object} nextProps - the changed properties to be compared with this.props.
+    componentWillReceiveProps(nextProps) { /* --empty block-- */ }
+
     // @name shouldComponentUpdate
     // @desc the function called to check if the component needs to be updated.
     // @param {Object} nextProps - the changed properties to be compared with this.props.
@@ -81,7 +86,7 @@ class Hero extends Component {
     // @name render
     // @desc the render function for the app.
     render() {
-        console.log("component/Hero.js: render called.");
+        console.log("component/Hero.js: render() called.");
 
         return (
             <div className="hero">
