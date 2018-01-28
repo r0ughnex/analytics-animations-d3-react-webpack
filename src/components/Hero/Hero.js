@@ -60,6 +60,7 @@ class Hero extends PureComponent {
         // of data to come from the
         // parent component through
         // props and via a service
+        // (upgrade to redux later)
         this.state = {
             type: "interval",
 

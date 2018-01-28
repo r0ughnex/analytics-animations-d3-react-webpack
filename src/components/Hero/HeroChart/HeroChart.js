@@ -171,19 +171,33 @@ class HeroChart extends Component {
     // ---------------------------------------------
     //   Private methods
     // ---------------------------------------------
+    // @name _onDataChange
+    // @desc function called when the input data is changed.
+    // @param {Array} data - the new array of data that was changed.
+    // @return {Object} - the object returned by the function call on complete.
+    //         {Object.Array} data - the modified input data that triggered the change.
+    //         {Object.Boolean} isValid - boolean flag indicating the validity of the change.
     _onDataChange = (data) => {
-        let intvData = [ ];
-        let swngData = [ ];
-        let isValid  = true;
+        let swngData = [ ];  // array to hold the swing data
+        let intvData = [ ];  // array to hold the interval data
+        let isValid  = true; // boolean flag to indicate validity
 
+        // loop through each entry in the data
         try { data.forEach((entry, index) => {
-            if(typeof entry.week !== "number"
-            || typeof entry.intv_avg !== "number"
-            || typeof entry.intv_best !== "number"
-            || typeof entry.intv_score !== "number") {
-                isValid = false;
-            }
+            // check if the value of each entry is valid
+            Object.entries(entry).forEach(([key, value]) => {
+                if(typeof value !== "number") {
+                    isValid = false;
+                    return isValid;
+                }
+            });
 
+            // only proceed if
+            // the data is valid
+            if(!isValid) { return; }
+
+            // push entry into
+            // the interval data
             intvData.push({
                 week:  entry.week,
                 avg:   entry.intv_avg,
@@ -191,12 +205,8 @@ class HeroChart extends Component {
                 score: entry.intv_score
             });
 
-            if(typeof entry.swng_avg !== "number"
-            || typeof entry.swng_best !== "number"
-            || typeof entry.swng_score !== "number") {
-                isValid = false;
-            }
-
+            // push entry into
+            // the swing data
             swngData.push({
                 week:  entry.week,
                 avg:   entry.swng_avg,
@@ -205,57 +215,81 @@ class HeroChart extends Component {
             });
         }); }
 
+        // set validity as
+        // false on any error
         catch(error) {
             console.log(error);
             isValid = false;
         }
 
+        // only update the calculated
+        // data if they are both valid
         if(isValid) {
             this._intvData = intvData;
             this._swngData = swngData;
         }
 
         return {
-            isValid,
-            data
+            data,   // return the modified input data
+            isValid // return the boolean validity flag
         };
     };
 
+    // @name _onTypeChange
+    // @desc function called when the input type is changed.
+    // @param {String} type - the new string type that was changed.
+    // @return {Object} - the object returned by the function call on complete.
+    //         {Object.String} type - the modified input type that triggered the change.
+    //         {Object.Boolean} isValid - boolean flag indicating the validity of the change.
     _onTypeChange = (type) => {
+        // boolean flag to
+        // indicate validity
         let isValid  = true;
 
+        // check if the given
+        // type string is valid
         switch(type) {
             case this._TYPES.data.INTERVAL:
             case this._TYPES.data.SWING: { break; }
+            // else set a defult value for the given type
             default: { type = this._TYPES.data.INTERVAL; }
         }
 
         return {
-            isValid,
-            type
+            type,   // return the modified input type
+            isValid // return the boolean validity flag
         };
     };
 
+    // @name _onPropsChange
+    // @desc function called when the input properties are changed.
+    // @param {Object} newProps - the new properties object that was changed.
+    // @return {Object} - the object returned by the function call on complete.
+    //         {Object.Object} newProps - the modified input properties that triggered the change.
+    //         {Object.Boolean} hasChanged - boolean flag indicating if the properties have changed.
+    //         {Object.Array} changedProps - the array containing the property keys that were changed.
     _onPropsChange = (newProps, oldProps) => {
-        newProps = {...newProps};
-        let hasChanged   = false;
-        let changedProps = [];
+        newProps = {...newProps}; // make a shallow copy of the new props
+        let hasChanged   = false; // set the changed boolean flag to false
+        let changedProps = [];    // create a new array for the changed props
 
+        // compare the new and the old type
         if(newProps.type !== oldProps.type) {
             const {isValid, type} = this._onTypeChange(newProps.type);
-            if(isValid) {
-                changedProps.push("type");
-                newProps.type = type;
-                hasChanged = true;
+            if(isValid) { // only proceed if the change was valid
+                changedProps.push("type"); // add to changed props
+                newProps.type = type; // update the changed value
+                hasChanged = true; // set changed flag to true
             }
         }
 
+        // compare the new and the old data
         if(!deepEqual(newProps.data, oldProps.data)) {
             const {isValid, data} = this._onDataChange(newProps.data)
-            if(isValid) {
-                changedProps.push("data");
-                newProps.data = data;
-                hasChanged = true;
+            if(isValid) {  // only proceed if the change was valid
+                changedProps.push("data");  // add to changed props
+                newProps.data = data;  // update the changed value
+                hasChanged = true;  // set changed flag to true
             }
         }
 
@@ -272,9 +306,9 @@ class HeroChart extends Component {
         }
 
         return {
-            newProps,
-            hasChanged,
-            changedProps
+            newProps, // return the modified input props
+            hasChanged, // return the boolean changed flag
+            changedProps // return the changed keys of props
         };
     };
 
@@ -328,7 +362,7 @@ class HeroChart extends Component {
         }
 
         this._el.bars = null;
-    }
+    };
 
     _drawBars = (data, x, y, y1) => {
         // add domains
