@@ -74,12 +74,6 @@ class Home extends PureComponent {
     // @param {Object} nextProps - the changed properties to be compared with this.props.
     componentWillReceiveProps(nextProps) { /* --empty block-- */ }
 
-    // @name shouldComponentUpdate
-    // @desc the function called to check if the view needs to be updated.
-    // @param {Object} nextProps - the changed properties to be compared with this.props.
-    // @param {Object} nextState - the changed view state to be compared with this.state.
-    // shouldComponentUpdate(nextProps, nextState) { /* --empty block-- */ }
-
     // ---------------------------------------------
     //   Render block
     // ---------------------------------------------

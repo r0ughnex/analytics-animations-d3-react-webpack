@@ -46,6 +46,8 @@
     overflow: hidden;
     cursor: pointer;
 
+    box-sizing: border-box;
+    min-width: $btn_w_min;
     padding: $btn_pad;
     margin: 0 auto;
 

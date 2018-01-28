@@ -5,6 +5,7 @@
 /* --empty block-- */
 
 // core
+import PropTypes from "prop-types";
 import React, {Component} from "react";
 
 // base
@@ -41,73 +42,111 @@ class HeroChart extends Component {
     // ---------------------------------------------
     //   Private members
     // ---------------------------------------------
+    // the different type of constants
+    // used to indicate the data, line
+    // and point types in the component
     _TYPES = {
         data:  { SWING: "swing", INTERVAL: "interval" },
         line:  { BEST:  "best",  AVERAGE:  "avg" },
         point: { BEST:  "best",  AVERAGE:  "avg" }
-    }
+    };
 
-    _intvData = [ ];
-    _swngData = [ ];
-    _hasInitialized = false;
+    _swngData = [ ]; // reference to the calculated swing data
+    _intvData = [ ]; // reference to the calculated interval data
+    _hasInitialized = false; // flag to indicate if the component has initialized
 
+    // reference to various DOM
+    // elements in the component
     _el = {
-        main: null,
-        svg:  null,
-        grp:  null,
-        bars: null
-    }
+        main: null, // the main parent DOM element
+        svg:  null, // the nested child svg DOM element
+        grp:  null, // the nested child group DOM element
+        bars: null  // the nested child rect DOM elements
+    };
 
+    // reference to the various classes assigned
+    // to the DOM elements within the component
     _classes = {
-        main: "hchart",
-        svg:  "hchart__svg",
-        grp:  "hchart__svg__g",
+        main: "hchart", // for the main parent DOM element
+        svg:  "hchart__svg", // for the nested child svg DOM element
+        grp:  "hchart__svg__g", // for the nested child group DOM element
 
-        bar:    "hchart__svg__bar",
-        path:   "hchart__svg__path",
-        circle: "hchart__svg__circle"
-    }
+        bar:    "hchart__svg__bar",   // for the nested child rect DOM elements
+        path:   "hchart__svg__path",  // for the nested child path DOM elements
+        circle: "hchart__svg__circle" // for the nested child circle DOM elements
+    };
 
+    // reference to the various class based modifiers
+    // assigned to the DOM elements within the component
     _modifiers = {
-        interval: "--theme-interval",
-        swing:    "--theme-swing",
+        interval: "--theme-interval", // for the theme on the main DOM element
+        swing:    "--theme-swing",    // for the theme on the main DOM element
 
-        lineb: "--line-best",
-        linea: "--line-avg",
+        lineb: "--line-best", // for the path type on the nested DOM elements
+        linea: "--line-avg",  // for the path type on the nested DOM elements
 
-        pointb: "--point-best",
-        pointa: "--point-avg"
-    }
-
-    _width  = 0;
-    _height = 0;
-
-    _debounce = 25;
-    _circRad  = 6;
-    _winWidth = 0;
-    _mobWidth = {
-        small: 480,
-        deflt: 780
+        pointb: "--point-best", // for the circle type on the nested DOM elements
+        pointa: "--point-avg"   // for the circle type on the nested DOM elements
     };
 
+    _width  = 0; // the current width of the component
+    _height = 0; // the current height of the component
+
+    _debounce = 25; // the debounce used on bound listener events
+    _circRad  = 6;  // the radius of the circle used on the chart
+    _winWidth = 0;  // the current width of the main window screen
+    _mobWidth = {   // the widths for different mobile breakpoints
+        small: 480, // for smaller mobiles
+        deflt: 780  // for default mobiles
+    };
+
+    // reference to the margins used
+    // for the various chart elements
     _margin = {
-        bar: 20,
-        top: 20, left: 0,
-        right: 0, bottom: 0
+        bar: 20, // for the bar elements
+        top: 20, left: 0, // for area top and left
+        right: 0, bottom: 0 // for area right and bottom
     };
 
+    // reference to the animation duration
+    // and delay used for transition of the
+    // various chart elements when rendering
     _anim = {
         bar:    { duration:  500, delay: 75 },
         path:   { duration: 3000, delay:  0 },
         circle: { duration: 2250, delay: 50 }
-    }
+    };
 
     // ---------------------------------------------
     //   Public members
     // ---------------------------------------------
+    // reference to the types of props
+    // to be passed in to the component
+    static propTypes = {
+        type: PropTypes.string.isRequired,
+        data: PropTypes.arrayOf(PropTypes.shape({
+            week:       PropTypes.number.isRequired,
+            intv_avg:   PropTypes.number.isRequired,
+            swng_avg:   PropTypes.number.isRequired,
+            intv_best:  PropTypes.number.isRequired,
+            swng_best:  PropTypes.number.isRequired,
+            intv_score: PropTypes.number.isRequired,
+            swng_score: PropTypes.number.isRequired
+        })).isRequired
+    };
+
+    // default values the types of props
+    // to be passed in to the component
+    static defaultProps = {
+        type: "interval",
+        data: [ ]
+    }
+
+    // reference to the intial
+    // state of the component
     state = {
-        data: [ ],
-        type: ""
+        type: "", // the type of data in the chart to be rendered
+        data: [ ] // data used to render the chart of given type
     }
 
     // ---------------------------------------------
@@ -119,28 +158,13 @@ class HeroChart extends Component {
     constructor(props) {
         super(props);
 
-        let type = "shit";
+        // check if the next props has changed, get the keys and values of the changed props
+        const {newProps, hasChanged, changedProps} = this._onPropsChange(props, this.state);
 
-        let data = [
-            { week:  1, intv_best: 55, intv_avg: 31, intv_score: 36, swng_best:  76, swng_avg:  45, swng_score:  54 },
-            { week:  2, intv_best: 58, intv_avg: 34, intv_score: 38, swng_best:  79, swng_avg:  48, swng_score:  57 },
-            { week:  3, intv_best: 63, intv_avg: 35, intv_score: 37, swng_best: 104, swng_avg:  64, swng_score:  76 },
-            { week:  4, intv_best: 71, intv_avg: 38, intv_score: 41, swng_best: 136, swng_avg:  83, swng_score:  99 },
-            { week:  5, intv_best: 79, intv_avg: 41, intv_score: 46, swng_best: 168, swng_avg: 102, swng_score: 122 },
-            { week:  6, intv_best: 67, intv_avg: 35, intv_score: 38, swng_best: 184, swng_avg: 114, swng_score: 137 },
-            { week:  7, intv_best: 55, intv_avg: 30, intv_score: 31, swng_best: 201, swng_avg: 126, swng_score: 153 },
-            { week:  8, intv_best: 67, intv_avg: 35, intv_score: 38, swng_best: 226, swng_avg: 145, swng_score: 174 },
-            { week:  9, intv_best: 79, intv_avg: 41, intv_score: 46, swng_best: 251, swng_avg: 164, swng_score: 196 },
-            { week: 10, intv_best: 72, intv_avg: 39, intv_score: 45, swng_best: 278, swng_avg: 182, swng_score: 218 },
-            { week: 11, intv_best: 65, intv_avg: 37, intv_score: 44, swng_best: 305, swng_avg: 199, swng_score: 240 },
-            { week: 12, intv_best: 62, intv_avg: 34, intv_score: 41, swng_best: 308, swng_avg: 202, swng_score: 243 }
-        ];
-
-        const nextProps = {type, data};
-        const {newProps, hasChanged, changedProps} = this._onPropsChange(nextProps, this.state);
-
+        /* eslint-disable */
+        // if the next props has changed, then update the state
         if(hasChanged) { changedProps.forEach((prop, index) => {
-            this.state[prop] = newProps.type;
+            this.state[prop] = newProps.type; /* eslint-enable */
         });}
     }
 
@@ -264,8 +288,8 @@ class HeroChart extends Component {
         const width  = elRect.width  - this._margin.left - this._margin.right
                                      + (this._margin.bar / (this._winWidth < this._mobWidth.small ? 2 : 1));
 
-        if(Math.abs(this._width - width) >= 100
-        || Math.abs(this._height - height) >= 100) {
+        if(Math.abs(this._width - width) >= 30
+        || Math.abs(this._height - height) >= 30) {
             this._height = height; this._width = width;
             if(this._hasInitialized) { this._drawChart(); }
         }
@@ -361,6 +385,7 @@ class HeroChart extends Component {
             case this._TYPES.line.AVERAGE: {
                 type = this._TYPES.line.AVERAGE;
                 modifier = this._modifiers.linea; break; }
+
             case this._TYPES.line.BEST: default: {
                 type = this._TYPES.line.BEST;
                 modifier = this._modifiers.lineb; break; }
@@ -407,6 +432,7 @@ class HeroChart extends Component {
             case this._TYPES.point.AVERAGE: {
                 type = this._TYPES.point.AVERAGE;
                 modifier = this._modifiers.pointa; break; }
+
             case this._TYPES.point.BEST: default: {
                 type = this._TYPES.point.BEST;
                 modifier = this._modifiers.pointb; break; }
@@ -446,6 +472,7 @@ class HeroChart extends Component {
         switch(this.state.type) {
             case this._TYPES.data.SWING: {
                 data = [...this._swngData]; break; }
+
             case this._TYPES.data.INTERVAL: default: {
                 data = [...this._intvData]; break; }
         }
