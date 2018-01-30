@@ -2,7 +2,7 @@
 //   Dependencies
 // -------------------------------------
 // pre
-import entries from "object.entries";
+/* --empty block-- */
 
 // core
 import PropTypes from "prop-types";
@@ -156,18 +156,9 @@ class HeroChart extends Component {
     // @desc the constructor for the component class.
     // @param {Object} props - the properties passed to the component.
     constructor(props) {
+        // call the extended
+        // parent constructor
         super(props);
-
-        // add a polyfill for HTMLElement.classList method
-        // since IE <= 11 does not support it on svg elements
-        if (!("classList" in document.createElementNS("http://www.w3.org/2000/svg","g"))) {
-            let descr = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "classList");
-            Object.defineProperty(SVGElement.prototype, "classList", descr);
-        }
-
-        // add a polyfill for the Object.entries
-        // method since babel does not include it
-        if (!Object.entries) { entries.shim(); }
 
         // check if the next props has changed, get the keys and values of the changed props
         const {newProps, hasChanged, changedProps} = this._onPropsChange(props, this.state);
@@ -735,8 +726,13 @@ class HeroChart extends Component {
             const obj = { }; obj[prop] = newProps[prop];
 
             this.setState(obj, () => {
+                // if this is the last change in state
                 if(index === (changedProps.length - 1)
-                && this._hasInitialized) { this._drawChart(); }
+                // and if the chart has initialized
+                && this._hasInitialized) {
+                    // re-create and re-draw the hero chart
+                    this._createChart().then(this._drawChart);
+                }
             });
         });}
     }

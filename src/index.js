@@ -2,6 +2,7 @@
 //   Dependencies
 // -------------------------------------
 // pre
+import entries from "object.entries";
 import "normalize.css";
 import "./index.css";
 
@@ -60,7 +61,20 @@ class Index {
     // ---------------------------------------------
     //   Public methods
     // ---------------------------------------------
-    /* --empty block-- */
+    static addPolyfills = () => {
+        // TO-DO: seperate out these polyfills
+        // to the root app / index component instead
+        // add a polyfill for HTMLElement.classList method
+        // since IE <= 11 does not support it on svg elements
+        if (!("classList" in document.createElementNS("http://www.w3.org/2000/svg","g"))) {
+            let descr = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "classList");
+            Object.defineProperty(SVGElement.prototype, "classList", descr);
+        }
+
+        // add a polyfill for the Object.entries
+        // method since babel does not include it
+        if (!Object.entries) { entries.shim(); }
+    }
 
     // ---------------------------------------------
     //   Render block
@@ -84,4 +98,5 @@ class Index {
 // ---------------------------------------------
 //   Export block
 // ---------------------------------------------
+Index.addPolyfills();
 Index.render();

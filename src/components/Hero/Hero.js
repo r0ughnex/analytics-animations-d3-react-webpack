@@ -5,6 +5,7 @@
 /* --empty block-- */
 
 // core
+import PropTypes from "prop-types";
 import React, {PureComponent} from "react";
 
 // base
@@ -45,7 +46,33 @@ class Hero extends PureComponent {
     // ---------------------------------------------
     //   Public members
     // ---------------------------------------------
-    /* --empty block-- */
+    // reference to the types of props
+    // to be passed in to the component
+    static propTypes = {
+        headline: PropTypes.string.isRequired,
+        copy:     PropTypes.string.isRequired,
+
+        type: PropTypes.string.isRequired,
+        data: PropTypes.arrayOf(PropTypes.shape({
+            week:       PropTypes.number.isRequired,
+            intv_avg:   PropTypes.number.isRequired,
+            swng_avg:   PropTypes.number.isRequired,
+            intv_best:  PropTypes.number.isRequired,
+            swng_best:  PropTypes.number.isRequired,
+            intv_score: PropTypes.number.isRequired,
+            swng_score: PropTypes.number.isRequired
+        })).isRequired
+    };
+
+    // default values the types of props
+    // to be passed in to the component
+    static defaultProps = {
+        headline: "Lorem ipsum dolor <span>sit</span> <span>amet.</span>",
+        copy:     "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+
+        type: "interval",
+        data: [ ]
+    }
 
     // ---------------------------------------------
     //   Constructor block
@@ -54,6 +81,8 @@ class Hero extends PureComponent {
     // @desc the constructor for the component class.
     // @param {Object} props - the properties passed to the component.
     constructor(props) {
+        // call the extended
+        // parent constructor
         super(props);
 
         // TO-DO: change this source
@@ -62,22 +91,11 @@ class Hero extends PureComponent {
         // props and via a service
         // (upgrade to redux later)
         this.state = {
-            type: "interval",
+            headline: props.headline,
+            copy:     props.copy,
 
-            data: [
-                { week:  1, intv_avg: 31, swng_avg:  45, intv_best: 55, swng_best:  76, intv_score: 36, swng_score:  54 },
-                { week:  2, intv_avg: 34, swng_avg:  48, intv_best: 58, swng_best:  79, intv_score: 38, swng_score:  57 },
-                { week:  3, intv_avg: 35, swng_avg:  64, intv_best: 63, swng_best: 104, intv_score: 37, swng_score:  76 },
-                { week:  4, intv_avg: 38, swng_avg:  83, intv_best: 71, swng_best: 136, intv_score: 41, swng_score:  99 },
-                { week:  5, intv_avg: 41, swng_avg: 102, intv_best: 79, swng_best: 168, intv_score: 46, swng_score: 122 },
-                { week:  6, intv_avg: 35, swng_avg: 114, intv_best: 67, swng_best: 184, intv_score: 38, swng_score: 137 },
-                { week:  7, intv_avg: 30, swng_avg: 126, intv_best: 55, swng_best: 201, intv_score: 31, swng_score: 153 },
-                { week:  8, intv_avg: 35, swng_avg: 145, intv_best: 67, swng_best: 226, intv_score: 38, swng_score: 174 },
-                { week:  9, intv_avg: 41, swng_avg: 164, intv_best: 79, swng_best: 251, intv_score: 46, swng_score: 196 },
-                { week: 10, intv_avg: 39, swng_avg: 182, intv_best: 72, swng_best: 278, intv_score: 45, swng_score: 218 },
-                { week: 11, intv_avg: 37, swng_avg: 199, intv_best: 65, swng_best: 305, intv_score: 44, swng_score: 240 },
-                { week: 12, intv_avg: 34, swng_avg: 202, intv_best: 62, swng_best: 308, intv_score: 41, swng_score: 243 }
-            ]
+            type: props.type,
+            data: props.data
         };
     }
 
@@ -138,7 +156,7 @@ class Hero extends PureComponent {
     render() {
         console.log("component/Hero.js: render() called.");
 
-        const {type, data} = this.state;
+        const {headline, copy, type, data} = this.state;
 
         return (
             <div className="hero">
@@ -149,16 +167,13 @@ class Hero extends PureComponent {
                     <div className="hero__content">
 
                         {/* hero - content - headline */}
-                        <h1 className="hero__content__headline">
-                            Quisque interdum <br className="all"/>
-                            dui <span>eget</span> <span>tristique.</span>
+                        <h1 className="hero__content__headline"
+                            dangerouslySetInnerHTML={{__html: headline}}>
                         </h1>
 
                         {/* hero - content - copy */}
-                        <p className="hero__content__copy">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vel
-                            lacinia diam. Aliquam erat volutpat felis. Phasellus et justo vitae
-                            massa faucibus ac&nbsp;ut&nbsp;mi.
+                        <p className="hero__content__copy"
+                            dangerouslySetInnerHTML={{__html: copy}}>
                         </p>
 
                         {/* hero - content - bwrap */}
