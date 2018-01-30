@@ -7,8 +7,9 @@ import "normalize.css";
 import "./index.css";
 
 // core
-import React from "react";
-import ReactDOM from "react-dom";
+import React from "react"; /*
+import ReactDOM from "react-dom"; */
+import {render} from 'react-snapshot';
 
 // base
 /* --empty block-- */
@@ -85,8 +86,10 @@ class Index {
         console.log("_______________________________");
         console.log("main/Index.js: render() called.");
 
+        /*
         // manually render the main app on the parent root element
-        ReactDOM.render(<App></App>, document.getElementById("root"));
+        ReactDOM.render(<App></App>, document.getElementById("root")); */
+        render(<App></App>, document.getElementById("root")); /* ssr */
         registerServiceWorker(); // register service worker for pwa
 
         /*
