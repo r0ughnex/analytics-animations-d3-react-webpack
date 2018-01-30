@@ -5,10 +5,11 @@
 /* --empty block-- */
 
 // core
+import PropTypes from "prop-types";
 import React, {PureComponent} from "react";
 
 // base
-/* --empty block-- */
+import deepEqual from "deep-equal";
 
 // modules
 /* --empty block-- */
@@ -38,6 +39,9 @@ class Hero extends PureComponent {
     // ---------------------------------------------
     //   Private members
     // ---------------------------------------------
+    // the different type constants
+    // used to indicate the various
+    // data types in the component
     _TYPES = {
         data: { SWING: "swing", INTERVAL: "interval" }
     };
@@ -45,7 +49,43 @@ class Hero extends PureComponent {
     // ---------------------------------------------
     //   Public members
     // ---------------------------------------------
-    /* --empty block-- */
+    // reference to the types of props
+    // to be passed in to the component
+    static propTypes = {
+        headline: PropTypes.string.isRequired,
+        copy:     PropTypes.string.isRequired,
+
+        type: PropTypes.string.isRequired,
+        data: PropTypes.arrayOf(PropTypes.shape({
+            week:       PropTypes.number.isRequired,
+            intv_avg:   PropTypes.number.isRequired,
+            swng_avg:   PropTypes.number.isRequired,
+            intv_best:  PropTypes.number.isRequired,
+            swng_best:  PropTypes.number.isRequired,
+            intv_score: PropTypes.number.isRequired,
+            swng_score: PropTypes.number.isRequired
+        })).isRequired
+    };
+
+    // default values the types of props
+    // to be passed in to the component
+    static defaultProps = {
+        headline: "Lorem ipsum dolor <span>sit</span> <span>amet.</span>",
+        copy:     "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+
+        type: "interval",
+        data: [ ]
+    }
+
+    // reference to the intial
+    // state of the component
+    state = {
+        headline: "", // the headline for the hero component
+        copy:     "", // the copy content for this component
+
+        type: "", // the type of data in the chart to be rendered
+        data: [ ] // data used to render the chart of given type
+    };
 
     // ---------------------------------------------
     //   Constructor block
@@ -54,6 +94,8 @@ class Hero extends PureComponent {
     // @desc the constructor for the component class.
     // @param {Object} props - the properties passed to the component.
     constructor(props) {
+        // call the extended
+        // parent constructor
         super(props);
 
         // TO-DO: change this source
@@ -61,31 +103,120 @@ class Hero extends PureComponent {
         // parent component through
         // props and via a service
         // (upgrade to redux later)
-        this.state = {
-            type: "interval",
+        /* this.state = {
+            headline: props.headline,
+            copy:     props.copy,
 
-            data: [
-                { week:  1, intv_avg: 31, swng_avg:  45, intv_best: 55, swng_best:  76, intv_score: 36, swng_score:  54 },
-                { week:  2, intv_avg: 34, swng_avg:  48, intv_best: 58, swng_best:  79, intv_score: 38, swng_score:  57 },
-                { week:  3, intv_avg: 35, swng_avg:  64, intv_best: 63, swng_best: 104, intv_score: 37, swng_score:  76 },
-                { week:  4, intv_avg: 38, swng_avg:  83, intv_best: 71, swng_best: 136, intv_score: 41, swng_score:  99 },
-                { week:  5, intv_avg: 41, swng_avg: 102, intv_best: 79, swng_best: 168, intv_score: 46, swng_score: 122 },
-                { week:  6, intv_avg: 35, swng_avg: 114, intv_best: 67, swng_best: 184, intv_score: 38, swng_score: 137 },
-                { week:  7, intv_avg: 30, swng_avg: 126, intv_best: 55, swng_best: 201, intv_score: 31, swng_score: 153 },
-                { week:  8, intv_avg: 35, swng_avg: 145, intv_best: 67, swng_best: 226, intv_score: 38, swng_score: 174 },
-                { week:  9, intv_avg: 41, swng_avg: 164, intv_best: 79, swng_best: 251, intv_score: 46, swng_score: 196 },
-                { week: 10, intv_avg: 39, swng_avg: 182, intv_best: 72, swng_best: 278, intv_score: 45, swng_score: 218 },
-                { week: 11, intv_avg: 37, swng_avg: 199, intv_best: 65, swng_best: 305, intv_score: 44, swng_score: 240 },
-                { week: 12, intv_avg: 34, swng_avg: 202, intv_best: 62, swng_best: 308, intv_score: 41, swng_score: 243 }
-            ]
-        };
+            type: props.type,
+            data: props.data
+        }; */
+
+        // check if the next props has changed, get the keys and values of the changed props
+        const {newProps, hasChanged, changedProps} = this._onPropsChange(props, this.state);
+
+        /* eslint-disable */
+        // if the next props has changed, then update the state
+        if(hasChanged) { changedProps.forEach((prop, index) => {
+            this.state[prop] = newProps[prop]; /* eslint-enable */
+        });}
     }
 
     // ---------------------------------------------
     //   Private methods
     // ---------------------------------------------
+    // @name _onTypeChange
+    // @desc function called when the input type is changed.
+    // @param {String} type - the new string type that was changed.
+    // @return {Object} - the object returned by the function call on complete.
+    //         {Object.String} type - the modified input type that triggered the change.
+    //         {Object.Boolean} isValid - boolean flag indicating the validity of the change.
+    _onTypeChange = (type) => {
+        // boolean flag to
+        // indicate validity
+        let isValid  = true;
+
+        // check if the given
+        // type string is valid
+        switch(type) {
+            case this._TYPES.data.INTERVAL:
+            case this._TYPES.data.SWING: { break; }
+            // else set a defult value for the given type
+            default: { type = this._TYPES.data.INTERVAL; }
+        }
+
+        return {
+            type,   // return the modified input type
+            isValid // return the boolean validity flag
+        };
+    };
+
+    // @name _onPropsChange
+    // @desc function called when the input properties are changed.
+    // @param {Object} newProps - the new properties object that was changed.
+    // @return {Object} - the object returned by the function call on complete.
+    //         {Object.Object} newProps - the modified input properties that triggered the change.
+    //         {Object.Boolean} hasChanged - boolean flag indicating if the properties have changed.
+    //         {Object.Array} changedProps - the array containing the property keys that were changed.
+    _onPropsChange = (newProps, oldProps) => {
+        newProps = {...newProps}; // make a shallow copy of the new props
+        let hasChanged   = false; // set the changed boolean flag to false
+        let changedProps = [];    // create a new array for the changed props
+
+        // compare the new and the old headline
+        if(newProps.headline !== oldProps.headline) {
+            changedProps.push("headline"); // add to changed props
+            hasChanged = true; // set changed flag to true
+        }
+
+        // compare the new and the old copy
+        if(newProps.copy !== oldProps.copy) {
+            changedProps.push("copy"); // add to changed props
+            hasChanged = true; // set changed flag to true
+        }
+
+        // compare the new and the old type
+        if(newProps.type !== oldProps.type) {
+            const {isValid, type} = this._onTypeChange(newProps.type);
+            if(isValid) { // only proceed if the change was valid
+                changedProps.push("type"); // add to changed props
+                newProps.type = type; // update the changed value
+                hasChanged = true; // set changed flag to true
+            }
+        }
+
+        // compare the new and the old data
+        if(!deepEqual(newProps.data, oldProps.data)) {
+            changedProps.push("data");  // add to changed props
+            hasChanged = true;  // set changed flag to true
+        }
+
+        console.log("--------------------------------");
+        console.log("component/Hero.js: newProps have"
+                    + (!hasChanged ? " not" : "")
+                    + " changed.");
+
+        if(hasChanged) {
+            console.log("component/Hero.js: changed newProps are:");
+            changedProps.forEach((prop, index) => {
+                console.log(prop + ":", newProps[prop]);
+            })
+        }
+
+        return {
+            newProps, // return the modified input props
+            hasChanged, // return the boolean changed flag
+            changedProps // return the changed keys of props
+        };
+    };
+
+    // @name _getNextType
+    // @desc function to get the next type for the given chart type.
+    // @param {String} type - the given type to get the next type for.
+    // @return {String} - the next type for the given current chart type.
     _getNextType = (type) => {
         switch(type) {
+            // check if the given type is valid
+            // and return the next chart type
             case this._TYPES.data.INTERVAL: {
                 return this._TYPES.data.SWING; }
 
@@ -108,13 +239,41 @@ class Hero extends PureComponent {
     // @name componentWillReceiveProps
     // @desc the function called when component is ready to receive new props.
     // @param {Object} nextProps - the changed properties to be compared with this.props.
-    componentWillReceiveProps(nextProps) { /* --empty block-- */ }
+    componentWillReceiveProps(nextProps) {
+        console.log("------------------------------------------------------");
+        console.log("component/Hero.js: componentWillReceiveProps() called.");
 
-    getToogleText = (type) => {
+        // check if the next props has changed, get the keys and values of the changed props
+        const {newProps, hasChanged, changedProps} = this._onPropsChange(nextProps, this.state);
+
+        // if the next props has changed, then update the state
+        if(hasChanged) { changedProps.forEach((prop, index) => {
+            const obj = { }; obj[prop] = newProps[prop];
+
+            this.setState(obj, () => {
+                // if this is the last change in state
+                if(index === (changedProps.length - 1)) {
+                    /* do nothing on set state callback */
+                }
+            });
+        });}
+    }
+
+    // @name getButtonText
+    // @desc function to get the button text for the given type.
+    // @param {String} type - the given type to get the button text for.
+    // @return {String} - the button text for the given current chart type.
+    getButtonText = (type) => {
+        // get the next type for the given type
         let nextType = this._getNextType(type);
+        // return button text with next type
         return `Show ${nextType} data`;
     };
 
+    // @name onToggleTypeClick
+    // @desc function bound to the toogle type button click event.
+    // @param {Event} event - the event that triggered the function call.
+    // @param {String} type - the current chart type obtained from the event.
     onToggleTypeClick = (event, type) => {
         if(typeof type !== "string") {
             type = this.state.type;
@@ -128,17 +287,18 @@ class Hero extends PureComponent {
 
         let nextType = this._getNextType(type);
         this.setState({type: nextType});
-    }
+    };
 
     // ---------------------------------------------
     //   Render block
     // ---------------------------------------------
     // @name render
-    // @desc the render function for the app.
+    // @desc the render function for the component.
     render() {
         console.log("component/Hero.js: render() called.");
 
-        const {type, data} = this.state;
+        // get the contents, type and data from the state
+        const {headline, copy, type, data} = this.state;
 
         return (
             <div className="hero">
@@ -149,26 +309,26 @@ class Hero extends PureComponent {
                     <div className="hero__content">
 
                         {/* hero - content - headline */}
-                        <h1 className="hero__content__headline">
-                            Quisque interdum <br className="all"/>
-                            dui <span>eget</span> <span>tristique.</span>
-                        </h1>
+                        {headline &&
+                        <h1 className="hero__content__headline"
+                            dangerouslySetInnerHTML={{__html: headline}}>
+                        </h1>}
 
                         {/* hero - content - copy */}
-                        <p className="hero__content__copy">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vel
-                            lacinia diam. Aliquam erat volutpat felis. Phasellus et justo vitae
-                            massa faucibus ac&nbsp;ut&nbsp;mi.
-                        </p>
+                        {copy &&
+                        <p className="hero__content__copy"
+                            dangerouslySetInnerHTML={{__html: copy}}>
+                        </p>}
 
                         {/* hero - content - bwrap */}
+                        {(headline || copy) &&
                         <div className="button-wrapper hero__content__bwrap">
                             <a className="button button--secondary" href="#toggle-data-type"
                                 onClick={this.onToggleTypeClick}
-                                title={this.getToogleText(type)}>
-                                {this.getToogleText(type)}
+                                title={this.getButtonText(type)}>
+                                {this.getButtonText(type)}
                             </a>
-                        </div>
+                        </div>}
 
                     </div>{/* hero - content end */}
                 </div>{/* hero - left end */}
@@ -178,10 +338,11 @@ class Hero extends PureComponent {
                     <div className="hero__chart">
 
                         {/* hero chart */}
+                        {data.length ?
                         <HeroChart
                             type={type}
                             data={data}>
-                        </HeroChart>
+                        </HeroChart>: null}
 
                     </div>{/* hero - chart end */}
                 </div>{/* hero - right end */}
