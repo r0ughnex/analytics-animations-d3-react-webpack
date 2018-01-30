@@ -85,4 +85,4 @@ class App extends PureComponent {
 // ---------------------------------------------
 //   Export block
 // ---------------------------------------------
-export default App;
+export default App; // export the app class

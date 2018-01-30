@@ -44,9 +44,9 @@ let classes;
 
 // @name query
 // @desc the main function for the base.
-// @param {String} selector - the selector for the query to be performed
-// @param {Element} context - optional content for query to be performed
-// @return {Array{DOM}} - the array of DOM elements that match the given selector
+// @param {String} selector - the selector for the query to be performed.
+// @param {Element} context - optional content for query to be performed.
+// @return {Array{DOM}} - the array of DOM elements that match the given selector.
 function query (selector, context) {
     context = context || doc;
 
@@ -82,4 +82,4 @@ function query (selector, context) {
 // ---------------------------------------------
 //   Export block
 // ---------------------------------------------
-export default query;
+export default query; // export the base module

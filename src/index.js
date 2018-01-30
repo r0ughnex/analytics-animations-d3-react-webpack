@@ -61,9 +61,9 @@ class Index {
     // ---------------------------------------------
     //   Public methods
     // ---------------------------------------------
+    // @name addPolyfills
+    // @desc function to add polyfills to the build.
     static addPolyfills = () => {
-        // TO-DO: seperate out these polyfills
-        // to the root app / index component instead
         // add a polyfill for HTMLElement.classList method
         // since IE <= 11 does not support it on svg elements
         if (!("classList" in document.createElementNS("http://www.w3.org/2000/svg","g"))) {
@@ -98,5 +98,5 @@ class Index {
 // ---------------------------------------------
 //   Export block
 // ---------------------------------------------
-Index.addPolyfills();
-Index.render();
+Index.addPolyfills(); // add polyfills
+Index.render(); // run the index render

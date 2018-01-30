@@ -43,7 +43,13 @@ class Home extends PureComponent {
     // ---------------------------------------------
     //   Public members
     // ---------------------------------------------
-    /* --empty block-- */
+    // reference to the intial
+    // state of the component
+    state = {
+        // the contents of this
+        // view to be rendered
+        contents: [ ]
+    };
 
     // ---------------------------------------------
     //   Constructor block
@@ -56,6 +62,12 @@ class Home extends PureComponent {
         // parent constructor
         super(props);
 
+        // TO-DO: convert this initial
+        // source of data to come from
+        // a service, and with redux
+
+        // set the initial state
+        // of the view on load
         this.state = {
             contents: [
                 {
@@ -119,6 +131,7 @@ class Home extends PureComponent {
     render() {
         console.log("views/Home.js: render() called.");
 
+        // get the contents from state
         const {contents} = this.state;
 
         return (
@@ -172,4 +185,4 @@ class Home extends PureComponent {
 // ---------------------------------------------
 //   Export block
 // ---------------------------------------------
-export default Home;
+export default Home; // export the view class

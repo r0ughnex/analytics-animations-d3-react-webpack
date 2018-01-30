@@ -16,7 +16,35 @@
     * @name HeroChart
     * @desc styles for the hero chart component.
 **/
+// map of colors for
+// the bar elements
+$hchart_bar_colors: (
+    "1": $color_primary,
+    "2":  #CA5150, "3":  #A54E50,
+    "4":  #814C4F, "5":  #5C494F,
+    "6":  #37474F, "7":  #34575C,
+    "8":  #316768, "9":  #2F7775,
+    "10": #2C8681, "11": #29968E,
+    "12": $color_secondary
+);
 
+$hchart_bar_count: 12;
+
+// function to get the bar
+// color for the given key
+@function get-hchart-bar-color($key) {
+    // check if the key exists on the color map
+    // and output a warning if it does not exist
+    @if not map-has-key($hchart_bar_colors, $key) {
+        @warn "$hchart_bar_colors key `#{$key}` not found.";
+    }
+
+    // return the mapped color for given key
+    @return map-get($hchart_bar_colors, $key);
+}
+
+// the hchart
+// placeholder
 %hchart {
     display: block;
     position: relative;
@@ -66,18 +94,14 @@
     &--theme-interval {
         // svg - bar
         #{$this}__bar {
-            &:nth-child(n +  1) { fill: $color_primary; }
-            &:nth-child(n +  2) { fill: #CA5150; }
-            &:nth-child(n +  3) { fill: #A54E50; }
-            &:nth-child(n +  4) { fill: #814C4F; }
-            &:nth-child(n +  5) { fill: #5C494F; }
-            &:nth-child(n +  6) { fill: #37474F; }
-            &:nth-child(n +  7) { fill: #34575C; }
-            &:nth-child(n +  8) { fill: #316768; }
-            &:nth-child(n +  9) { fill: #2F7775; }
-            &:nth-child(n + 10) { fill: #2C8681; }
-            &:nth-child(n + 11) { fill: #29968E; }
-            &:nth-child(n + 12) { fill: $color_secondary; }
+            // loop through and
+            // get the bar colors
+            @for $i from 1 // start
+            through $hchart_bar_count {
+                &:nth-child(n + #{$i}) {
+                    fill: get-hchart-bar-color(#{$i});
+                }
+            }
         }
     }
 
@@ -85,18 +109,14 @@
     &--theme-swing {
         // svg - bar
         #{$this}__bar {
-            &:nth-child(n +  1) { fill: $color_secondary; }
-            &:nth-child(n +  2) { fill: #29968E; }
-            &:nth-child(n +  3) { fill: #2C8681; }
-            &:nth-child(n +  4) { fill: #2F7775; }
-            &:nth-child(n +  5) { fill: #316768; }
-            &:nth-child(n +  6) { fill: #34575C; }
-            &:nth-child(n +  7) { fill: #37474F; }
-            &:nth-child(n +  8) { fill: #5C494F; }
-            &:nth-child(n +  9) { fill: #814C4F; }
-            &:nth-child(n + 10) { fill: #A54E50; }
-            &:nth-child(n + 11) { fill: #CA5150; }
-            &:nth-child(n + 12) { fill: $color_primary; }
+            // loop through and
+            // get the bar colors
+            @for $i from 1 // start
+            through $hchart_bar_count {
+                &:nth-child(n + #{$i}) {
+                    fill: get-hchart-bar-color(#{$hchart_bar_count + 1 - $i});
+                }
+            }
         }
     }
 }

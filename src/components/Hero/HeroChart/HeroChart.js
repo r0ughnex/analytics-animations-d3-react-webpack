@@ -12,7 +12,7 @@ import React, {Component} from "react";
 import * as d3 from "d3";
 import query from "base/query";
 import debounce from "debounce";
-import deepEqual from "deep-equal";
+import shallowEqual from "shallow-equals";
 
 // modules
 /* --empty block-- */
@@ -42,7 +42,7 @@ class HeroChart extends Component {
     // ---------------------------------------------
     //   Private members
     // ---------------------------------------------
-    // the different type of constants
+    // the different type constants
     // used to indicate the data, line
     // and point types in the component
     _TYPES = {
@@ -140,14 +140,14 @@ class HeroChart extends Component {
     static defaultProps = {
         type: "interval",
         data: [ ]
-    }
+    };
 
     // reference to the intial
     // state of the component
     state = {
         type: "", // the type of data in the chart to be rendered
         data: [ ] // data used to render the chart of given type
-    }
+    };
 
     // ---------------------------------------------
     //   Constructor block
@@ -166,7 +166,7 @@ class HeroChart extends Component {
         /* eslint-disable */
         // if the next props has changed, then update the state
         if(hasChanged) { changedProps.forEach((prop, index) => {
-            this.state[prop] = newProps.type; /* eslint-enable */
+            this.state[prop] = newProps[prop]; /* eslint-enable */
         });}
     }
 
@@ -286,7 +286,9 @@ class HeroChart extends Component {
         }
 
         // compare the new and the old data
-        if(!deepEqual(newProps.data, oldProps.data)) {
+        // note: we are doing shallow equal here since
+        // the parent component will perform deep equal
+        if(!shallowEqual(newProps.data, oldProps.data)) {
             const {isValid, data} = this._onDataChange(newProps.data)
             if(isValid) {  // only proceed if the change was valid
                 changedProps.push("data");  // add to changed props
@@ -711,6 +713,14 @@ class HeroChart extends Component {
 
     }
 
+    // @name componentWillUnmount
+    // @desc the function called before the component is unmounted.
+    componentWillUnmount() {
+        // remove the previously bound listener
+        // function from the window resize event
+        this._removeWindowResizeListener();
+    }
+
     // @name componentWillReceiveProps
     // @desc the function called when component is ready to receive new props.
     // @param {Object} nextProps - the changed properties to be compared with this.props.
@@ -749,14 +759,6 @@ class HeroChart extends Component {
         // controls the rendering of the
         // graph elements on any update
         return false;
-    }
-
-    // @name componentWillUnmount
-    // @desc the function called before the component is unmounted.
-    componentWillUnmount() {
-        // remove the previously bound listener
-        // function from the window resize event
-        this._removeWindowResizeListener();
     }
 
     // ---------------------------------------------
