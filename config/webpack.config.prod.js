@@ -310,6 +310,11 @@ module.exports = {
                 // Pending further investigation:
                 // https://github.com/mishoo/UglifyJS2/issues/2011
                 comparisons: false,
+
+                // Removing console log
+                // and debug statements
+                drop_console: true,
+                drop_debugger: true,
             },
 
             mangle: {
