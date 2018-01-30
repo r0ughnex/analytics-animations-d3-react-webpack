@@ -78,7 +78,7 @@ class Home extends PureComponent {
     //   Render block
     // ---------------------------------------------
     // @name render
-    // @desc the render function for the app.
+    // @desc the render function for the view.
     render() {
         console.log("views/Home.js: render() called.");
 

@@ -50,9 +50,10 @@ let classes;
 function query (selector, context) {
     context = context || doc;
 
-    // redirect simple selectors to the more performant function
-    if(simpleRe.test(selector)){
-        switch(selector.charAt(0)){
+    // redirect simple selectors to
+    // the more performant function
+    if(simpleRe.test(selector)) { try {
+        switch(selector.charAt(0)) {
             case "#":
                 // handle id-based selectors
                 return [context.getElementById(selector.substr(1))];
@@ -67,10 +68,14 @@ function query (selector, context) {
             default:
                 // handle tag-based selectors
                 return slice.call(context.getElementsByTagName(selector));
-        }
+        }}
+
+        // default to selector to use the `querySelectorAll` on any error
+        // (this might happen on svg elements browsers such as IE 11, 10)
+        catch(error) { return slice.call(context.querySelectorAll(selector)); }
     }
 
-    // default to `querySelectorAll`
+    // default to selector to use the `querySelectorAll`
     return slice.call(context.querySelectorAll(selector));
 }
 

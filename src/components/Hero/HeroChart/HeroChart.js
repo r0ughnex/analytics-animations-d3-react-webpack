@@ -2,7 +2,7 @@
 //   Dependencies
 // -------------------------------------
 // pre
-/* --empty block-- */
+import entries from "object.entries";
 
 // core
 import PropTypes from "prop-types";
@@ -158,6 +158,17 @@ class HeroChart extends Component {
     constructor(props) {
         super(props);
 
+        // add a polyfill for HTMLElement.classList method
+        // since IE <= 11 does not support it on svg elements
+        if (!("classList" in document.createElementNS("http://www.w3.org/2000/svg","g"))) {
+            let descr = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "classList");
+            Object.defineProperty(SVGElement.prototype, "classList", descr);
+        }
+
+        // add a polyfill for the Object.entries
+        // method since babel does not include it
+        if (!Object.entries) { entries.shim(); }
+
         // check if the next props has changed, get the keys and values of the changed props
         const {newProps, hasChanged, changedProps} = this._onPropsChange(props, this.state);
 
@@ -312,16 +323,23 @@ class HeroChart extends Component {
         };
     };
 
-    _onWindowResize = () => {
+    // @name _onWindowResize
+    // @desc the listener function bound to the window resize event.
+    // @param {Event} - the event that triggered the function call.
+    _onWindowResize = (event) => {
+        // get the current window width
         this._winWidth = window.innerWidth
                         || document.documentElement.clientWidth
                         || document.body.clientWidth;
 
+        // get the chart width and height
         const elRect = this._el.main.getBoundingClientRect()
         const height = elRect.height - this._margin.top  - this._margin.bottom;
         const width  = elRect.width  - this._margin.left - this._margin.right
                                      + (this._margin.bar / (this._winWidth < this._mobWidth.small ? 2 : 1));
 
+        // compare the obtained width and
+        // height to current set of values
         if(Math.abs(this._width - width) >= 30
         || Math.abs(this._height - height) >= 30) {
             this._height = height; this._width = width;
@@ -329,71 +347,147 @@ class HeroChart extends Component {
         }
     };
 
+    // @name _addWindowResizeListener
+    // @desc function to add a listener to the window resize event.
     _addWindowResizeListener = () => {
         window.addEventListener("resize", this._onWindowResize);
     };
 
     // @name_removeWindowResizeListener
-    // @desc --description--
+    // @desc function to remove the listener from the window resize event.
     _removeWindowResizeListener = () => {
         window.removeEventListener("resize", this._onWindowResize);
     };
 
+
+    // @name _createChart
+    // @desc function to create a new hero chart.
+    // @return {Promise(Boolean)} - the resolved promise with the success flag.
     _createChart = () => {
-        this._el.svg.classList.add(this._classes.svg);
-        this._el.svg.classList.add(this._classes.svg + this._modifiers[this.state.type]);
+        return new Promise((resolve, reject) => { try {
+            // reset the svg classes
+            const elSvg = this._el.svg;
+            elSvg.removeAttribute("class");
+            elSvg.classList.add(this._classes.svg);
 
-        this._el.grp.classList.add(this._classes.grp);
-        this._el.grp.setAttribute("transform", "translate(" + (this._margin.left - this._margin.right)  + ", "
-                                                            + (this._margin.top  - this._margin.bottom) + ")");
-        if(!this._hasInitialized) { this._drawChart();
-            this._hasInitialized = true;
-        }
+            // add the modifier based on the set type
+            elSvg.classList.add(this._classes.svg + this._modifiers[this.state.type]);
+
+            // reset the group classes
+            const elGrp = this._el.grp;
+            elGrp.removeAttribute("class");
+            elGrp.classList.add(this._classes.grp);
+
+            // shift the group based on the set margins
+            elGrp.setAttribute("transform", "translate(" + (this._margin.left - this._margin.right)  + ", "
+                                                                + (this._margin.top  - this._margin.bottom) + ")");
+            // draw chart if it has
+            // not been initialized
+            if(!this._hasInitialized) {
+                this._drawChart().then(() => {
+                    // set initialized to true and
+                    // resolve with true on success
+                    this._hasInitialized = true;
+                    return resolve(true);
+                });
+            }
+
+            // resolve with true on success
+            else { return resolve(true); }}
+
+            // resolve with false on any error
+            catch(error) { console.log(error);
+                return resolve(false);
+            }
+        });
     };
 
+    // @name _destroyChart
+    // @desc function to destroy the created hero chart.
+    // @return {Promise(Boolean)} - the resolved promise with the success flag.
     _destroyChart = () => {
-        this._el.svg.removeAttribute("class");
-        this._el.grp.removeAttribute("transform");
-        this._el.svg.classList.add(this._classes.svg);
+        return new Promise((resolve, reject) => { try {
+            // reset the svg classes
+            const elSvg = this._el.svg;
+            elSvg.removeAttribute("class");
+            elSvg.classList.add(this._classes.svg);
 
-        const elGroup = this._el.grp;
-        while (elGroup.hasChildNodes()) {
-            elGroup.removeChild(elGroup.lastChild);
-        }
+            // reset the group classes
+            const elGrp = this._el.grp;
+            elGrp.removeAttribute("class");
+            elGrp.classList.add(this._classes.grp);
 
-        this._el.bars = null;
+            // iterate and remove all the
+            // child nodes from the group
+            while (elGrp.hasChildNodes()) {
+                elGrp.removeChild(elGrp.lastChild);
+            }
+
+            // remove transforms from the group
+            elGrp.removeAttribute("transform");
+
+            // reset references to bars and
+            // resolve with true on success
+            this._el.bars = null;
+            return resolve(true); }
+
+            // resolve with false on any error
+            catch(error) { console.log(error);
+                return resolve(false);
+            }
+        });
     };
 
+    // @name _drawBars
+    // @desc function to the draw the bars on the chart.
+    // @param {Array} data - the data source for the bars.
+    // @param {Function} x - the x scale function for the chart.
+    // @param {Function} y - the y scale function for the chart.
+    // @param {Function} y1 - the y1 scale function for the chart.
     _drawBars = (data, x, y, y1) => {
-        // add domains
+        // only proceed if input params are valid
+        if(!Array.isArray(data)    || !data.length
+        || typeof x !== "function" || typeof y !== "function"
+        || typeof y1 !== "function") { return false; }
+
+        // add domains for x and y scales
         x.domain(data.map(d => d.week));
         y.domain([0, d3.max(data, d => d.best)]);
         y1.domain([0, d3.max(data, d => d.score)]);
 
-        // adjust avg height
+        // calculate rate at which the avg
+        // height needs to be adjusted for
         const rate = d3.max(data, d => d.score) /
-                      d3.max(data, d => d.best);
+                     d3.max(data, d => d.best);
 
-        // bars (elements)
-        const grpElem  = d3.select(this._el.grp);
+        // select the bar elements on the chart
+        // (get the parent group DOM element)
+        const elGrp    = this._el.grp;
+        const grpElem  = d3.select(elGrp);
         let   barElems = null;
 
+        // if chart has not initialized
         if(!this._hasInitialized) {
+            // create new rect and append it to the group element
             barElems = grpElem.selectAll("." + this._classes.bar)
-                              .data(data).enter().append("rect")
-                              .attr("x", (d) => x(d.week))
-                              .attr("y", this._height)
+                              .data(data).enter().append("rect") // trigger enter
+                              .attr("x", (d) => x(d.week)) // add the x data
+                              .attr("y", this._height) // add the y data
 
+
+            // add the base class to each bar
             this._el.bars = barElems.nodes();
             this._el.bars.forEach((elBar, index) => {
                 elBar.classList.add(this._classes.bar);
             });
         }
 
+        // update data, if chart has been initialized
         else { barElems = d3.selectAll(this._el.bars)
                             .data(data); }
 
-        // bar animation
+        // perform animation
+        // on the bar elements
         barElems
             .transition().duration(this._anim.bar.duration)
             .delay((d, i) => (i * this._anim.bar.delay))
@@ -403,19 +497,36 @@ class HeroChart extends Component {
                             + (this._height - y1(d.score)
                             - (this._height - y1(d.score)) * rate)))
 
+            // adjust the bar width, height based on the given margins
             .attr("height", (d) => ((this._height - y1(d.score)) * rate))
             .attr("width", ((this._width / data.length) - (this._margin.bar /
                             (this._winWidth < this._mobWidth.small ? 2 : 1))));
 
         if(!this._hasInitialized) {
+            // trigger exit on complete
             barElems.exit().remove();
         }
     };
 
+    // @name _drawLines
+    // @desc function to draw the lines on the chart.
+    // @param {Array} data - the data source for the lines.
+    // @param {Function} x - the x scale function for the chart.
+    // @param {Function} y - the y scale function for the chart.
+    // @param {String} type - the current type of line to be drawn.
     _drawLines = (data, x, y, type) => {
+        // only proceed if input params are valid
+        if(!Array.isArray(data)    || !data.length
+        || typeof x !== "function" || typeof y !== "function"
+        || typeof type !== "string") { return false; }
+
+        // set the default
+        // modifier as null
         let modifier = null;
 
         switch(type) {
+            // check if the given type is valid
+            // and select corresponding modifier
             case this._TYPES.line.AVERAGE: {
                 type = this._TYPES.line.AVERAGE;
                 modifier = this._modifiers.linea; break; }
@@ -425,7 +536,7 @@ class HeroChart extends Component {
                 modifier = this._modifiers.lineb; break; }
         }
 
-        // line scale
+        // set the line scale
         const scale = d3.line()
                     .x(d => x(d.week) + x.bandwidth() / 2)
                     .y(d => y(d[type]))
@@ -433,21 +544,27 @@ class HeroChart extends Component {
                     // stop line if the value is null
                     .defined(d => d[type]);
 
-        let elPath = query("." + this._classes.path + modifier, this._el.grp);
-        if(elPath.length) { elPath[0].remove(); }
+        // remove any previously drawn lines (or paths)
+        const elGrp  = this._el.grp; // get the parent group DOM element
+        let   elPath = query("." + this._classes.path + modifier, elGrp);
+        if(elPath.length) { elGrp.removeChild(elPath[0]); } // remove child
 
-        // line (best, avg path)
-        const grpElem  = d3.select(this._el.grp);
-        let   pathElem = grpElem.append("path")
-                        .datum(data).attr("d", scale);
+        // create new path element in the group
+        // and update them with the new data set
+        const grpElem  = d3.select(elGrp);
+        let   pathElem = grpElem.append("path").datum(data).attr("d", scale);
 
+        // add default base and modifier
+        // classes to the path element
         elPath = pathElem.node();
         elPath.classList.add(this._classes.path);
         elPath.classList.add(this._classes.path + modifier);
 
-        // path animation
+        // get the total length of the line drawn
         const pathLength = elPath.getTotalLength();
 
+        // perform animation
+        // on the line element
         pathElem
             .attr("stroke-dasharray",  pathLength + " " + pathLength)
             .attr("stroke-dashoffset", pathLength)
@@ -455,14 +572,27 @@ class HeroChart extends Component {
             .transition().duration(this._anim.path.duration)
             .delay((d, i) => (i * this._anim.path.delay))
             .attr("stroke-dashoffset", 0);
-
-        pathElem.exit().remove();
     };
 
+    // @name _drawPoints
+    // @desc function to draw the points on the chart.
+    // @param {Array} data - the data source for the points.
+    // @param {Function} x - the x scale function for the chart.
+    // @param {Function} y - the y scale function for the chart.
+    // @param {String} type - the current type of point to be drawn.
     _drawPoints = (data, x, y, type) => {
+        // only proceed if input params are valid
+        if(!Array.isArray(data)    || !data.length
+        || typeof x !== "function" || typeof y !== "function"
+        || typeof type !== "string") { return false; }
+
+        // set the default
+        // modifier as null
         let modifier = null;
 
         switch(type) {
+            // check if the given type is valid
+            // and select corresponding modifier
             case this._TYPES.point.AVERAGE: {
                 type = this._TYPES.point.AVERAGE;
                 modifier = this._modifiers.pointa; break; }
@@ -472,65 +602,92 @@ class HeroChart extends Component {
                 modifier = this._modifiers.pointb; break; }
         }
 
-        let elCircles = query("." + this._classes.circle + modifier, this._el.grp);
-        elCircles.forEach((elCircle, index) => { elCircle.remove(); });
+        // remove any previously drawn points (or circles)
+        const elGrp     = this._el.grp; // get the parent group DOM element
+        let   elCircles = query("." + this._classes.circle + modifier, elGrp);
+        elCircles.forEach((elCircle, index) => { elGrp.removeChild(elCircle); });
 
-        // circles (best, avg points)
-        const grpElem   = d3.select(this._el.grp);
+        // create new circle elements in the group
+        // and update them with the new data set
+        const grpElem   = d3.select(elGrp);
         let   circElems = null;
 
         circElems = grpElem.selectAll("." + this._classes.circle + modifier)
-                           .data(data.filter(d => d[type]))
-                           .enter().append("circle")
+                           .data(data.filter(d => d[type])) // update data
+                           .enter().append("circle") // trigger enter
 
                            .attr("cx", d => x(d.week) + x.bandwidth() / 2)
-                           .attr("cy", d => y(d[type]))
-                           .attr("r", 0)
+                           .attr("cy", d => y(d[type])) // set x and y data
+                           .attr("r", 0) // set the radius of the point
 
+        // add default base and modifier
+        // classes to the circle element
         elCircles = circElems.nodes()
         elCircles.forEach((elCircle, index) => {
             elCircle.classList.add(this._classes.circle);
             elCircle.classList.add(this._classes.circle + modifier);
         });
 
-        // circle animation
+        // perform animation on
+        // the circle elements
         circElems
             .transition().duration(this._anim.circle.duration)
             .delay((d, i) => (i * this._anim.circle.delay))
             .attr("r", this._circRad);
     };
 
+
+    // @name _drawChart
+    // @desc function to draw a new hero chart.
+    // @return {Promise(Boolean)} - the resolved promise with the success flag.
     _drawChart = () => {
-        let data = [ ];
+        return new Promise((resolve, reject) => {
+            // set the initial data
+            // to be an empty array
+            try { let data = [ ];
 
-        switch(this.state.type) {
-            case this._TYPES.data.SWING: {
-                data = [...this._swngData]; break; }
+            // get the data that corresponds to
+            // the given chart type to be drawn
+            switch(this.state.type) {
+                case this._TYPES.data.SWING: {
+                    data = [...this._swngData]; break; }
 
-            case this._TYPES.data.INTERVAL: default: {
-                data = [...this._intvData]; break; }
-        }
+                case this._TYPES.data.INTERVAL: default: {
+                    data = [...this._intvData]; break; }
+            }
 
-        // x and y scales
-        const x = d3.scaleBand()
-                    .rangeRound([0, this._width]);
+            // calculate the x and y
+            // scales for the chart
+            const x = d3.scaleBand()
+                        .rangeRound([0, this._width]);
 
-        const y = d3.scaleLinear()
-                    .rangeRound([this._height, 0]);
+            const y = d3.scaleLinear()
+                        .rangeRound([this._height, 0]);
 
-        const y1 = d3.scaleLinear()
-                     .rangeRound([this._height, 0]);
+            const y1 = d3.scaleLinear()
+                         .rangeRound([this._height, 0]);
 
-        // draw bars
-        this._drawBars(data, x, y, y1);
+            // draw chart elements in
+            // the next animation frame
+            requestAnimationFrame(() => {
+                // draw the bar elements
+                this._drawBars(data, x, y, y1);
 
-        // draw lines
-        this._drawLines(data, x, y, this._TYPES.line.BEST);
-        this._drawLines(data, x, y, this._TYPES.line.AVERAGE);
+                // draw the line (or path) elements
+                this._drawLines(data, x, y, this._TYPES.line.BEST);
+                this._drawLines(data, x, y, this._TYPES.line.AVERAGE);
 
-        // draw points
-        this._drawPoints(data, x, y, this._TYPES.point.BEST);
-        this._drawPoints(data, x, y, this._TYPES.point.AVERAGE);
+                // draw the point (or circle) elements
+                this._drawPoints(data, x, y, this._TYPES.point.BEST);
+                this._drawPoints(data, x, y, this._TYPES.point.AVERAGE);
+                return resolve(true); // and resolve with true on success
+            }); }
+
+            // resolve with false on any error
+            catch(error) { console.log(error);
+                return resolve(false);
+            }
+        });
     };
 
     // ---------------------------------------------
@@ -539,19 +696,28 @@ class HeroChart extends Component {
     // @name componentDidMount
     // @desc the function called after the component has mounted.
     componentDidMount() {
+        // get the set element references
         this._el.main = this.refs.main;
         this._el.svg  = this.refs.svg;
         this._el.grp  = this.refs.grp;
 
+        // trigger window resize
+        // at least once manually
         this._onWindowResize();
-        this._createChart();
 
-        this._onWindowResize = debounce(
+        // create the hero chart
+        this._createChart().then(() => {
+            // add a debounce to the window resize
+            // event listener before it is bound
+            this._onWindowResize = debounce(
                 this._onWindowResize,
                 this._debounce
-        );
+            );
 
-        this._addWindowResizeListener();
+            // add listener to resize event
+            this._addWindowResizeListener();
+        });
+
     }
 
     // @name componentWillReceiveProps
@@ -561,8 +727,10 @@ class HeroChart extends Component {
         console.log("-----------------------------------------------------------");
         console.log("component/HeroChart.js: componentWillReceiveProps() called.");
 
+        // check if the next props has changed, get the keys and values of the changed props
         const {newProps, hasChanged, changedProps} = this._onPropsChange(nextProps, this.state);
 
+        // if the next props has changed, then update the state
         if(hasChanged) { changedProps.forEach((prop, index) => {
             const obj = { }; obj[prop] = newProps[prop];
 
@@ -582,7 +750,7 @@ class HeroChart extends Component {
         console.log("component/HeroChart.js: shouldComponentUpdate() called.");
 
         // in this particular component d3
-        // controls the rendering the svg
+        // controls the rendering of the
         // graph elements on any update
         return false;
     }
@@ -590,6 +758,8 @@ class HeroChart extends Component {
     // @name componentWillUnmount
     // @desc the function called before the component is unmounted.
     componentWillUnmount() {
+        // remove the previously bound listener
+        // function from the window resize event
         this._removeWindowResizeListener();
     }
 
@@ -597,7 +767,7 @@ class HeroChart extends Component {
     //   Render block
     // ---------------------------------------------
     // @name render
-    // @desc the render function for the app.
+    // @desc the render function for the component.
     render() {
         console.log("component/HeroChart.js: render() called.");
 

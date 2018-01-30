@@ -134,7 +134,7 @@ class Hero extends PureComponent {
     //   Render block
     // ---------------------------------------------
     // @name render
-    // @desc the render function for the app.
+    // @desc the render function for the component.
     render() {
         console.log("component/Hero.js: render() called.");
 
