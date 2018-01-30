@@ -81,4 +81,4 @@ class AppTest {
 // ---------------------------------------------
 //   Export block
 // ---------------------------------------------
-AppTest.run();
+AppTest.run(); // run the app test
