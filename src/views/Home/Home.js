@@ -62,6 +62,15 @@ class Home extends PureComponent {
         // parent constructor
         super(props);
 
+        // note: you can use withRouter to make below
+        // props available inside a component directly
+        console.log("---------------------------------------");
+        console.log("views/Home.js: routerProps has matched.");
+        console.log("views/Home.js: matched routerProps are:");
+        console.log("location:", this.props.location);
+        console.log("history:", this.props.history);
+        console.log("match:", this.props.match);
+
         // TO-DO: convert this initial
         // source of data to come from
         // a service, and with redux
@@ -137,7 +146,6 @@ class Home extends PureComponent {
         return (
             <div className="app__view">
             {/* app - view */}
-            {/* home */}
 
                 {/* app - page */}
                 <div className="app__page">
@@ -175,7 +183,6 @@ class Home extends PureComponent {
 
                 </div>{/* app - page end */}
 
-            {/* home end */}
             {/* app - view end */}
             </div>
         );

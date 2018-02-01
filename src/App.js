@@ -5,7 +5,8 @@
 /* --empty block-- */
 
 // core
-import React, {PureComponent} from "react";
+import React, {Component} from "react";
+import {Switch, Redirect, Route} from "react-router-dom";
 
 // base
 /* --empty block-- */
@@ -34,7 +35,7 @@ console.log("main/App.js: app loaded.");
     * @desc class for the main app.
     * @return {Object} - the instance of the app class.
 **/
-class App extends PureComponent {
+class App extends Component {
     // ---------------------------------------------
     //   Private members
     // ---------------------------------------------
@@ -70,12 +71,17 @@ class App extends PureComponent {
 
         return (
             <div className="app">
-            {/* app */}
+            <Switch>{/* app, view */}
 
-                {/* app - view */}
-                {/* home */}
-                <Home></Home>
+                    {/* view - home */}
+                    <Route path="/home" component={Home}></Route>
 
+                    {/* view - default */}
+                    {/* note: the 'App' class needs to extend 'Component' instead */}
+                    {/* of extending 'PureComponent' for router Redirect to work  */}
+                    <Redirect from="/" to="home"></Redirect>
+
+            </Switch>{/* view end */}
             {/* app end */}
             </div>
         );

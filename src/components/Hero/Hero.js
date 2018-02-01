@@ -177,8 +177,8 @@ class Hero extends PureComponent {
             hasChanged = true;  // set changed flag to true
         }
 
-        console.log("--------------------------------");
-        console.log("component/Hero.js: newProps have"
+        console.log("-------------------------------");
+        console.log("component/Hero.js: newProps has"
                     + (!hasChanged ? " not" : "")
                     + " changed.");
 
