@@ -119,7 +119,15 @@
         ],
 
         "moduleNameMapper": {
-            "^react-native$": "react-native-web"
+            "^react-native$": "react-native-web",
+            "main(.*)$": "<rootDir>/src/main/$1",
+            "base(.*)$": "<rootDir>/src/base/$1",
+            "views(.*)$": "<rootDir>/src/views/$1",
+            "styles(.*)$": "<rootDir>/src/styles/$1",
+            "assets(.*)$": "<rootDir>/src/assets/$1",
+            "modules(.*)$": "<rootDir>/src/modules/$1",
+            "services(.*)$": "<rootDir>/src/services/$1",
+            "components(.*)$": "<rootDir>/src/components/$1"
         },
 
         "moduleFileExtensions": [

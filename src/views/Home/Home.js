@@ -72,7 +72,8 @@ class Home extends PureComponent {
         console.log("match:", this.props.match);
 
         // TO-DO: convert this initial source of data
-        // to come from a service, and trhough redux
+        // to come from a service, and through redux
+        // (move data source to Firebase or AWS S3)
 
         // set the initial state of the view on load
         this.state = { contents: homeData.contents };

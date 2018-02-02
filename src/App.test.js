@@ -7,9 +7,11 @@
 // core
 import React from "react";
 import ReactDOM from "react-dom";
+import Adapter from "enzyme-adapter-react-16";
+import {Switch, Redirect, Route} from "react-router-dom";
 
 // base
-/* --empty block-- */
+import {configure, shallow} from "enzyme";
 
 // modules
 /* --empty block-- */
@@ -69,10 +71,24 @@ class AppTest {
     static run() {
         console.log("main/App.test.js: run() called.");
 
-        // execute the tests on the main app
-        it("renders without crashing", () => {
-            const div = document.createElement("div");
-            ReactDOM.render(<App></App>, div);
+        configure({adapter: new Adapter()});
+        const elApp = shallow(<App></App>);
+
+        describe("<App></App>", () => {
+
+            it("it should render only one <Switch> item", () => {
+                expect(elApp.find(Switch)).toHaveLength(1);
+            });
+
+
+            it("it should render atleast one view <Route> item", () => {
+                expect(elApp.find(Route).length).toBeGreaterThanOrEqual(1);
+            });
+
+            it("it should render atleast one default <Redirect> item", () => {
+                expect(elApp.find(Redirect).length).toBeGreaterThanOrEqual(1);
+            });
+
         });
 
     }
