@@ -297,8 +297,8 @@ class HeroChart extends Component {
             }
         }
 
-        console.log("-------------------------------------");
-        console.log("component/HeroChart.js: newProps have"
+        console.log("------------------------------------");
+        console.log("component/HeroChart.js: newProps has"
                     + (!hasChanged ? " not" : "")
                     + " changed.");
 

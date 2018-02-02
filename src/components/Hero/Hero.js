@@ -98,19 +98,6 @@ class Hero extends PureComponent {
         // parent constructor
         super(props);
 
-        // TO-DO: change this source
-        // of data to come from the
-        // parent component through
-        // props and via a service
-        // (upgrade to redux later)
-        /* this.state = {
-            headline: props.headline,
-            copy:     props.copy,
-
-            type: props.type,
-            data: props.data
-        }; */
-
         // check if the next props has changed, get the keys and values of the changed props
         const {newProps, hasChanged, changedProps} = this._onPropsChange(props, this.state);
 
@@ -190,8 +177,8 @@ class Hero extends PureComponent {
             hasChanged = true;  // set changed flag to true
         }
 
-        console.log("--------------------------------");
-        console.log("component/Hero.js: newProps have"
+        console.log("-------------------------------");
+        console.log("component/Hero.js: newProps has"
                     + (!hasChanged ? " not" : "")
                     + " changed.");
 
