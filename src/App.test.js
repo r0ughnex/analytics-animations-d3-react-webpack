@@ -80,7 +80,6 @@ class AppTest {
                 expect(elApp.find(Switch)).toHaveLength(1);
             });
 
-
             it("it should render atleast one view <Route> item", () => {
                 expect(elApp.find(Route).length).toBeGreaterThanOrEqual(1);
             });
