@@ -123,22 +123,23 @@ class Home extends PureComponent {
 
                     {/* loop through each content in the data */}
                     {contents.length && contents.map((content) => {
+                    const {section, container} = content; // get the content items
+                    const {id, data, template} = content; // get the content items
                     return (
                         <div
-                            key="content.id" id="content.id"
-                            className={"section section--" + content.section.type +
-                                       " section--color-"  + content.section.color}>
-                            <div className={"container container--" + content.container.type}>
+                            key={id} id={id}
+                            className={`section section--${section.type} section--color-${section.color}`}>
+                            <div className={`container container--${container.type}`}>
                             {/* add section, container type and styles, render */}
                             {/* the DOM that corresponds to the given template */}
 
                                 {/* content template - hero */}
-                                {content.template === "hero" &&
+                                {template === "hero" &&
                                     <Hero
-                                        headline={content.data.headline}
-                                        type={content.data.chartType}
-                                        data={content.data.chartData}
-                                        copy={content.data.copy}>
+                                        headline={data.headline}
+                                        type={data.chartType}
+                                        data={data.chartData}
+                                        copy={data.copy}>
                                     </Hero>
                                 }
 

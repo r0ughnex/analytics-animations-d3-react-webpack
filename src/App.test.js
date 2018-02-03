@@ -30,7 +30,7 @@ import Home from "views/Home"
 
 console.log("main/App.test.js: test loaded.");
 // -------------------------------------
-//   Main - AppTest
+//   Main - App Test
 // -------------------------------------
 /**
     * @name AppTest
@@ -44,7 +44,9 @@ class AppTest {
     // reference to all the rendered
     // shallow DOM elements in the app
     static _els = {
-        app: null // the root app element
+        // the main root
+        // app element
+        app: null
     };
 
     // ---------------------------------------------
@@ -66,28 +68,36 @@ class AppTest {
         // configure enzyme to use the
         // adapter you want it to use
         configure({adapter: new Adapter()});
+
+        // disable the default console logging
+        // clear the screen for the test logs
+        console.twarn = console.warn;
+        console.tlog  = console.log;
+        console.warn  = () => { };
+        console.log   = () => { };
     }
 
-    // @name _beforeEacg
-    // @desc function run before any tests start.
-    static _beforeAll() {
+    // @name _beforeInitialRender
+    // @desc function run before any render tests start.
+    static _beforeInitialRender() {
         // render a shallow version of the app
         this._els.app = shallow(<App></App>);
     }
 
-    // @name _afterAll
-    // @desc function run after all tests complete.
-    static _afterAll() {
+    // @name _afterInitialRender
+    // @desc function run after all render tests complete.
+    static _afterInitialRender() {
         // reset the rendered app
         this._els.app = null;
     }
 
-    // _testRender
-    // @desc function to test the app render.
-    static _testRender() {
+    // _testInitialRender
+    // @desc function to test the initial app render.
+    static _testInitialRender() {
         // test for main element
         it("it should render the main app without crashing", () => {
-            expect(this._els.app.find(".app"))
+            const aps = `.app`; // app selector
+            expect(this._els.app.find(`${aps}`))
                 .toHaveLength(1);
         });
 
@@ -97,13 +107,13 @@ class AppTest {
                 .toHaveLength(1);
         });
 
-        // test for route routes
+        // test for router routes
         it("it should render atleast one view <Route> item", () => {
             expect(this._els.app.find(Route).length)
                 .toBeGreaterThanOrEqual(1);
         });
 
-        // test for route routes
+        // test for router routes
         it("it should contain atleast one <Route> to Home", () => {
             expect(this._els.app.contains(
                 <Route path="/home" component={Home}></Route>))
@@ -112,8 +122,6 @@ class AppTest {
 
         // test for router redirects
         it("it should render atleast one <Redirect> item", () => {
-            // note: you could uses this._els.app.setProps({key: value})
-            // to change the value of props supplied to the rendered app
             expect(this._els.app.find(Redirect).length)
                 .toBeGreaterThanOrEqual(1);
         });
@@ -142,16 +150,16 @@ class AppTest {
         // configure test
         this._configure();
 
-        // describe a block to group tests
-        describe("<App></App>", () => {
-            // execute before all the tests are run
-            beforeAll(() => { this._beforeAll(); });
+        // describe a block to group the initial render tests
+        describe("<App></App>: _testInitialRender()", () => {
+            // execute before all the render tests are run
+            beforeAll(() => { this._beforeInitialRender(); });
 
-            // test the render
-            this._testRender();
+            // test the initial render
+            this._testInitialRender();
 
-            // execute after all the tests are run
-            afterAll(() => { this._afterAll(); });
+            // execute after all the render tests are run
+            afterAll(() => { this._afterInitialRender(); });
         });
     }
 }

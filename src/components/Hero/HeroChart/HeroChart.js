@@ -58,35 +58,35 @@ class HeroChart extends Component {
     // reference to various DOM
     // elements in the component
     _el = {
-        main: null, // the main parent DOM element
-        svg:  null, // the nested child svg DOM element
-        grp:  null, // the nested child group DOM element
-        bars: null  // the nested child rect DOM elements
+        main: null, // the main parent element
+        svg:  null, // the nested child svg element
+        grp:  null, // the nested child group element
+        bars: null  // the nested child rect elements
     };
 
     // reference to the various classes assigned
     // to the DOM elements within the component
     _classes = {
-        main: "hchart", // for the main parent DOM element
-        svg:  "hchart__svg", // for the nested child svg DOM element
-        grp:  "hchart__svg__g", // for the nested child group DOM element
+        main: "hchart", // for the main parent element
+        svg:  "hchart__svg", // for the nested child svg element
+        grp:  "hchart__svg__g", // for the nested child group element
 
-        bar:    "hchart__svg__bar",   // for the nested child rect DOM elements
-        path:   "hchart__svg__path",  // for the nested child path DOM elements
-        circle: "hchart__svg__circle" // for the nested child circle DOM elements
+        bar:    "hchart__svg__bar",   // for the nested child rect elements
+        path:   "hchart__svg__path",  // for the nested child path elements
+        circle: "hchart__svg__circle" // for the nested child circle elements
     };
 
     // reference to the various class based modifiers
     // assigned to the DOM elements within the component
     _modifiers = {
-        interval: "--theme-interval", // for the theme on the main DOM element
-        swing:    "--theme-swing",    // for the theme on the main DOM element
+        interval: "--theme-interval", // for the theme on the main element
+        swing:    "--theme-swing",    // for the theme on the main element
 
-        lineb: "--line-best", // for the path type on the nested DOM elements
-        linea: "--line-avg",  // for the path type on the nested DOM elements
+        lineb: "--line-best", // for the path type on the nested elements
+        linea: "--line-avg",  // for the path type on the nested elements
 
-        pointb: "--point-best", // for the circle type on the nested DOM elements
-        pointa: "--point-avg"   // for the circle type on the nested DOM elements
+        pointb: "--point-best", // for the circle type on the nested elements
+        pointa: "--point-avg"   // for the circle type on the nested elements
     };
 
     _width  = 0; // the current width of the component
@@ -462,7 +462,7 @@ class HeroChart extends Component {
         // if chart has not initialized
         if(!this._hasInitialized) {
             // create new rect and append it to the group element
-            barElems = grpElem.selectAll("." + this._classes.bar)
+            barElems = grpElem.selectAll(`.${this._classes.bar}`)
                               .data(data).enter().append("rect") // trigger enter
                               .attr("x", (d) => x(d.week)) // add the x data
                               .attr("y", this._height) // add the y data
@@ -539,7 +539,7 @@ class HeroChart extends Component {
 
         // remove any previously drawn lines (or paths)
         const elGrp  = this._el.grp; // get the parent group DOM element
-        let   elPath = query("." + this._classes.path + modifier, elGrp);
+        let   elPath = query(`.${this._classes.path}${modifier}`, elGrp);
         if(elPath.length) { elGrp.removeChild(elPath[0]); } // remove child
 
         // create new path element in the group
@@ -597,7 +597,7 @@ class HeroChart extends Component {
 
         // remove any previously drawn points (or circles)
         const elGrp     = this._el.grp; // get the parent group DOM element
-        let   elCircles = query("." + this._classes.circle + modifier, elGrp);
+        let   elCircles = query(`.${this._classes.circle}${modifier}`, elGrp);
         elCircles.forEach((elCircle, index) => { elGrp.removeChild(elCircle); });
 
         // create new circle elements in the group
@@ -605,7 +605,7 @@ class HeroChart extends Component {
         const grpElem   = d3.select(elGrp);
         let   circElems = null;
 
-        circElems = grpElem.selectAll("." + this._classes.circle + modifier)
+        circElems = grpElem.selectAll(`.${this._classes.circle}${modifier}`)
                            .data(data.filter(d => d[type])) // update data
                            .enter().append("circle") // trigger enter
 
