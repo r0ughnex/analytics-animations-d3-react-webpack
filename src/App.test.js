@@ -41,7 +41,11 @@ class AppTest {
     // ---------------------------------------------
     //   Private members
     // ---------------------------------------------
-    /* --empty block-- */
+    // reference to all the rendered
+    // shallow DOM elements in the app
+    static _els = {
+        app: null // the root app element
+    };
 
     // ---------------------------------------------
     //   Public members
@@ -56,7 +60,57 @@ class AppTest {
     // ---------------------------------------------
     //   Private methods
     // ---------------------------------------------
-    /* --empty block-- */
+    // @name _configure
+    // @desc function to configure the app test.
+    static _configure() {
+        // configure enzyme to use the
+        // adapter you want it to use
+        configure({adapter: new Adapter()});
+    }
+
+    // @name _beforeEacg
+    // @desc function run before each test starts.
+    static _beforeEach() {
+        // render a shallow version of the app
+        this._els.app = shallow(<App></App>);
+    }
+
+    // @name _afterEach
+    // @desc function run after each test completes.
+    static _afterEach() {
+        // reset the rendered app
+        this._els.app = null;
+    }
+
+    // _testRender
+    // @desc function to test the app render.
+    static _testRender() {
+        // test for main element
+        it("it should render the app without crashing", () => {
+            expect(this._els.app.find(".app"))
+                .toHaveLength(1);
+        });
+
+        // test for router switch
+        it("it should render only one <Switch> item", () => {
+            expect(this._els.app.find(Switch))
+                .toHaveLength(1);
+        });
+
+        // test for route routes
+        it("it should render atleast one view <Route> item", () => {
+            expect(this._els.app.find(Route).length)
+                .toBeGreaterThanOrEqual(1);
+        });
+
+        // test for router redirects
+        it("it should render atleast one default <Redirect> item", () => {
+            // note: you could uses this._els.app.setProps({key: value})
+            // to change the value of props supplied to the rendered app
+            expect(this._els.app.find(Redirect).length)
+                .toBeGreaterThanOrEqual(1);
+        });
+    }
 
     // ---------------------------------------------
     //   Public methods
@@ -67,29 +121,30 @@ class AppTest {
     //   Run block
     // ---------------------------------------------
     // @name run
-    // @desc the run function for the test.
+    // @desc the run function for the app test.
     static run() {
         console.log("main/App.test.js: run() called.");
 
-        configure({adapter: new Adapter()});
-        const elApp = shallow(<App></App>);
+        // configure test
+        this._configure();
 
+        // describe a block to group tests
         describe("<App></App>", () => {
-
-            it("it should render only one <Switch> item", () => {
-                expect(elApp.find(Switch)).toHaveLength(1);
+            // execute before
+            // each test run
+            beforeEach(() => {
+                this._beforeEach();
             });
 
-            it("it should render atleast one view <Route> item", () => {
-                expect(elApp.find(Route).length).toBeGreaterThanOrEqual(1);
-            });
+            // test the render
+            this._testRender();
 
-            it("it should render atleast one default <Redirect> item", () => {
-                expect(elApp.find(Redirect).length).toBeGreaterThanOrEqual(1);
+            // execute after
+            // each test run
+            afterEach(() => {
+                this._afterEach();
             });
-
         });
-
     }
 }
 
