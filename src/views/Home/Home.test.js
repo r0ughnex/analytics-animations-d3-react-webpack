@@ -11,6 +11,7 @@ import Adapter from "enzyme-adapter-react-16";
 
 // base
 import homeData from "./Home.data.json";
+import toTitleCase from "to-title-case";
 import {configure, shallow} from "enzyme";
 
 // modules
@@ -130,7 +131,7 @@ class HomeTest {
     // _testInitialState
     // @desc function to test the initial view state.
     static _testInitialState() {
-        // test for initial state
+        // test for sections, container
         it("it should render a section, container for each content", () => {
             // get all the view contents in the current state
             const contents = this._els.view.state().contents;
@@ -151,10 +152,25 @@ class HomeTest {
             });
         });
 
-        // test for initial state
+        // test for component template
         it("it should render a component for each content template", () => {
-            // TO-D0: add test
-            /* empty block */
+            // get all the view contents in the current state
+            const contents = this._els.view.state().contents;
+
+            // loop through each content in state
+            contents.forEach((content, index) => {
+                // get the content template
+                const {template} = content;
+
+                // get name from the template
+                const component = toTitleCase(template
+                                            .replace(/-|_/g, " "))
+                                            .replace(/ /g, "");
+
+                // test for the component
+                expect(this._els.view.find(`${component}`))
+                    .toHaveLength(1);
+            });
         });
     }
 

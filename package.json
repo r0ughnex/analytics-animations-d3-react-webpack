@@ -58,6 +58,7 @@
         "deep-copy": "~1.4.2",
         "deep-equal": "~1.0.1",
         "shallow-copy": "~0.0.1",
+        "to-title-case": "~1.0.0",
         "shallow-equals": "~1.0.0",
 
         "chalk": "~1.1.3",
