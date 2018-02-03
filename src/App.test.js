@@ -23,7 +23,7 @@ import {configure, shallow} from "enzyme";
 import App from "./App";
 
 // views
-/* --empty block-- */
+import Home from "views/Home"
 
 // styles
 /* --empty block-- */
@@ -69,15 +69,15 @@ class AppTest {
     }
 
     // @name _beforeEacg
-    // @desc function run before each test starts.
-    static _beforeEach() {
+    // @desc function run before any tests start.
+    static _beforeAll() {
         // render a shallow version of the app
         this._els.app = shallow(<App></App>);
     }
 
-    // @name _afterEach
-    // @desc function run after each test completes.
-    static _afterEach() {
+    // @name _afterAll
+    // @desc function run after all tests complete.
+    static _afterAll() {
         // reset the rendered app
         this._els.app = null;
     }
@@ -86,13 +86,13 @@ class AppTest {
     // @desc function to test the app render.
     static _testRender() {
         // test for main element
-        it("it should render the app without crashing", () => {
+        it("it should render the main app without crashing", () => {
             expect(this._els.app.find(".app"))
                 .toHaveLength(1);
         });
 
         // test for router switch
-        it("it should render only one <Switch> item", () => {
+        it("it should render only one route <Switch> item", () => {
             expect(this._els.app.find(Switch))
                 .toHaveLength(1);
         });
@@ -103,12 +103,26 @@ class AppTest {
                 .toBeGreaterThanOrEqual(1);
         });
 
+        // test for route routes
+        it("it should contain atleast one <Route> to Home", () => {
+            expect(this._els.app.contains(
+                <Route path="/home" component={Home}></Route>))
+                .toEqual(true);
+        });
+
         // test for router redirects
-        it("it should render atleast one default <Redirect> item", () => {
+        it("it should render atleast one <Redirect> item", () => {
             // note: you could uses this._els.app.setProps({key: value})
             // to change the value of props supplied to the rendered app
             expect(this._els.app.find(Redirect).length)
                 .toBeGreaterThanOrEqual(1);
+        });
+
+        // test for router redirects
+        it("it should contain atleast one <Redirect> to Home", () => {
+            expect(this._els.app.contains(
+                <Redirect from="/" to="home"></Redirect>))
+                .toEqual(true);
         });
     }
 
@@ -130,20 +144,14 @@ class AppTest {
 
         // describe a block to group tests
         describe("<App></App>", () => {
-            // execute before
-            // each test run
-            beforeEach(() => {
-                this._beforeEach();
-            });
+            // execute before all the tests are run
+            beforeAll(() => { this._beforeAll(); });
 
             // test the render
             this._testRender();
 
-            // execute after
-            // each test run
-            afterEach(() => {
-                this._afterEach();
-            });
+            // execute after all the tests are run
+            afterAll(() => { this._afterAll(); });
         });
     }
 }
