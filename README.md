@@ -1,5 +1,15 @@
 ## Analytics Animations with D3 and React
 
+### Table of Contents
+
+- [A Brief Overview](#a-brief-overview)
+- [Links to Staging](#links-to-staging)
+- [Getting Started](#getting-started)
+- [Available Scripts](#available-scripts)
+    - [npm start](#npm-start)
+    - [npm test](#npm-test)
+    - [npm run build](#npm-run-build)
+
 ### A Brief Overview
 
 This project is an extension of two individual **technical tests** combined into one, which contains a sample **hero** and **chart component** written in **React** (with **Webpack**) for an analytics platform containing data-driven graph animations run with the help of **D3**.
@@ -19,8 +29,6 @@ http://analytics-animations-d3-react-webpack.develop.s3-website-ap-southeast-2.a
 AWS PRODUCTION (master):
 http://analytics-animations-d3-react-webpack.master.s3-website-ap-southeast-2.amazonaws.com
 ```
-
-## Guide to Frontend Development
 
 ### Getting Started
 
