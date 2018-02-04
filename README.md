@@ -35,7 +35,7 @@ npm start
 Then open [http://localhost:3000/](http://localhost:3000/) to see the app run on the **local development** server. There is **no need to configure** tools like Webpack or Babel, since they have already been pre-configured so that you can focus on the code.
 
 <p align="center">
-    <img src="https://cdn.rawgit.com/facebook/create-react-app/27b42ac/screencast.svg" width="600" height="auto" alt="npm start">
+    <img src="https://github.com/r0ughnex/analytics-animations-d3-react-webpack/blob/feature/adding-jest-enzyme-tests/src/App.video.gif?raw=true" width="600" height="auto" alt="npm start">
 </p>
 
 ## Available Scripts
