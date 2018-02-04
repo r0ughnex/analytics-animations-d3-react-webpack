@@ -20,7 +20,7 @@ This project is an extension of two individual **technical tests** combined into
 NAME: analytics-animations-d3-react-webpack
 AUTHOR: Pradeep Sekar
 
-REPO:
+REPOSITORY:
 https://github.com/r0ughnex/analytics-animations-d3-react-webpack
 
 AWS STAGING (develop):
