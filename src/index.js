@@ -10,9 +10,10 @@ import "./index.css";
 import React from "react"; /*
 import ReactDOM from "react-dom"; */
 import {render} from 'react-snapshot';
+import {BrowserRouter} from "react-router-dom";
 
 // base
-/* --empty block-- */
+import query from "base/query";
 
 // modules
 import registerServiceWorker from "./registerServiceWorker";
@@ -88,8 +89,9 @@ class Index {
 
         /*
         // manually render the main app on the parent root element
-        ReactDOM.render(<App></App>, document.getElementById("root")); */
-        render(<App></App>, document.getElementById("root")); /* ssr */
+        ReactDOM.render(<BrowserRouter><App></App></BrowserRouter>, query("#root")[0]); */
+        render(<BrowserRouter><App></App></BrowserRouter>, query("#root")[0]); /* ssr */
+
         registerServiceWorker(); // register service worker for pwa
 
         /*

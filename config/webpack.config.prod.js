@@ -115,6 +115,7 @@ module.exports = {
             'base': path.resolve(__dirname, '../src/base'),
             'views': path.resolve(__dirname, '../src/views/'),
             'styles': path.resolve(__dirname, '../src/styles/'),
+            'assets': path.resolve(__dirname, '../src/assets/'),
             'modules': path.resolve(__dirname, '../src/modules/'),
             'services': path.resolve(__dirname, '../src/services/'),
             'components': path.resolve(__dirname, '../src/components/'),

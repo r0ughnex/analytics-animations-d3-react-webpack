@@ -33,7 +33,6 @@ console.log("base/query.js: base loaded.");
     * @name query
     * @desc A base module to abstract document.querySelectorAll
             for increased performance and greater usability.
-            query is attached to the window object.
 **/
 
 const doc = window.document;
