@@ -356,79 +356,70 @@ class HeroChart extends Component {
     // @name _createChart
     // @desc function to create a new hero chart.
     // @return {Promise(Boolean)} - the resolved promise with the success flag.
-    _createChart = () => {
-        return new Promise((resolve, reject) => { try {
-            // reset the svg classes
-            const elSvg = this._el.svg;
-            elSvg.removeAttribute("class");
-            elSvg.classList.add(this._classes.svg);
+    _createChart = async () => { try {
+        // reset the svg classes
+        const elSvg = this._el.svg;
+        elSvg.removeAttribute("class");
+        elSvg.classList.add(this._classes.svg);
 
-            // add the modifier based on the set type
-            elSvg.classList.add(this._classes.svg + this._modifiers[this.state.type]);
+        // add the modifier based on the set type
+        elSvg.classList.add(this._classes.svg + this._modifiers[this.state.type]);
 
-            // reset the group classes
-            const elGrp = this._el.grp;
-            elGrp.removeAttribute("class");
-            elGrp.classList.add(this._classes.grp);
+        // reset the group classes
+        const elGrp = this._el.grp;
+        elGrp.removeAttribute("class");
+        elGrp.classList.add(this._classes.grp);
 
-            // shift the group based on the set margins
-            elGrp.setAttribute("transform", "translate(" + (this._margin.left - this._margin.right)  + ", "
-                                                                + (this._margin.top  - this._margin.bottom) + ")");
-            // draw chart if it has
-            // not been initialized
-            if(!this._hasInitialized) {
-                this._drawChart().then(() => {
-                    // set initialized to true and
-                    // resolve with true on success
-                    this._hasInitialized = true;
-                    return resolve(true);
-                });
-            }
+        // shift the group based on the set margins
+        elGrp.setAttribute("transform", "translate(" + (this._margin.left - this._margin.right)  + ", "
+                                                            + (this._margin.top  - this._margin.bottom) + ")");
+        // draw chart if it has
+        // not been initialized
+        if(!this._hasInitialized) {
+            this._drawChart().then(() => {
+                // set the has initialized flag to true and
+                // resolve the promise with true on success
+                this._hasInitialized = true; return true;
+            });
+        }
 
-            // resolve with true on success
-            else { return resolve(true); }}
+        // resolve the promise
+        // with true on success
+        else { return true; }}
 
-            // resolve with false on any error
-            catch(error) { console.log(error);
-                return resolve(false);
-            }
-        });
+        // resolve the promise with false on any errors
+        catch(error) { console.log(error); return false; }
     };
 
     // @name _destroyChart
     // @desc function to destroy the created hero chart.
     // @return {Promise(Boolean)} - the resolved promise with the success flag.
-    _destroyChart = () => {
-        return new Promise((resolve, reject) => { try {
-            // reset the svg classes
-            const elSvg = this._el.svg;
-            elSvg.removeAttribute("class");
-            elSvg.classList.add(this._classes.svg);
+    _destroyChart = async () => { try {
+        // reset the svg classes
+        const elSvg = this._el.svg;
+        elSvg.removeAttribute("class");
+        elSvg.classList.add(this._classes.svg);
 
-            // reset the group classes
-            const elGrp = this._el.grp;
-            elGrp.removeAttribute("class");
-            elGrp.classList.add(this._classes.grp);
+        // reset the group classes
+        const elGrp = this._el.grp;
+        elGrp.removeAttribute("class");
+        elGrp.classList.add(this._classes.grp);
 
-            // iterate and remove all the
-            // child nodes from the group
-            while (elGrp.hasChildNodes()) {
-                elGrp.removeChild(elGrp.lastChild);
-            }
+        // iterate and remove all the
+        // child nodes from the group
+        while (elGrp.hasChildNodes()) {
+            elGrp.removeChild(elGrp.lastChild);
+        }
 
-            // remove transforms from the group
-            elGrp.removeAttribute("transform");
+        // remove transforms from the group
+        elGrp.removeAttribute("transform");
 
-            // reset references to bars and
-            // resolve with true on success
-            this._el.bars = null;
-            return resolve(true); }
+        // reset the references to bar elements and
+        // resolve the promise with true on success
+        this._el.bars = null; return true; }
 
-            // resolve with false on any error
-            catch(error) { console.log(error);
-                return resolve(false);
-            }
-        });
+        // resolve the promise with false on any errors
+        catch(error) { console.log(error); return false; }
     };
 
     // @name _drawBars
@@ -633,35 +624,34 @@ class HeroChart extends Component {
     // @name _drawChart
     // @desc function to draw a new hero chart.
     // @return {Promise(Boolean)} - the resolved promise with the success flag.
-    _drawChart = () => {
-        return new Promise((resolve, reject) => {
-            // set the initial data
-            // to be an empty array
-            try { let data = [ ];
+    _drawChart = async () => { try {
+        // set the initial data
+        // to be an empty array
+        let data = [ ];
 
-            // get the data that corresponds to
-            // the given chart type to be drawn
-            switch(this.state.type) {
-                case this._TYPES.data.SWING: {
-                    data = [...this._swngData]; break; }
+        // get the data that corresponds to
+        // the given chart type to be drawn
+        switch(this.state.type) {
+            case this._TYPES.data.SWING: {
+                data = [...this._swngData]; break; }
 
-                case this._TYPES.data.INTERVAL: default: {
-                    data = [...this._intvData]; break; }
-            }
+            case this._TYPES.data.INTERVAL: default: {
+                data = [...this._intvData]; break; }
+        }
 
-            // calculate the x and y
-            // scales for the chart
-            const x = d3.scaleBand()
-                        .rangeRound([0, this._width]);
+        // calculate the x and y
+        // scales for the chart
+        const x = d3.scaleBand()
+                    .rangeRound([0, this._width]);
 
-            const y = d3.scaleLinear()
-                        .rangeRound([this._height, 0]);
+        const y = d3.scaleLinear()
+                    .rangeRound([this._height, 0]);
 
-            const y1 = d3.scaleLinear()
-                         .rangeRound([this._height, 0]);
+        const y1 = d3.scaleLinear()
+                     .rangeRound([this._height, 0]);
 
-            // draw chart elements in
-            // the next animation frame
+        // draw chart elements in the next animation frame
+        const promise = new Promise((resolve, reject) => {
             requestAnimationFrame(() => {
                 // draw the bar elements
                 this._drawBars(data, x, y, y1);
@@ -674,13 +664,15 @@ class HeroChart extends Component {
                 this._drawPoints(data, x, y, this._TYPES.point.BEST);
                 this._drawPoints(data, x, y, this._TYPES.point.AVERAGE);
                 return resolve(true); // and resolve with true on success
-            }); }
-
-            // resolve with false on any error
-            catch(error) { console.log(error);
-                return resolve(false);
-            }
+            });
         });
+
+        // resolve the promise
+        // with true on success
+        return await promise; }
+
+        // resolve the promise with false on any errors
+        catch(error) { console.log(error); return false; }
     };
 
     // ---------------------------------------------
