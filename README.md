@@ -37,16 +37,16 @@ This project is an extension of two individual **technical tests** combined into
 
 ### Essential Deliverables
 
-- <img alt="status complete" src="https://img.shields.io/badge/status-complete-brightgreen.svg" style="vertical-align: middle;"> Create a **Hero component** that fills the entire viewport containing a simple D3 chart.
-- <img alt="status complete" src="https://img.shields.io/badge/status-complete-brightgreen.svg" style="vertical-align: middle;"> Create a **Button module** within the hero that **changes the data** shown on the chart.
-- <img alt="status complete" src="https://img.shields.io/badge/status-complete-brightgreen.svg" style="vertical-align: middle;"> Demonstrate solid understanding of **component lifecycle** methods and best practises.
-- <img alt="status progress" src="https://img.shields.io/badge/status-progress-blue.svg" style="vertical-align: middle;">&nbsp; Demonstrate ability to write **unit tests** with **Jest** and **Enzyme** (at least 80% coverage).
-- <img alt="status complete" src="https://img.shields.io/badge/status-complete-brightgreen.svg" style="vertical-align: middle;"> Integrate application with a **CI/CD tool** of choice and deploy to a **staging environment**.
+- ![status complete](https://img.shields.io/badge/status-complete-brightgreen.svg) Create a **Hero component** that fills the entire viewport containing a simple D3 chart.
+- ![status complete](https://img.shields.io/badge/status-complete-brightgreen.svg) Create a **Button module** within the hero that **changes the data** shown on the chart.
+- ![status complete](https://img.shields.io/badge/status-complete-brightgreen.svg) Demonstrate solid understanding of **component lifecycle** methods and best practises.
+- ![status progress](https://img.shields.io/badge/status-progress-blue.svg)&nbsp; Demonstrate ability to write **unit tests** with **Jest** and **Enzyme** (at least 80% coverage).
+- ![status complete](https://img.shields.io/badge/status-complete-brightgreen.svg) Integrate application with a **CI/CD tool** of choice and deploy to a **staging environment**.
 
 ### Optional Deliverables
 
-- <img alt="status complete" src="https://img.shields.io/badge/status-complete-brightgreen.svg" style="vertical-align: middle;"> Bonus points if the chart is **responsive** and has been augmented with **D3 transitions**.
-- <img alt="status pending" src="https://img.shields.io/badge/status-pending-red.svg" style="vertical-align: middle;">&nbsp;&nbsp; Bonus points if a state management pattern such as **Flux** or **Redux** has been utilized.
+- ![status complete](https://img.shields.io/badge/status-complete-brightgreen.svg) Bonus points if the chart is **responsive** and has been augmented with **D3 transitions**.
+- ![status pending](https://img.shields.io/badge/status-pending-red.svg)&nbsp;&nbsp; Bonus points if a state management pattern such as **Flux** or **Redux** has been utilized.
 
 ### Getting Started
 
