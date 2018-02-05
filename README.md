@@ -17,7 +17,7 @@ http://analytics-animations-d3-react-webpack.master.s3-website-ap-southeast-2.am
 
 ### Table of Contents
 
-- [Repository Details](#analytics-animations-with-d3-and-react)
+- [Repository Details](#analytics-animations-with-d3-and-react-)
     - [A Brief Overview](#a-brief-overview)
     - [Essential Deliverables](#essential-deliverables)
     - [Optional Deliverables](#optional-deliverables)
