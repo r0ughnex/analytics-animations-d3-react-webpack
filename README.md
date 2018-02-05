@@ -1,20 +1,5 @@
-## Analytics Animations with D3 and React
-
-### Table of Contents
-
-- [A Brief Overview](#a-brief-overview)
-- [Links to Staging](#links-to-staging)
-- [Getting Started](#getting-started)
-- [Available Scripts](#available-scripts)
-    - [npm start](#npm-start)
-    - [npm test](#npm-test)
-    - [npm run build](#npm-run-build)
-
-### A Brief Overview
-
-This project is an extension of two individual **technical tests** combined into one, which contains a sample **hero** and **chart component** written in **React** (with **Webpack**) for an analytics platform containing data-driven graph animations run with the help of **D3**.
-
-### Links to Staging
+<!--- Section 1 -->
+## Analytics Animations with D3 and React [![Codeship Status for r0ughnex/analytics-animations-d3-react-webpack](https://app.codeship.com/projects/30d9b760-ebd1-0135-a309-3e260d7a1584/status?branch=master)](https://app.codeship.com/projects/270253)
 
 ```
 NAME: analytics-animations-d3-react-webpack
@@ -30,9 +15,42 @@ AWS STAGING (master):
 http://analytics-animations-d3-react-webpack.master.s3-website-ap-southeast-2.amazonaws.com
 ```
 
+### Table of Contents
+
+- [Repository Details](#analytics-animations-with-d3-and-react)
+    - [A Brief Overview](#a-brief-overview)
+    - [Essential Deliverables](#essential-deliverables)
+    - [Optional Deliverables](#optional-deliverables)
+    - [Getting Started](#getting-started)
+- [Available Scripts](#available-scripts)
+    - [npm start](#npm-start)
+    - [npm test](#npm-test)
+    - [npm run build](#npm-run-build)
+    - [serve -s build](#serve-s-build)
+- [Deploying to AWS S3](#deploying-to-aws-s3)
+    - [Staging for Develop](#staging-for-develop)
+    - [Staging for Master](#staging-for-master)
+
+### A Brief Overview
+
+This project is an extension of two individual **technical tests** combined into one, which contains a sample **hero** and **chart component** written in **React** (with **Webpack**) for an analytics platform containing data-driven graph animations run with the help of **D3**.
+
+### Essential Deliverables
+
+- <img alt="status complete" src="https://img.shields.io/badge/status-complete-brightgreen.svg" style="vertical-align: middle;"> Create a **Hero component** that fills the entire viewport containing a simple D3 chart.
+- <img alt="status complete" src="https://img.shields.io/badge/status-complete-brightgreen.svg" style="vertical-align: middle;"> Create a **Button module** within the hero that **changes the data** shown on the chart.
+- <img alt="status complete" src="https://img.shields.io/badge/status-complete-brightgreen.svg" style="vertical-align: middle;"> Demonstrate solid understanding of **component lifecycle** methods and best practises.
+- <img alt="status progress" src="https://img.shields.io/badge/status-progress-blue.svg" style="vertical-align: middle;">&nbsp; Demonstrate ability to write **unit tests** with **Jest** and **Enzyme** (at least 80% coverage).
+- <img alt="status complete" src="https://img.shields.io/badge/status-complete-brightgreen.svg" style="vertical-align: middle;"> Integrate application with a **CI/CD tool** of choice and deploy to a **staging environment**.
+
+### Optional Deliverables
+
+- <img alt="status complete" src="https://img.shields.io/badge/status-complete-brightgreen.svg" style="vertical-align: middle;"> Bonus points if the chart is **responsive** and has been augmented with **D3 transitions**.
+- <img alt="status pending" src="https://img.shields.io/badge/status-pending-red.svg" style="vertical-align: middle;">&nbsp;&nbsp; Bonus points if a state management pattern such as **Flux** or **Redux** has been utilized.
+
 ### Getting Started
 
-Install the latest **LTS** version of **Node** and it's package manager, which can be found [here](https://nodejs.org/en/) (which were **8.9.1** and **5.5.1** at the time of writing this document). Once Node in installed on your machine, open the terminal or command prompt at the root of the project directory and run the following commands.
+Install the latest **LTS** version of [Node](https://nodejs.org/en/) and it's package manager (which were **8.9.1** and **5.5.1** at the time of writing this document). Once **Node is installed** on your machine, open the terminal or command prompt at the root of the project directory and run the following commands.
 
 ```
 npm install -g webpack
@@ -48,13 +66,14 @@ Then open [http://localhost:3000/](http://localhost:3000/) to see the app run on
 
 
 
+<!--- Section 2 -->
 ## Available Scripts
 
 This project was **Bootstrapped** with and ejected from [Create React App](https://github.com/facebookincubator/create-react-app). Additonal configuration options, so as to be able to use features (and tools) like **Enzyme**, **CSS Modules** and **Pre-rendering** (or minimalist Server Side Rendering) have been added the the build. In the root project directory, you can run the following commands:
 
 ### `npm start`
 
-This runs the app in the development mode. You can open [http://localhost:3000](http://localhost:3000) to view it in the browser. The current view will reload if you make edits to and save any of the files imported within the app. You will also see **ESLint errors in the console**.
+This runs the app in the development mode. You can open [http://localhost:3000/](http://localhost:3000/) to view it in the browser. The current view will reload if you make edits to and save any of the files imported within the app. You will also see **ESLint errors in the console**.
 
 ### `npm test`
 
@@ -70,14 +89,15 @@ This launches the app in Pre-rendered **production mode** (once built) on your l
 
 
 
+<!--- Section 3 -->
 ## Deploying to AWS S3
 
 There are two **AWS S3 buckets** that have been configured for this project, one on **develop** and another on **master**. If you want a **new AWS S3 bucket** created on a specific **feature branch** that you are currently working on, contact someone who has admin access to this repository, to create and configure one for you.
 
 ### Staging for Develop
 
-If you are on a **feature branch** and want to deploy to the bucket configured on develop, then **merge your feature branch into develop** through a pull request and get it approved. Once the pull request is approved, merged and commited into develop, **Codeship will automatically compile, bundle and build** the neccessary files and deploy it to the relevant AWS S3 bucket configured on that branch (links listed at the top).
+If you are on a **feature branch** and want to deploy to the bucket configured on develop, then **merge your feature** branch **into develop** through a pull request and get it approved. Once the pull request is approved, merged and commited into develop, **Codeship** will automatically **compile**, **bundle** and **build** the neccessary files and deploy it to the relevant AWS S3 bucket configured on that branch ([links listed at the top](#analytics-animations-with-d3-and-react)).
 
 ### Staging for Master
 
-If you are on **develop** and want to deploy to the bucket configured on master, then use git flow to create a new **release branch** from develop and **merge the release branch into master**. Once the release is merged and commited into master, **Codeship will automatically compile, bundle and build** the neccessary files and deploy it to the relevant bucket configured on that branch (links listed at the top).
+If you are on **develop** and want to deploy to the bucket configured on master, then use git flow to create a new **release branch** from develop and **merge the release** branch **into master**. Once the release is merged and commited into master, **Codeship** will automatically **compile**, **bundle** and **build** the neccessary files and deploy it to the relevant bucket configured on that branch ([links listed at the top](#analytics-animations-with-d3-and-react)).
