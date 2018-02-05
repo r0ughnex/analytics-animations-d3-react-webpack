@@ -26,7 +26,7 @@ http://analytics-animations-d3-react-webpack.master.s3-website-ap-southeast-2.am
     - [npm start](#npm-start)
     - [npm test](#npm-test)
     - [npm run build](#npm-run-build)
-    - [serve -s build](#serve-s-build)
+    - [serve -s build](#serve--s-build)
 - [Deploying to AWS S3](#deploying-to-aws-s3)
     - [Staging for Develop](#staging-for-develop)
     - [Staging for Master](#staging-for-master)
