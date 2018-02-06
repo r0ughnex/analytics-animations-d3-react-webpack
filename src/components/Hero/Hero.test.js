@@ -8,9 +8,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Adapter from "enzyme-adapter-react-16";
-import {Switch, Redirect, Route} from "react-router-dom";
 
 // base
+import homeData from "views/Home/Home.data.json";
 import {configure, shallow} from "enzyme";
 
 // modules
@@ -20,33 +20,35 @@ import {configure, shallow} from "enzyme";
 /* --empty block-- */
 
 // components
-import App from "./App";
+import HeroChart from "./HeroChart";
+import Hero from "./Hero";
 
 // views
-import Home from "views/Home"
+/* --empty block-- */
 
 // styles
 /* --empty block-- */
 
-console.log("main/App.test.js: test loaded.");
+console.log("components/Hero.test.js: test loaded.");
 // -------------------------------------
-//   Main - App Test
+//   Component - Hero Test
 // -------------------------------------
 /**
-    * @name AppTest
-    * @desc class for testing the main app.
+    * @name HeroTest
+    * @desc class for testing the hero component.
     * @return {Object} - the instance of the test class.
 **/
-class AppTest {
+class HeroTest {
     // ---------------------------------------------
     //   Private members
     // ---------------------------------------------
-    // reference to all the rendered
-    // shallow DOM elements in the app
+    // reference to all the
+    // rendered shallow DOM
+    // elements in component
     static _els = {
         // the main root
-        // app element
-        app: null
+        // component element
+        component: null
     };
 
     // ---------------------------------------------
@@ -63,7 +65,7 @@ class AppTest {
     //   Private methods
     // ---------------------------------------------
     // @name _configure
-    // @desc function to configure the app test.
+    // @desc function to configure the component test.
     static _configure() {
         // configure enzyme to use the
         // adapter you want it to use
@@ -80,57 +82,60 @@ class AppTest {
     // @name _beforeInitialRender
     // @desc function run before any render tests start.
     static _beforeInitialRender() {
-        // render a shallow version of the app
-        this._els.app = shallow(<App></App>);
+        // render a shallow version of the component
+        this._els.component = shallow(<Hero></Hero>);
     }
 
     // @name _afterInitialRender
     // @desc function run after all render tests complete.
     static _afterInitialRender() {
-        // reset the rendered app
-        this._els.app = null;
+        // reset the rendered component
+        this._els.component = null;
     }
 
     // _testInitialRender
-    // @desc function to test the initial app render.
+    // @desc function to test the initial component render.
     static _testInitialRender() {
         // test for main element
-        it("it should render the main app without crashing", () => {
-            const aps = ".app"; // app selector
-            expect(this._els.app.find(`${aps}`))
+        it("it should render the hero component without crashing", () => {
+            // component selector
+            const hs = ".hero";
+
+            // test for component
+            expect(this._els.component.find(`${hs}`))
+                .toHaveLength(1);
+
+            // test for left content
+            expect(this._els.component.find(`${hs}__left`))
+                .toHaveLength(1);
+
+            // test for right chart
+            expect(this._els.component.find(`${hs}__right`))
                 .toHaveLength(1);
         });
 
-        // test for router switch
-        it("it should render only one route <Switch> item", () => {
-            expect(this._els.app.find(Switch))
+        // test for headline, content and button
+        it("it should render a default headline, copy and button", () => {
+            // component content selector
+            const hcs = ".hero__content";
+
+            // test for healdine
+            expect(this._els.component.find(`${hcs}__headline`))
+                .toHaveLength(1);
+
+            // test for sub copy
+            expect(this._els.component.find(`${hcs}__copy`))
+                .toHaveLength(1);
+
+            // test for button
+            expect(this._els.component.find(`.button`))
                 .toHaveLength(1);
         });
 
-        // test for router routes
-        it("it should render atleast one view <Route> item", () => {
-            expect(this._els.app.find(Route).length)
-                .toBeGreaterThanOrEqual(1);
-        });
-
-        // test for router routes
-        it("it should contain atleast one <Route> to Home", () => {
-            expect(this._els.app.contains(
-                <Route path="/home" component={Home}></Route>))
-                .toEqual(true);
-        });
-
-        // test for router redirects
-        it("it should render atleast one <Redirect> item", () => {
-            expect(this._els.app.find(Redirect).length)
-                .toBeGreaterThanOrEqual(1);
-        });
-
-        // test for router redirects
-        it("it should contain atleast one <Redirect> to Home", () => {
-            expect(this._els.app.contains(
-                <Redirect from="/" to="home"></Redirect>))
-                .toEqual(true);
+        // test for nested chart component
+        it("it should not render a chart when the data is empty", () => {
+            expect(this._els.component.find(HeroChart))
+                .toHaveLength(0);
         });
     }
 
@@ -143,15 +148,15 @@ class AppTest {
     //   Run block
     // ---------------------------------------------
     // @name run
-    // @desc the run function for the app test.
+    // @desc the run function for the component test.
     static run() {
-        console.log("main/App.test.js: run() called.");
+        console.log("components/Hero.test.js: run() called.");
 
         // configure test
         this._configure();
 
         // describe a block to group the initial render tests
-        describe("<App></App>: _testInitialRender()", () => {
+        describe("<Hero></Hero>: _testInitialRender()", () => {
             // execute before all the render tests are run
             beforeAll(() => { this._beforeInitialRender(); });
 
@@ -167,4 +172,4 @@ class AppTest {
 // ---------------------------------------------
 //   Export block
 // ---------------------------------------------
-AppTest.run(); // run the app test
+HeroTest.run(); // run the component test

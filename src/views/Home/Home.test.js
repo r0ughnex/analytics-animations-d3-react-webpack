@@ -97,19 +97,19 @@ class HomeTest {
     static _testInitialRender() {
         // test for main element
         it("it should render the home view without crashing", () => {
-            const avs = `.app__view`; // app view selector
-            const aps = `.app__page`; // app page selector
+            const avs = ".app__view"; // app view selector
+            const aps = ".app__page"; // app page selector
 
-            // test for the app view
+            // test for app view
             expect(this._els.view.find(`${avs}`))
                 .toHaveLength(1);
 
-            // test for the app page
+            // test for app page
             expect(this._els.view.find(`${avs} > ${aps}`))
                 .toHaveLength(1);
 
-            // test for the app page content
-            expect(this._els.view.find(`${aps} > .app__page__content`))
+            // test for app page content
+            expect(this._els.view.find(`${aps} > ${aps}__content`))
                 .toHaveLength(1);
         });
     }
@@ -142,11 +142,11 @@ class HomeTest {
                 const {id}  = content; // the current content id
                 const ids = `.section#${id}`; // section selector
 
-                // test for the section
+                // test for section
                 expect(this._els.view.find(ids))
                     .toHaveLength(1);
 
-                // test for the container
+                // test for container
                 expect(this._els.view.find(`${ids} > .container`))
                     .toHaveLength(1);
             });
