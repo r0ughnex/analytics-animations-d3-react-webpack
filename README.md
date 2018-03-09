@@ -96,8 +96,8 @@ There are two **AWS S3 buckets** that have been configured for this project, one
 
 ### Staging for Develop
 
-If you are on a **feature branch** and want to deploy to the bucket configured on develop, then **merge your feature** branch **into develop** through a pull request and get it approved. Once the pull request is approved, merged and commited into develop, **Codeship** will automatically **compile**, **bundle** and **build** the neccessary files and deploy it to the relevant AWS S3 bucket configured on that branch ([links listed at the top](#analytics-animations-with-d3-and-react)).
+If you are on a **feature branch** and want to deploy to the bucket configured on develop, then **merge your feature** branch **into develop** through a pull request and get it approved. Once the pull request is approved, merged and commited into develop, **Codeship** will automatically **compile**, **bundle** and **build** the neccessary files and deploy it to the relevant AWS S3 bucket configured on that branch ([links listed at the top](#analytics-animations-with-d3-and-react-)).
 
 ### Staging for Master
 
-If you are on **develop** and want to deploy to the bucket configured on master, then use git flow to create a new **release branch** from develop and **merge the release** branch **into master**. Once the release is merged and commited into master, **Codeship** will automatically **compile**, **bundle** and **build** the neccessary files and deploy it to the relevant bucket configured on that branch ([links listed at the top](#analytics-animations-with-d3-and-react)).
+If you are on **develop** and want to deploy to the bucket configured on master, then use git flow to create a new **release branch** from develop and **merge the release** branch **into master**. Once the release is merged and commited into master, **Codeship** will automatically **compile**, **bundle** and **build** the neccessary files and deploy it to the relevant bucket configured on that branch ([links listed at the top](#analytics-animations-with-d3-and-react-)).
