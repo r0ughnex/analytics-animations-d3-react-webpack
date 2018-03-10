@@ -67,9 +67,9 @@ class Home extends PureComponent {
         console.log("---------------------------------------");
         console.log("views/Home.js: routerProps has matched.");
         console.log("views/Home.js: matched routerProps are:");
-        console.log("location:", this.props.location);
-        console.log("history:", this.props.history);
-        console.log("match:", this.props.match);
+        console.log("location:", props.location);
+        console.log("history:", props.history);
+        console.log("match:", props.match);
 
         // TO-DO: convert this initial source of data
         // to come from a service, and through redux

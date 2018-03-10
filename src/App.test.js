@@ -96,7 +96,7 @@ class AppTest {
     static _testInitialRender() {
         // test for main element
         it("it should render the main app without crashing", () => {
-            const aps = `.app`; // app selector
+            const aps = ".app"; // app selector
             expect(this._els.app.find(`${aps}`))
                 .toHaveLength(1);
         });
