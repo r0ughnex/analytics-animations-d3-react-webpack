@@ -10,9 +10,9 @@ import ReactDOM from "react-dom";
 import Adapter from "enzyme-adapter-react-16";
 
 // base
-import homeData from "./Home.data.json";
-import toTitleCase from "to-title-case";
 import {configure, shallow} from "enzyme";
+import toTitleCase from "to-title-case";
+import homeData from "./Home.data.json";
 
 // modules
 /* --empty block-- */
@@ -114,23 +114,23 @@ class HomeTest {
         });
     }
 
-    // @name _beforeInitialState
-    // @desc function run before any state tests start.
-    static _beforeInitialState() {
-        // update the initial state
+    // @name _beforeCustomState
+    // @desc function run before custom state tests start.
+    static _beforeCustomState() {
+        // update the view state
         this._beforeInitialRender();
         this._els.view.setState({contents: homeData.contents});
     }
 
-    // @name _afterInitialState
-    // @desc function run after all state tests complete.
-    static _afterInitialState() {
+    // @name _afterCustomState
+    // @desc function run after custom state tests complete.
+    static _afterCustomState() {
         this._afterInitialRender();
     }
 
-    // _testInitialState
-    // @desc function to test the initial view state.
-    static _testInitialState() {
+    // _testCustomState
+    // @desc function to test the custom view state.
+    static _testCustomState() {
         // test for sections, container
         it("it should render a section, container for each content", () => {
             // get all the view contents in the current state
@@ -202,16 +202,16 @@ class HomeTest {
             afterAll(() => { this._afterInitialRender(); });
         });
 
-        // describe a block to group the initial state tests
-        describe("<Home></Home>: _testInitialState()", () => {
+        // describe a block to group the custom state tests
+        describe("<Home></Home>: _testCustomState()", () => {
             // execute before all the state tests are run
-            beforeAll(() => { this._beforeInitialState(); });
+            beforeAll(() => { this._beforeCustomState(); });
 
             // test the initial state
-            this._testInitialState();
+            this._testCustomState();
 
             // execute after all the state tests are run
-            afterAll(() => { this._afterInitialState(); });
+            afterAll(() => { this._afterCustomState(); });
         });
     }
 }
