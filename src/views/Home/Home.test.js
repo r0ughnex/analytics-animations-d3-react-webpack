@@ -10,9 +10,9 @@ import ReactDOM from "react-dom";
 import Adapter from "enzyme-adapter-react-16";
 
 // base
-import homeData from "./Home.data.json";
-import toTitleCase from "to-title-case";
 import {configure, shallow} from "enzyme";
+import toTitleCase from "to-title-case";
+import homeData from "./Home.data.json";
 
 // modules
 /* --empty block-- */
@@ -97,40 +97,40 @@ class HomeTest {
     static _testInitialRender() {
         // test for main element
         it("it should render the home view without crashing", () => {
-            const avs = `.app__view`; // app view selector
-            const aps = `.app__page`; // app page selector
+            const avs = ".app__view"; // app view selector
+            const aps = ".app__page"; // app page selector
 
-            // test for the app view
+            // test for app view
             expect(this._els.view.find(`${avs}`))
                 .toHaveLength(1);
 
-            // test for the app page
+            // test for app page
             expect(this._els.view.find(`${avs} > ${aps}`))
                 .toHaveLength(1);
 
-            // test for the app page content
-            expect(this._els.view.find(`${aps} > .app__page__content`))
+            // test for app page content
+            expect(this._els.view.find(`${aps} > ${aps}__content`))
                 .toHaveLength(1);
         });
     }
 
-    // @name _beforeInitialState
-    // @desc function run before any state tests start.
-    static _beforeInitialState() {
-        // update the initial state
+    // @name _beforeCustomState
+    // @desc function run before custom state tests start.
+    static _beforeCustomState() {
+        // update the view state
         this._beforeInitialRender();
         this._els.view.setState({contents: homeData.contents});
     }
 
-    // @name _afterInitialState
-    // @desc function run after all state tests complete.
-    static _afterInitialState() {
+    // @name _afterCustomState
+    // @desc function run after custom state tests complete.
+    static _afterCustomState() {
         this._afterInitialRender();
     }
 
-    // _testInitialState
-    // @desc function to test the initial view state.
-    static _testInitialState() {
+    // _testCustomState
+    // @desc function to test the custom view state.
+    static _testCustomState() {
         // test for sections, container
         it("it should render a section, container for each content", () => {
             // get all the view contents in the current state
@@ -142,11 +142,11 @@ class HomeTest {
                 const {id}  = content; // the current content id
                 const ids = `.section#${id}`; // section selector
 
-                // test for the section
+                // test for section
                 expect(this._els.view.find(ids))
                     .toHaveLength(1);
 
-                // test for the container
+                // test for container
                 expect(this._els.view.find(`${ids} > .container`))
                     .toHaveLength(1);
             });
@@ -202,16 +202,16 @@ class HomeTest {
             afterAll(() => { this._afterInitialRender(); });
         });
 
-        // describe a block to group the initial state tests
-        describe("<Home></Home>: _testInitialState()", () => {
+        // describe a block to group the custom state tests
+        describe("<Home></Home>: _testCustomState()", () => {
             // execute before all the state tests are run
-            beforeAll(() => { this._beforeInitialState(); });
+            beforeAll(() => { this._beforeCustomState(); });
 
             // test the initial state
-            this._testInitialState();
+            this._testCustomState();
 
             // execute after all the state tests are run
-            afterAll(() => { this._afterInitialState(); });
+            afterAll(() => { this._afterCustomState(); });
         });
     }
 }

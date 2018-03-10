@@ -18,7 +18,7 @@ import deepEqual from "deep-equal";
 /* --empty block-- */
 
 // components
-import HeroChart from "components/Hero/HeroChart";
+import HeroChart from "./HeroChart";
 
 // views
 /* --empty block-- */
