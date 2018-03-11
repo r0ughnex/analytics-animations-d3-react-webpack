@@ -83,18 +83,6 @@ class HeroTest {
         console.log   = () => { };
     }
 
-    static _isHtmlEqual(html1, html2) {
-        const options = {
-            ignoreAttributes: ["id", "class", "className"],
-            ignoreWhitespaces: true, ignoreComments: true,
-            ignoreDuplicateAttributes: true,
-            ignoreEndTags: true
-        };
-
-        const htmlDiffer = new HtmlDiffer(options);
-        return htmlDiffer.isEqual(html1, html2);
-    }
-
     // @name _beforeInitialRender
     // @desc function run before any render tests start.
     static _beforeInitialRender() {
@@ -161,9 +149,9 @@ class HeroTest {
     // @desc function run before custom render tests start.
     static _beforeCustomRender() {
         // get the custom data to be passed as props to the component
-        const data = homeData.contents.find((content, index, arr) => {
+        const {data} = homeData.contents.find((content, index, arr) => {
             return (content.template === "hero");
-        }).data;
+        });
 
         // render a shallow version of the component
         // and pass along the new data as properties

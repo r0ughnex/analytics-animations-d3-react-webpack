@@ -166,8 +166,8 @@ class HeroChart extends Component {
         /* eslint-disable */
         // if the next props has changed, then update the state
         if(hasChanged) { changedProps.forEach((prop, index) => {
-            this.state[prop] = newProps[prop]; /* eslint-enable */
-        });}
+            this.state[prop] = newProps[prop];
+        }); } /* eslint-enable */
     }
 
     // ---------------------------------------------
@@ -306,7 +306,7 @@ class HeroChart extends Component {
             console.log("component/HeroChart.js: changed newProps are:");
             changedProps.forEach((prop, index) => {
                 console.log(prop + ":", newProps[prop]);
-            })
+            });
         }
 
         return {
@@ -641,10 +641,10 @@ class HeroChart extends Component {
 
         // calculate the x and y
         // scales for the chart
-        const x = d3.scaleBand()
+        const x  = d3.scaleBand()
                     .rangeRound([0, this._width]);
 
-        const y = d3.scaleLinear()
+        const y  = d3.scaleLinear()
                     .rangeRound([this._height, 0]);
 
         const y1 = d3.scaleLinear()
@@ -723,20 +723,31 @@ class HeroChart extends Component {
         // check if the next props has changed, get the keys and values of the changed props
         const {newProps, hasChanged, changedProps} = this._onPropsChange(nextProps, this.state);
 
-        // if the next props has changed, then update the state
-        if(hasChanged) { changedProps.forEach((prop, index) => {
-            const obj = { }; obj[prop] = newProps[prop];
+        // if the next props has changed,
+        // then update the current state
+        if(hasChanged) {
+            // create new default
+            // empty state object
+            const stateObj = { };
 
-            this.setState(obj, () => {
-                // if this is the last change in state
-                if(index === (changedProps.length - 1)
-                // and if the chart has initialized
-                && this._hasInitialized) {
-                    // re-create and re-draw the hero chart
-                    this._createChart().then(this._drawChart);
-                }
+            // get all the new changed properties
+            changedProps.forEach((prop, index) => {
+                // add changed properties to object
+                stateObj[prop] = newProps[prop];
             });
-        });}
+
+            // update the state with the state object
+            this.setState((prevState, currProps) => {
+                return stateObj;
+            },
+
+            // once the state change is complete
+            // and if the chart has initialized
+            () => { if(this._hasInitialized) {
+                // re-create and re-draw the hero chart
+                this._createChart().then(this._drawChart);
+            }});
+        }
     }
 
     // @name shouldComponentUpdate
