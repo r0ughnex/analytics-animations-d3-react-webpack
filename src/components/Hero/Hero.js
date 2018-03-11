@@ -104,8 +104,8 @@ class Hero extends PureComponent {
         /* eslint-disable */
         // if the next props has changed, then update the state
         if(hasChanged) { changedProps.forEach((prop, index) => {
-            this.state[prop] = newProps[prop]; /* eslint-enable */
-        });}
+            this.state[prop] = newProps[prop];
+        }); } /* eslint-enable */
     }
 
     // ---------------------------------------------
@@ -186,7 +186,7 @@ class Hero extends PureComponent {
             console.log("component/Hero.js: changed newProps are:");
             changedProps.forEach((prop, index) => {
                 console.log(prop + ":", newProps[prop]);
-            })
+            });
         }
 
         return {
@@ -233,17 +233,27 @@ class Hero extends PureComponent {
         // check if the next props has changed, get the keys and values of the changed props
         const {newProps, hasChanged, changedProps} = this._onPropsChange(nextProps, this.state);
 
-        // if the next props has changed, then update the state
-        if(hasChanged) { changedProps.forEach((prop, index) => {
-            const obj = { }; obj[prop] = newProps[prop];
+        // if the next props has changed,
+        // then update the current state
+        if(hasChanged) {
+            // create new default
+            // empty state object
+            const stateObj = { };
 
-            this.setState(obj, () => {
-                // if this is the last change in state
-                if(index === (changedProps.length - 1)) {
-                    /* do nothing on set state callback */
-                }
+            // get all the new changed properties
+            changedProps.forEach((prop, index) => {
+                // add changed properties to object
+                stateObj[prop] = newProps[prop];
             });
-        });}
+
+            // update the state with the state object
+            this.setState((prevState, currProps) => {
+                return stateObj;
+            },
+
+            // once the state change is complete
+            () => { /* do nothing on complete */ });
+        }
     }
 
     // @name getButtonText
@@ -272,8 +282,13 @@ class Hero extends PureComponent {
             catch(error) { console.log(error); }
         }
 
+        // get the next type for the given type
         let nextType = this._getNextType(type);
-        this.setState({type: nextType});
+
+        // update the state with the next type
+        this.setState((prevState, currProps) => {
+            return {type: nextType};
+        });
     };
 
     // ---------------------------------------------
